@@ -6,7 +6,7 @@
 	<packaging>ear</packaging>
 	<version>1.0.6-SNAPSHOT</version>
 	<name>Adventure Builder :: Lodging Supplier Enterprise Application</name>
-	<url>http://maven.apache.org</url>
+    <url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>

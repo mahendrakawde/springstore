@@ -7,12 +7,37 @@
     <packaging>pom</packaging>
     <version>1.0.6-SNAPSHOT</version>
     <name>adventure-builder</name>
-    <url>http://maven.apache.org</url>
+    <url>http://springstore.googlecode.com</url>
 
-    <properties>
-        <spring.version>2.5.6.A</spring.version>
-    </properties>
+	<developers>
+		<developer>
+			<id>mdeinum</id>
+			<name>Marten Deinum</name>
+			<email>mdeinum@gmail.com</email>
+			<url>http://mdeinum.wordpress.com</url>
+			<organization>Conspect ICT diensten</organization>
+			<organizationUrl>http://www.conspect.nl</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
 
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/springstore/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:svn:http://springstore.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/trunk/</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://code.google.com/p/springstore/source/browse/</url>
+	</scm>
+	
+	
     <pluginRepositories>
         <pluginRepository>
             <id>maven.java.net</id>
@@ -53,6 +78,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <properties>
+        <spring.version>2.5.6.A</spring.version>
+    </properties>
 
     <build>	
         <plugins>
