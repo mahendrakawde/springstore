@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.7 2006/11/09 22:34:11 smitha Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="BankEJB" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/> 
+
+  <property name="BankEJB.home" value="."/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${BankEJB.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="BankEJB.src" value="${BankEJB.home}/src"/>
+  <property name="build.jardir" value="${build.dir}/jar"/>
+  <property name="BankEJB.jar" value="${build.dir}/bank-ejb.jar"/>
+
+  <property name="BankEJB.creditcard.jaxrpc.wsdl" value="${build.dir}/classes/CreditCardService.wsdl"/>
+  <property name="BankEJB.creditcard.jaxrpc.mapping" value="${build.dir}/CreditCardServiceMap.xml"/>
+
+  <path id="BankEJB.classpath">
+    <path refid="compile.classpath" />
+  </path>
+
+  <!-- Banner Title for build -->
+  <property name="banner.title" value="Bank Application - EJBJAR"/>
+
+  <target name="compile" depends="compile-core" />
+
+  <target name="compile-core" depends="tools">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${BankEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/**">
+      <classpath refid="BankEJB.classpath"/>
+    </javac>
+
+    <echo message="Running wscompile for the Credit Card endpoint:"/>
+    <echo>${wscompile}</echo>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${classes.dir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${BankEJB.creditcard.jaxrpc.mapping}" />
+        <arg line="-d ${classes.dir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="${BankEJB.src}/conf/creditcard-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="ejbjar" depends="compile">
+    <delete dir="${build.jardir}" quiet="true"/>
+    <mkdir dir="${build.jardir}"/>
+    <mkdir dir="${build.jardir}/META-INF"/>
+    <mkdir dir="${build.jardir}/META-INF/wsdl"/>
+    <copy todir="${build.jardir}">
+        <fileset dir="${classes.dir}">
+           <exclude name="**/*.wsdl"/>
+        </fileset>
+    </copy>
+    <copy file="${BankEJB.creditcard.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${BankEJB.creditcard.jaxrpc.mapping}"  todir="${build.jardir}/META-INF" />
+    <copy file="${BankEJB.src}/conf/ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${BankEJB.src}/conf/sun-ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${BankEJB.src}/conf/webservices.xml"  todir="${build.jardir}/META-INF" />
+    <jar jarfile="${BankEJB.jar}" basedir="${build.jardir}" excludes="cvs">
+       <manifest>
+         <attribute name="Class-Path" value=""/>
+       </manifest>
+    </jar>
+  </target>
+
+  <target name="core" depends="banner, compile, ejbjar" />
+  <target name="all" depends="core, javadocs" />
+
+</project>

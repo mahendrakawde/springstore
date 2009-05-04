@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: po-jaxrpc-config.xml,v 1.2 2004/05/26 00:06:39 inder Exp $ -->
+
+<configuration
+    xmlns="http://java.sun.com/xml/ns/jax-rpc/ri/config">
+    <service name="LodgingPurchaseOrderService"
+        targetNamespace="urn:LodgingPurchaseOrderService"
+        typeNamespace="urn:LodgingPurchaseOrderService"
+        packageName="com.sun.j2ee.blueprints.lodgingsupplier.powebservice">
+        <interface name="com.sun.j2ee.blueprints.lodgingsupplier.powebservice.LodgingPOIntf"/>
+        <typeMappingRegistry />
+    </service>
+</configuration>

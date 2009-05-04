@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.5 2006/07/12 19:08:43 inder Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../setup/app-server-ant.xml">
+]>
+
+<project name="servicelocator" default="core" basedir=".">
+
+    <!-- path to root -->
+    <property name="root.dir" value="../.."/>
+
+    <!-- The root directory of the workspace -->
+    <property name="servicelocator.home" value="."/>
+
+    <!-- The destination directory for the build -->
+    <property name="build.dir" value="${servicelocator.home}/build"/>
+
+    &commonAntCommands; <!-- include common ant commands -->
+
+    <property name="servicelocator.buildjardir" value="${build.dir}/jar"/>
+    <property name="servicelocator.src" value="${servicelocator.home}/src"/>
+    <property name="servicelocator.client.jar" value="servicelocator.jar"/>
+
+    <!-- Title displayed on the banner when this component is built -->
+    <property name="banner.title" value="Building Service Locator Component"/>
+
+    <!-- various properties for Javadocs -->
+    <property name="javadocs.windowtitle" value="Servicelocator Component API"/>
+    <property name="javadocs.doctitle" value="Servicelocator Component"/>
+    <path id="javadocs.classpath">
+      <path refid="compile.classpath"/>
+    </path>
+    <path id="javadocs.sourcepath">
+      <pathelement path="${servicelocator.src}/java"/>
+    </path>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+  <javac srcdir="${servicelocator.src}/java"
+         debug="${javac.debug}"
+         destdir="${classes.dir}"
+               source="${jdk.source.version}"
+         includes="com/**">
+     <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target name="clientjar">
+        <delete dir="${servicelocator.buildjardir}" quiet="true"/>
+  <mkdir dir="${servicelocator.buildjardir}"/>
+  <copy todir="${servicelocator.buildjardir}" >
+       <fileset dir= "${classes.dir}"/>
+  </copy>
+  <jar jarfile="${build.dir}/${servicelocator.client.jar}" basedir="${servicelocator.buildjardir}" />
+        <delete dir="${servicelocator.buildjardir}"/>
+    </target>
+
+    <target name="core" depends="banner,compile,clientjar" />
+    <target name="all" depends="core,javadocs" />
+
+</project>

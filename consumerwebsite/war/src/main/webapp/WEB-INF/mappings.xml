@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: mappings.xml,v 1.2 2004/05/26 00:06:36 inder Exp $ -->
+
+<mappings>
+
+   <url-mapping url="cart.do" useFlowHandler="true">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.CartHTMLAction</web-action-class>
+        <flow-handler class="com.sun.j2ee.blueprints.consumerwebsite.handlers.CartFlowHandler">
+             <handler-result result="SELECT_TRANSPORT" screen="transportation.screen"/>
+             <handler-result result="PACKAGE_OPTIONS" screen="enter_package_options.screen"/>
+             <handler-result result="RESERVE_HOTEL" screen="reserve_hotel.screen"/>
+             <handler-result result="PURCHASE_ACTIVITIES" screen="purchase_activities.screen"/>
+             <handler-result result="CART" screen="cart.screen"/>
+             <handler-result result="CART-ACTIVITIES" screen="cart.screen"/>
+             <handler-result result="CART-LODGING" screen="cart.screen"/>
+             <handler-result result="CART_TRANSPORT" screen="cart.screen"/>
+             <handler-result result="PURCHASE_MORE_ACTIVITIES" screen="purchase_more_activities.screen"/>
+             <handler-result result="CANCEL" screen="main.screen"/>
+        </flow-handler>
+   </url-mapping>
+
+   <url-mapping url="searchtransport.do" screen="available_transport.screen">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.TransportSearchHTMLAction</web-action-class>
+   </url-mapping>
+
+   <url-mapping url="ordertracking.do" screen="order_tracking_result.screen" isTransactional="true">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.OrderTrackingHTMLAction</web-action-class>
+   </url-mapping>
+
+   <url-mapping url="checkout.do" screen="checkout.screen" isTransactional="true">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.CheckoutHTMLAction</web-action-class>
+   </url-mapping>
+
+   <url-mapping url="createcustomer.do" screen="account_create_success.screen" isTransactional="true">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.CustomerHTMLAction</web-action-class>
+   </url-mapping>
+
+   <url-mapping url="customer.do" screen="account.screen"  isTransactional="true">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.CustomerHTMLAction</web-action-class>
+   </url-mapping>
+
+   <url-mapping url="createsignon.do" screen="create_account.screen" >
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.CreateSignOnHTMLAction</web-action-class>
+   </url-mapping>
+
+   <url-mapping url="signoff.do" screen="signoff.screen">
+        <web-action-class>com.sun.j2ee.blueprints.consumerwebsite.actions.SignOffHTMLAction</web-action-class>
+   </url-mapping>
+
+   <exception-mapping exception-class="com.sun.j2ee.blueprints.waf.GeneralFailureException" screen="error.screen"/>                               
+   <exception-mapping exception-class="com.sun.j2ee.blueprints.consumerwebsite.exceptions.SignOnException" screen="signon_create_error.screen"/>
+   <exception-mapping exception-class="com.sun.j2ee.blueprints.consumerwebsite.exceptions.CustomerException" screen="account_create_error.screen"/>
+   <exception-mapping exception-class="com.sun.j2ee.blueprints.consumerwebsite.exceptions.OrderNotFoundException" screen="order_not_found.screen"/>
+   <exception-mapping exception-class="com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException" screen="error.screen"/>                                
+
+</mappings>

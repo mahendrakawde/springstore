@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+
+<!-- a tag library descriptor -->
+
+  <description>BluePrints Web Application Framework Tags</description>
+  <display-name>WAF Smart Tags</display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>waf</short-name>
+  <uri>http://java.sun.com/blueprints/waf</uri>
+
+  <!-- client  cache link tag -->
+  <tag>
+    <description>
+     This tag caches state in the page and provides a button or
+     image link within a form with the current page parameters
+     and the page request attributes by encoding them as hidden
+     form variables that are serialized using Base 64 Encoded Strings.
+
+     This tag when used along with a front controller such as the
+     one provided in the WAF can utilize a flow handler to forward
+     a request page to a page with the same attributes it recieved
+     when the original request was made.
+    </description>
+
+    <name>client_cache_link</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.ClientStateTag</tag-class>
+    <body-content>JSP</body-content>
+
+    <attribute>
+      <name>id</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>targetURL</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>encodeRequestParameters</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>alt</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>encodeRequestAttributes</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>buttonText</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>imageURL</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+
+  <!-- client  cache link value tag -->
+  <tag>
+    <description>
+     This tag is used to specify a parameter to be used along with the client cache link tag.
+    </description>
+
+    <name>param</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.ClientStateValueTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>value</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+
+  <!-- cache tag -->
+  <tag>
+    <description>
+      Enables content to be refresh only after a specific amount of time.
+    </description>
+
+    <name>cache</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.CacheTag</tag-class>
+
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>scope</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>duration</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <!-- Date tag -->
+  <tag>
+    <description>
+      Creates a Date Selector widget.
+    </description>
+
+    <name>date</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.DateSelectorTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>prefix</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>date</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>locale</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>calendar</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+
+  <!-- form tag -->
+  <tag>
+    <description>
+      Provides a form that can have input validated upon submission
+    </description>
+
+    <name>form</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.FormTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>action</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>method</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+
+  <!-- checkbox tag -->
+  <tag>
+    <description>
+      Enhanced version of the html Checkbox input tag
+    </description>
+
+    <name>checkbox</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.CheckboxTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>name</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <!-- checkbox checked tag -->
+  <tag>
+    <description>
+      To be used with the checkbox to specify whether or not the tag is to be checked.
+    </description>
+
+    <name>checked</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.CheckedTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>name</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+  </tag>
+
+  <!-- input tag -->
+  <tag>
+    <description>
+      An input field that can be validated. Use with FormTag.
+    </description>
+
+    <name>input</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.InputTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>type</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>size</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>name</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>validation</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>maxlength</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>cssClass</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>value</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>onClick</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+
+  </tag>
+
+  <!-- name tag -->
+  <tag>
+    <description>
+      HTML name tag to be used as a child of the InputTag.
+    </description>
+    <name>name</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.NameTag</tag-class>
+
+    <body-content>scriptless</body-content>
+  </tag>
+
+  <!-- value tag -->
+  <tag>
+    <description>
+      HTML value tag to be used as a child of the InputTag.
+    </description>
+    <name>value</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.ValueTag</tag-class>
+
+    <body-content>scriptless</body-content>
+  </tag>
+
+  <!-- select tag -->
+  <tag>
+    <description>
+      HTML runtime configurable select tag. Setting editable to false will make it display
+      plain text.
+    </description>
+
+    <name>select</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.SelectTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>onChange</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>size</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>editable</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <!-- selected tag -->
+  <tag>
+    <description>
+      HTML Selected tag used as child of select tag to specify which option is selected.
+    </description>
+    <name>selected</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.SelectedTag</tag-class>
+
+    <body-content>scriptless</body-content>
+  </tag>
+
+  <!-- option tag -->
+  <tag>
+    <description>
+      HTML option tag to be used with select tag.
+    </description>
+
+    <name>option</name>
+    <tag-class>com.sun.j2ee.blueprints.taglibs.smart.OptionTag</tag-class>
+
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>value</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+</taglib>

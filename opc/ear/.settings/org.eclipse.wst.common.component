@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="opc-ear">
+        <wb-resource deploy-path="/" source-path="/src/main/application"/>
+        <dependent-module archiveName="servicelocator-1.0.6-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/servicelocator/servicelocator">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/resource/processmanager-ejb/processmanager-ejb">
+            <dependent-object>EjbModule_1234784314722</dependent-object>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="util-tracer-1.0.6-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/util-tracer/util-tracer">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/resource/opc-ejb/opc-ejb">
+            <dependent-object>EjbModule_1234784314831</dependent-object>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/classpath/var/M2_REPO/javax/activation/com.springsource.javax.activation/1.1.1/com.springsource.javax.activation-1.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

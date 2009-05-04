@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sun-ejb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server
+8.0 EJB 2.1//EN" "http://www.sun.com/software/appserver/dtds/sun-ejb-jar_2_1-0.dtd">
+<sun-ejb-jar>
+  <enterprise-beans>
+    <name>AirlineSupplierJAR</name>
+    <ejb>
+      <ejb-name>AirlineOrderBean</ejb-name>
+  <jndi-name>ejb/local/airlinesupplier/AirlineOrder</jndi-name>
+    </ejb>
+    <ejb>
+      <ejb-name>AirlinePOEndpointBean</ejb-name>
+      <jndi-name>AirlinePOEndpointBean</jndi-name>
+
+  <resource-ref>
+  <res-ref-name>jms/airline/QueueConnectionFactory</res-ref-name>
+  <jndi-name>jms/airline/QueueConnectionFactory</jndi-name>
+   <default-resource-principal>
+     <name>guest</name>
+     <password>guest</password>
+   </default-resource-principal>
+  </resource-ref>
+  <resource-env-ref>
+    <resource-env-ref-name>jms/airline/AirlineQueue</resource-env-ref-name>
+    <jndi-name>jms/airline/AirlineQueue</jndi-name>
+  </resource-env-ref>
+        
+      <bean-pool>
+        <steady-pool-size>0</steady-pool-size>
+        <resize-quantity>60</resize-quantity>
+        <max-pool-size>60</max-pool-size>
+        <pool-idle-timeout-in-seconds>900</pool-idle-timeout-in-seconds>
+      </bean-pool>
+      <webservice-endpoint>
+        <port-component-name>AirlinePOIntfPort</port-component-name>
+        <endpoint-address-uri>webservice/AirlinePOService</endpoint-address-uri>
+        <login-config>
+            <auth-method>CLIENT-CERT</auth-method>
+        </login-config>
+        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </webservice-endpoint>
+    </ejb>
+
+    <ejb>
+      <ejb-name>AirlineMessageEJB</ejb-name>
+  <jndi-name>jms/airline/AirlineQueue</jndi-name>
+      <service-ref>
+          <service-ref-name>service/WebServiceBroker</service-ref-name>
+          <port-info>
+             <service-endpoint-interface>
+                com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.BrokerServiceIntf
+             </service-endpoint-interface>
+             <stub-property>
+                <name>javax.xml.rpc.service.endpoint.address</name>
+                <value>https://localhost:8181/webservice/WebServiceBroker</value>
+             </stub-property>
+          </port-info>
+      </service-ref>
+  <mdb-connection-factory>
+    <jndi-name>jms/airline/QueueConnectionFactory</jndi-name>
+  </mdb-connection-factory>
+    </ejb>
+
+    <cmp-resource>
+  <jndi-name>jdbc/adventure/AdventureDB</jndi-name>
+  <default-resource-principal>
+  <name>APP</name>
+  <password>APP</password>
+  </default-resource-principal>
+  <create-tables-at-deploy>true</create-tables-at-deploy>
+  <drop-tables-at-undeploy>true</drop-tables-at-undeploy>
+        <database-vendor-name>derby</database-vendor-name>   
+    </cmp-resource>
+
+  </enterprise-beans>
+</sun-ejb-jar>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java-wsdl-mapping version="1.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
+<package-mapping>
+<package-type>com.sun.j2ee.blueprints.bank.creditcardservice</package-type>
+<namespaceURI>urn:CreditCardService</namespaceURI>
+</package-mapping>
+<package-mapping>
+<package-type>com.sun.j2ee.blueprints.bank.creditcardservice</package-type>
+<namespaceURI>urn:CreditCardService</namespaceURI>
+</package-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.bank.creditcardservice.CreditCardIntf_validateCreditCard_ResponseStruct</java-type>
+<root-type-qname xmlns:typeNS="urn:CreditCardService">typeNS:validateCreditCardResponse</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>result</java-variable-name>
+<xml-element-name>result</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.bank.creditcardservice.CreditCardIntf_validateCreditCard_RequestStruct</java-type>
+<root-type-qname xmlns:typeNS="urn:CreditCardService">typeNS:validateCreditCard</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>String_1</java-variable-name>
+<xml-element-name>String_1</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<service-interface-mapping>
+<service-interface>com.sun.j2ee.blueprints.bank.creditcardservice.CreditCardService</service-interface>
+<wsdl-service-name xmlns:serviceNS="urn:CreditCardService">serviceNS:CreditCardService</wsdl-service-name>
+<port-mapping>
+<port-name>CreditCardIntfPort</port-name>
+<java-port-name>CreditCardIntfPort</java-port-name>
+</port-mapping>
+</service-interface-mapping>
+<service-endpoint-interface-mapping>
+<service-endpoint-interface>com.sun.j2ee.blueprints.bank.creditcardservice.CreditCardIntf</service-endpoint-interface>
+<wsdl-port-type xmlns:portTypeNS="urn:CreditCardService">portTypeNS:CreditCardIntf</wsdl-port-type>
+<wsdl-binding xmlns:bindingNS="urn:CreditCardService">bindingNS:CreditCardIntfBinding</wsdl-binding>
+<service-endpoint-method-mapping>
+<java-method-name>validateCreditCard</java-method-name>
+<wsdl-operation>validateCreditCard</wsdl-operation>
+<wrapped-element/>
+<method-param-parts-mapping>
+<param-position>0</param-position>
+<param-type>java.lang.String</param-type>
+<wsdl-message-mapping>
+<wsdl-message xmlns:wsdlMsgNS="urn:CreditCardService">wsdlMsgNS:CreditCardIntf_validateCreditCard</wsdl-message>
+<wsdl-message-part-name>String_1</wsdl-message-part-name>
+<parameter-mode>IN</parameter-mode>
+</wsdl-message-mapping>
+</method-param-parts-mapping>
+<wsdl-return-value-mapping>
+<method-return-value>boolean</method-return-value>
+<wsdl-message xmlns:wsdlMsgNS="urn:CreditCardService">wsdlMsgNS:CreditCardIntf_validateCreditCardResponse</wsdl-message>
+<wsdl-message-part-name>result</wsdl-message-part-name>
+</wsdl-return-value-mapping>
+</service-endpoint-method-mapping>
+</service-endpoint-interface-mapping>
+</java-wsdl-mapping>

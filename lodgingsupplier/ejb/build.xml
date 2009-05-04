@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.12 2004/10/14 03:26:37 yutayoshida Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="LodgeEJB" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/> 
+
+  <property name="LodgeEJB.home" value="."/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${LodgeEJB.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="LodgeEJB.src" value="${LodgeEJB.home}/src"/>
+  <property name="build.jardir" value="${build.dir}/jar"/>
+  <property name="LODGEEJB.jar" value="${build.dir}/lodgingsupplier-ejb.jar"/>
+
+  <property name="LodgeEJB.po.jaxrpc.wsdl" value="${build.dir}/classes/LodgingPurchaseOrderService.wsdl"/>
+  <property name="LodgeEJB.po.jaxrpc.mapping" value="${build.dir}/LodgingPurchaseOrderServiceMap.xml"/>
+
+  <property name="LodgeEJB.components.basedir" value="../../../components"/>
+
+  <!-- The Service Locator Component -->
+  <property name="LodgeEJB.servloc.home" value="${LodgeEJB.components.basedir}/servicelocator"/>
+  <property name="LodgeEJB.servloc.jar" value="${LodgeEJB.servloc.home}/build/servicelocator.jar"/>
+
+  <!-- The OPC Component -->
+  <property name="LodgeEJB.opc.home" value="../../opc/opc-ejb"/>
+  <property name="LodgeEJB.broker.wsdl" value="${LodgeEJB.opc.home}/build/classes/WebServiceBroker.wsdl"/>
+
+  <path id="LodgeEJB.classpath">
+    <path refid="compile.classpath" />
+    <pathelement path="${LodgeEJB.servloc.jar}"/>
+  </path>
+
+  <!-- Banner Title for build -->
+  <property name="banner.title" value="Lodging Supplier Application - EJBJAR"/>
+
+  <target name="lodging-endpoint" depends="lodging-provider">
+    <echo message="Running wscompile for the Lodging PO endpoint:"/>
+    <echo>${wscompile}</echo>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${classes.dir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${LodgeEJB.po.jaxrpc.mapping}" />
+        <arg line="-d ${classes.dir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="${LodgeEJB.src}/conf/po-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="lodging-provider" depends="tools">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${LodgeEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/sun/j2ee/blueprints/lodgingsupplier/powebservice/**,java/com/sun/j2ee/blueprints/lodgingsupplier/*.java">
+      <classpath refid="LodgeEJB.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile-core" depends="tools">
+
+    <mkdir dir="${classes.dir}"/>
+    <copy file="${LodgeEJB.broker.wsdl}" todir="${build.dir}" />
+
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${adventure.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${classes.dir}" />
+        <arg line="-mapping ${build.dir}/webservicebroker-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="${LodgeEJB.src}/conf/webservicebroker-client-config.xml" />
+    </exec>
+
+    <javac srcdir="${LodgeEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/**">
+      <classpath refid="LodgeEJB.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile-core,lodging-endpoint" />
+
+  <target name="lodgingsupplier-interface" depends="lodging-provider,lodging-endpoint" />
+
+  <target name="ejbjar" depends="compile">
+    <delete dir="${build.jardir}" quiet="true"/>
+    <mkdir dir="${build.jardir}"/>
+    <mkdir dir="${build.jardir}/META-INF"/>
+    <mkdir dir="${build.jardir}/META-INF/wsdl"/>
+    <copy todir="${build.jardir}">
+        <fileset dir="${classes.dir}">
+           <exclude name="**/*.wsdl"/>
+        </fileset>
+    </copy>
+    <copy file="${LodgeEJB.broker.wsdl}" todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${build.dir}/webservicebroker-mapping.xml" todir="${build.jardir}/META-INF" />
+    <copy file="${LodgeEJB.po.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${LodgeEJB.po.jaxrpc.mapping}"  todir="${build.jardir}/META-INF" />
+    <copy file="${LodgeEJB.src}/conf/ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${LodgeEJB.src}/conf/sun-ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${LodgeEJB.src}/conf/webservices.xml"  todir="${build.jardir}/META-INF" />
+    <jar jarfile="${LODGEEJB.jar}" basedir="${build.jardir}" excludes="cvs">
+       <manifest>
+         <attribute name="Class-Path" value="servicelocator.jar"/>
+       </manifest>
+    </jar>
+  </target>
+
+  <target name="core" depends="banner, compile, ejbjar" />
+  <target name="all" depends="core" />
+
+</project>

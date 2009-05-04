@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.11 2004/10/14 03:26:36 yutayoshida Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="ActivityEJB" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/> 
+
+  <property name="ActivityEJB.home" value="."/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${ActivityEJB.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="ActivityEJB.src" value="${ActivityEJB.home}/src"/>
+  <property name="build.jardir" value="${build.dir}/jar"/>
+  <property name="ActivityEJB.jar" value="${build.dir}/activitysupplier-ejb.jar"/>
+
+  <property name="ActivityEJB.po.jaxrpc.wsdl" value="${build.dir}/classes/ActivityPurchaseOrderService.wsdl"/>
+  <property name="ActivityEJB.po.jaxrpc.mapping" value="${build.dir}/ActivityPurchaseOrderServiceMap.xml"/>
+
+  <property name="ActivityEJB.components.basedir" value="../../../components"/>
+
+  <!-- The Service Locator Component -->
+  <property name="ActivityEJB.servloc.home" value="${ActivityEJB.components.basedir}/servicelocator"/>
+  <property name="ActivityEJB.servloc.jar" value="${ActivityEJB.servloc.home}/build/servicelocator.jar"/>
+
+  <!-- The OPC Component -->
+  <property name="ActivityEJB.opc.home" value="../../opc/opc-ejb"/>
+  <property name="ActivityEJB.broker.wsdl" value="${ActivityEJB.opc.home}/build/classes/WebServiceBroker.wsdl"/>
+
+  <path id="ActivityEJB.classpath">
+    <path refid="compile.classpath" />
+    <pathelement path="${ActivityEJB.servloc.jar}"/>
+  </path>
+
+  <!-- Banner Title for build -->
+  <property name="banner.title" value="Activity Supplier Application - EJBJAR"/>
+
+  <target name="activity-endpoint" depends="activity-provider">
+    <echo message="Running wscompile for the Activity PO endpoint:"/>
+    <echo>${wscompile}</echo>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${classes.dir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${ActivityEJB.po.jaxrpc.mapping}" />
+        <arg line="-d ${classes.dir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="${ActivityEJB.src}/conf/po-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="activity-provider" depends="tools">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${ActivityEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/sun/j2ee/blueprints/activitysupplier/powebservice/**,java/com/sun/j2ee/blueprints/activitysupplier/*.java">
+      <classpath refid="ActivityEJB.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile-core" depends="tools">
+
+    <mkdir dir="${classes.dir}"/>
+    <copy file="${ActivityEJB.broker.wsdl}" todir="${build.dir}" />
+
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${adventure.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${classes.dir}" />
+        <arg line="-mapping ${build.dir}/webservicebroker-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="${ActivityEJB.src}/conf/webservicebroker-client-config.xml" />
+    </exec>
+
+    <javac srcdir="${ActivityEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/**">
+      <classpath refid="ActivityEJB.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile-core,activity-endpoint" />
+
+  <target name="activitysupplier-interface" depends="activity-provider,activity-endpoint" />
+
+  <target name="ejbjar" depends="compile">
+    <delete dir="${build.jardir}" quiet="true"/>
+    <mkdir dir="${build.jardir}"/>
+    <mkdir dir="${build.jardir}/META-INF"/>
+    <mkdir dir="${build.jardir}/META-INF/wsdl"/>
+    <copy todir="${build.jardir}">
+        <fileset dir="${classes.dir}">
+           <exclude name="**/*.wsdl"/>
+        </fileset>
+    </copy>
+    <copy file="${ActivityEJB.broker.wsdl}" todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${build.dir}/webservicebroker-mapping.xml" todir="${build.jardir}/META-INF" />
+    <copy file="${ActivityEJB.po.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${ActivityEJB.po.jaxrpc.mapping}"  todir="${build.jardir}/META-INF" />
+    <copy file="${ActivityEJB.src}/conf/ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${ActivityEJB.src}/conf/sun-ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${ActivityEJB.src}/conf/webservices.xml"  todir="${build.jardir}/META-INF" />
+    <jar jarfile="${ActivityEJB.jar}" basedir="${build.jardir}" excludes="cvs">
+       <manifest>
+         <attribute name="Class-Path" value="servicelocator.jar"/>
+       </manifest>
+    </jar>
+  </target>
+
+  <target name="core" depends="banner, compile, ejbjar" />
+  <target name="all" depends="core" />
+
+</project>

@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.sun.j2ee.blueprints</groupId>
+	<artifactId>activitysupplier-ear</artifactId>
+	<packaging>ear</packaging>
+	<version>1.0.6-SNAPSHOT</version>
+	<name>Adventure Builder :: Activity Supplier Enterprise Application</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.sun.j2ee.blueprints</groupId>
+		<artifactId>activitysupplier</artifactId>
+		<version>1.0.6-SNAPSHOT</version>		
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.j2ee.blueprints</groupId>
+			<artifactId>activitysupplier-ejb</artifactId>
+			<version>${pom.version}</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.j2ee.blueprints</groupId>
+			<artifactId>servicelocator</artifactId>
+			<version>${pom.version}</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<displayName>Activity Supplier Module</displayName>
+					<description>Activity Supplier Module J2EE Blueprint Sample
+						Application</description>
+					<version>1.4</version>
+					<modules>
+						<jarModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>servicelocator</artifactId>
+							<bundleDir>lib</bundleDir>
+						</jarModule>
+						<ejbModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>activitysupplier-ejb</artifactId>
+							<bundleFileName>activitysupplier-ejb.jar</bundleFileName>
+						</ejbModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

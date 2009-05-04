@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.5 2004/10/12 00:57:17 yutayoshida Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="dao" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/>
+
+  <property name="dao.home" value="."/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${dao.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="dao.buildjardir" value="${build.dir}/jar"/>
+  <property name="dao.src" value="${dao.home}/src"/>
+  <property name="dao.client.jar" value="daoutils.jar"/>
+
+  <!-- The components used by dao -->
+  <property name="dao.components.basedir" value="../.."/>
+
+  <!-- ServiceLocator Component -->
+  <property name="dao.servicelocator.home"  
+                value="${dao.components.basedir}/servicelocator"/>
+  <property name="dao.servicelocator.jar" 
+                value="${dao.servicelocator.home}/build/servicelocator.jar"/>
+
+  <path id="dao.classpath">
+    <path refid="compile.classpath" />
+    <pathelement path="${dao.servicelocator.jar}"/>
+  </path>
+
+  <!-- Title displayed on the banner when this component is built -->
+  <property name="banner.title" value="Building DAO Component"/>
+
+  <!-- various properties for Javadocs -->
+  <property name="javadocs.windowtitle" value="Daoutil Component API"/>
+  <property name="javadocs.doctitle" value="Daoutil Component"/>
+  <path id="javadocs.classpath">
+    <path refid="dao.classpath"/>
+  </path>
+  <path id="javadocs.sourcepath">
+    <pathelement path="${dao.src}/java"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${dao.src}/java"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="com/**">
+      <classpath refid="dao.classpath"/>
+    </javac>
+  </target>
+
+ <target name="clientjar">
+    <delete dir="${dao.buildjardir}" quiet="true"/>
+    <mkdir dir="${dao.buildjardir}"/>
+    <copy todir="${dao.buildjardir}" >
+     <fileset dir= "${classes.dir}"/>
+    </copy>
+    <jar jarfile="${build.dir}/${dao.client.jar}" basedir="${dao.buildjardir}" />
+    <delete dir="${dao.buildjardir}"/>
+ </target>
+
+  <target name="components">
+    <ant dir="${dao.servicelocator.home}" target="core" inheritAll="false" inheritRefs="false"/>
+  </target>
+
+  <target name="core" depends="banner,components,compile,clientjar" />
+  <target name="all" depends="core,javadocs" />
+
+</project>
+

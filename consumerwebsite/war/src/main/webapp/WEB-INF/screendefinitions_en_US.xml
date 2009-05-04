@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: screendefinitions_en_US.xml,v 1.2 2004/05/26 00:06:36 inder Exp $ -->
+
+<screen-definitions>
+
+  <default-template>/template.jsp</default-template>
+
+  <screen name="main">
+    <parameter key="title" value="Welcome to the Adventure Builder Reference application" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/main.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="cart">
+    <parameter key="title" value="Adventure Package" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/cart.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="adventures">
+    <parameter key="title" value="Available Adventure Packages" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/adventures.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="adventure">
+    <parameter key="title" value="Adventure Package Details" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/adventure.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="track_order">
+    <parameter key="title" value="Track Order" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/enter_order_tracking_info.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="order_tracking_result">
+    <parameter key="title" value="Order Tracking Results" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/order_tracking_result.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="order_not_found">
+    <parameter key="title" value="Order Not Found" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/order_not_found.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="enter_package_options">
+    <parameter key="title" value="Enter Adventure Package Options" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/set_package_options.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="enter_order_info">
+    <parameter key="title" value="Enter Order Details" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/enter_order_information.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="transportation">
+    <parameter key="title" value="Enter Adventure Package Details" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/transportation.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="available_transport">
+    <parameter key="title" value="Adventure Package Details" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/available_transport.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="lodgings">
+    <parameter key="title" value="Lodgings" direct="true"/>
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="body" value="/lodgings.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+  <screen name="activities">
+    <parameter key="title" value="Activities" direct="true"/>
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="body" value="/activities.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="checkout">
+    <parameter key="title" value="Checkout" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/checkout.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="account">
+    <parameter key="title" value="Customer" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/account.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="account_create_success">
+    <parameter key="title" value="Account Creation Success" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/account_create_success.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="account_create_error">
+    <parameter key="title" value="Create Customer Error" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/account_create_error.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="create_account">
+    <parameter key="title" value="Create Customer" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/create_account.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="signon_failed">
+    <parameter key="title" value="Sign On Error" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/signon_failed.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="signon_create_error">
+    <parameter key="title" value="Create Customer Error" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/create_signon_error.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="signon">
+    <parameter key="title" value="Sign On" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/signon.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="signon_welcome">
+    <parameter key="title" value="Welcome" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/signon_welcome.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="signoff">
+    <parameter key="title" value="Sign Off" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/signoff.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+
+   <screen name="error">
+    <parameter key="title" value="Error" direct="true"/>
+    <parameter key="banner" value="/banner.jsp" />
+    <parameter key="sidebar" value="/sidebar.jsp" />
+    <parameter key="body" value="/error.jsp" />
+    <parameter key="footer" value="/footer.jsp" />
+   </screen>
+</screen-definitions>
+

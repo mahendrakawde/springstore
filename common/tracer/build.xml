@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.4 2004/10/12 00:57:17 yutayoshida Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="tracer" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../../"/> 
+
+  <property name="tracer.home" value="."/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${tracer.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="tracer.buildjardir" value="${build.dir}/jartemp"/>
+  <property name="tracer.src" value="${tracer.home}/src"/>
+  <property name="tracer.client.jar" value="tracer.jar"/>
+
+  <path id="tracer.classpath">
+    <path refid="compile.classpath" />
+  </path>
+
+  <!-- Title displayed on the banner when this component is built -->
+  <property name="banner.title" value="Building Tracer Component"/>
+
+  <!-- various properties for Javadocs -->
+  <property name="javadocs.windowtitle" value="Tracer Component API"/>
+  <property name="javadocs.doctitle" value="Tracer Component"/>
+  <path id="javadocs.classpath">
+    <path refid="tracer.classpath"/>
+  </path>
+  <path id="javadocs.sourcepath">
+    <pathelement path="${tracer.src}/java"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${tracer.src}/java"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="com/**">
+      <classpath refid="tracer.classpath"/>
+    </javac>
+  </target>
+
+ <target name="clientjar">
+    <delete dir="${tracer.buildjardir}" quiet="true"/>
+    <mkdir dir="${tracer.buildjardir}"/>
+    <copy todir="${tracer.buildjardir}" >
+     <fileset dir= "${classes.dir}"/>
+    </copy>
+    <jar jarfile="${build.dir}/${tracer.client.jar}" basedir="${tracer.buildjardir}" />
+    <delete dir="${tracer.buildjardir}"/>
+ </target>
+
+  <target name="core" depends="banner, compile, clientjar" />
+  <target name="all" depends="core,javadocs" />
+
+</project>
+

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: ejb-jar.xml,v 1.7 2005/03/08 00:19:14 smitha Exp $ -->
+<ejb-jar version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/ejb-jar_2_1.xsd">
+
+  <display-name>LodgingSupplierJAR</display-name>
+  <enterprise-beans>
+     <session>
+       <ejb-name>LodgingPOEndpointBean</ejb-name>
+       <service-endpoint>com.sun.j2ee.blueprints.lodgingsupplier.powebservice.LodgingPOIntf</service-endpoint>
+       <ejb-class>com.sun.j2ee.blueprints.lodgingsupplier.powebservice.LodgingPOEndpointBean</ejb-class>
+       <session-type>Stateless</session-type>
+       <transaction-type>Container</transaction-type>      
+       <resource-ref>
+         <res-ref-name>jms/lodging/QueueConnectionFactory</res-ref-name>
+         <res-type>javax.jms.QueueConnectionFactory</res-type>
+         <res-auth>Container</res-auth>
+         <res-sharing-scope>Shareable</res-sharing-scope>
+       </resource-ref>
+       <resource-env-ref>
+         <resource-env-ref-name>jms/lodging/LodgingQueue</resource-env-ref-name>
+         <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+       </resource-env-ref>
+     </session>
+
+    <entity>
+      <display-name>LodgingOrderEB</display-name>
+  <ejb-name>LodgingOrderBean</ejb-name>
+  <local-home>com.sun.j2ee.blueprints.lodgingsupplier.purchaseorder.ejb.LodgingOrderLocalHome</local-home>
+  <local>com.sun.j2ee.blueprints.lodgingsupplier.purchaseorder.ejb.LodgingOrderLocal</local>
+  <ejb-class>com.sun.j2ee.blueprints.lodgingsupplier.purchaseorder.ejb.LodgingOrderBean</ejb-class>
+  <persistence-type>Container</persistence-type>
+  <prim-key-class>java.lang.String</prim-key-class>
+  <reentrant>false</reentrant>
+  <cmp-version>2.x</cmp-version>
+  <abstract-schema-name>LodgingOrder</abstract-schema-name>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>orderId</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>lodgingId</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>startDate</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>endDate</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>headCount</field-name>
+  </cmp-field>
+  <primkey-field>orderId</primkey-field>
+    </entity>
+
+    <message-driven>
+  <display-name>LodgingMessageEJB</display-name>
+  <ejb-name>LodgingMessageEJB</ejb-name>
+  <ejb-class>com.sun.j2ee.blueprints.lodgingsupplier.pomessagebean.LodgingMessageBean</ejb-class>
+  <messaging-type>javax.jms.MessageListener</messaging-type>
+  <transaction-type>Container</transaction-type>
+  <message-destination-type>javax.jms.Queue</message-destination-type>
+
+  <ejb-local-ref>
+  <ejb-ref-name>ejb/local/lodgingsupplier/LodgingOrder</ejb-ref-name>
+  <ejb-ref-type>Entity</ejb-ref-type>
+  <local-home>com.sun.j2ee.blueprints.lodgingsupplier.purchaseorder.ejb.LodgingOrderLocalHome</local-home>
+  <local>com.sun.j2ee.blueprints.lodgingsupplier.purchaseorder.ejb.LodgingOrderLocal</local>
+    <ejb-link>LodgingOrderBean</ejb-link>
+  </ejb-local-ref>
+
+        <service-ref>
+          <description>service ref</description>
+          <service-ref-name>service/WebServiceBroker</service-ref-name>
+          <service-interface>com.sun.j2ee.blueprints.lodgingsupplier.pomessagebean.WebServiceBroker</service-interface>
+          <wsdl-file>META-INF/wsdl/WebServiceBroker.wsdl</wsdl-file>
+          <jaxrpc-mapping-file>META-INF/webservicebroker-mapping.xml</jaxrpc-mapping-file>
+          <service-qname xmlns:servicens="urn:WebServiceBroker">servicens:WebServiceBroker</service-qname>
+        </service-ref>
+
+    </message-driven>
+
+  </enterprise-beans>
+
+  <assembly-descriptor>
+    <method-permission>
+      <unchecked></unchecked>
+      <method>
+        <ejb-name>LodgingOrderBean</ejb-name>
+        <method-name>*</method-name>
+      </method>
+    </method-permission>
+
+    <container-transaction>
+      <method>
+  <ejb-name>LodgingOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>getHeadCount</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+      <method>
+  <ejb-name>LodgingOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>getStartDate</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+      <method>
+  <ejb-name>LodgingOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>remove</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+      <method>
+   <ejb-name>LodgingOrderBean</ejb-name>
+   <method-intf>Local</method-intf>
+   <method-name>getEndDate</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+      <method>
+   <ejb-name>LodgingOrderBean</ejb-name>
+   <method-intf>Local</method-intf>
+   <method-name>getLodgingId</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+      <method>
+   <ejb-name>LodgingOrderBean</ejb-name>
+   <method-intf>Local</method-intf>
+   <method-name>getOrderId</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+
+    <container-transaction>
+      <method>
+        <ejb-name>LodgingPOEndpointBean</ejb-name>
+        <method-intf>ServiceEndpoint</method-intf>
+        <method-name>submitLodgingReservationDetails</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction> 
+      <method> 
+        <ejb-name>LodgingMessageEJB</ejb-name>
+        <method-name>onMessage</method-name>
+        <method-params>  
+          <method-param>javax.jms.Message</method-param>
+        </method-params>        
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+  </assembly-descriptor>
+
+</ejb-jar>

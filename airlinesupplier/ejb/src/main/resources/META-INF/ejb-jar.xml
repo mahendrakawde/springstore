@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: ejb-jar.xml,v 1.9 2005/03/08 00:19:31 smitha Exp $ -->
+<ejb-jar version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/ejb-jar_2_1.xsd">
+
+  <display-name>AirlineSupplierJAR</display-name>
+  <enterprise-beans>
+     <session>
+       <ejb-name>AirlinePOEndpointBean</ejb-name>
+       <service-endpoint>com.sun.j2ee.blueprints.airlinesupplier.powebservice.AirlinePOIntf</service-endpoint>
+       <ejb-class>com.sun.j2ee.blueprints.airlinesupplier.powebservice.AirlinePOEndpointBean</ejb-class>
+       <session-type>Stateless</session-type>
+       <transaction-type>Container</transaction-type>      
+  <resource-ref>
+   <res-ref-name>jms/airline/QueueConnectionFactory</res-ref-name>
+   <res-type>javax.jms.QueueConnectionFactory</res-type>
+   <res-auth>Container</res-auth>
+   <res-sharing-scope>Shareable</res-sharing-scope>
+  </resource-ref>
+  <resource-env-ref>
+   <resource-env-ref-name>jms/airline/AirlineQueue</resource-env-ref-name>
+   <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+  </resource-env-ref>
+     </session>
+
+    <entity>
+      <display-name>AirlineOrderEB</display-name>
+  <ejb-name>AirlineOrderBean</ejb-name>
+  <local-home>com.sun.j2ee.blueprints.airlinesupplier.purchaseorder.ejb.AirlineOrderLocalHome</local-home>
+  <local>com.sun.j2ee.blueprints.airlinesupplier.purchaseorder.ejb.AirlineOrderLocal</local>
+  <ejb-class>com.sun.j2ee.blueprints.airlinesupplier.purchaseorder.ejb.AirlineOrderBean</ejb-class>
+  <persistence-type>Container</persistence-type>
+  <prim-key-class>java.lang.String</prim-key-class>
+  <reentrant>false</reentrant>
+  <cmp-version>2.x</cmp-version>
+  <abstract-schema-name>AirlineOrder</abstract-schema-name>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>orderId</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>depFlightId</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>depFlightDate</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>retFlightId</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>retFlightDate</field-name>
+  </cmp-field>
+  <cmp-field>
+  <description>no description</description>
+  <field-name>headCount</field-name>
+  </cmp-field>
+  <primkey-field>orderId</primkey-field>
+    </entity>
+
+    <message-driven>
+  <display-name>AirlineMessageEJB</display-name>
+  <ejb-name>AirlineMessageEJB</ejb-name>
+  <ejb-class>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.AirlineMessageBean</ejb-class>
+  <messaging-type>javax.jms.MessageListener</messaging-type>
+  <transaction-type>Container</transaction-type>
+  <message-destination-type>javax.jms.Queue</message-destination-type>
+
+  <ejb-local-ref>
+  <ejb-ref-name>ejb/local/airlinesupplier/AirlineOrder</ejb-ref-name>
+  <ejb-ref-type>Entity</ejb-ref-type>
+  <local-home>com.sun.j2ee.blueprints.airlinesupplier.purchaseorder.ejb.AirlineOrderLocalHome</local-home>
+  <local>com.sun.j2ee.blueprints.airlinesupplier.purchaseorder.ejb.AirlineOrderLocal</local>
+                <ejb-link>AirlineOrderBean</ejb-link>
+  </ejb-local-ref>
+
+      <service-ref>
+          <description>service ref</description>
+          <service-ref-name>service/WebServiceBroker</service-ref-name>
+          <service-interface>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.WebServiceBroker</service-interface>
+          <wsdl-file>META-INF/wsdl/WebServiceBroker.wsdl</wsdl-file>
+          <jaxrpc-mapping-file>META-INF/webservicebroker-mapping.xml</jaxrpc-mapping-file>
+          <service-qname xmlns:servicens="urn:WebServiceBroker">servicens:WebServiceBroker</service-qname>
+      </service-ref>
+
+    </message-driven>
+
+  </enterprise-beans>
+
+  <assembly-descriptor>
+
+    <method-permission>
+  <unchecked></unchecked>
+  <method>
+  <ejb-name>AirlineOrderBean</ejb-name>
+  <method-name>*</method-name>
+  </method>
+    </method-permission>
+
+    <container-transaction>
+  <method>
+  <ejb-name>AirlineOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>getHeadCount</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+  <method>
+  <ejb-name>AirlineOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>getDepFlightDate</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+  <method>
+  <ejb-name>AirlineOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>getRetFlightDate</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+  <method>
+  <ejb-name>AirlineOrderBean</ejb-name>
+  <method-intf>Local</method-intf>
+  <method-name>remove</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+  <method>
+   <ejb-name>AirlineOrderBean</ejb-name>
+   <method-intf>Local</method-intf>
+   <method-name>getDepFlightId</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+  <method>
+   <ejb-name>AirlineOrderBean</ejb-name>
+   <method-intf>Local</method-intf>
+   <method-name>getRetFlightId</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+  <method>
+   <ejb-name>AirlineOrderBean</ejb-name>
+   <method-intf>Local</method-intf>
+   <method-name>getOrderId</method-name>
+  </method>
+  <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction>
+      <method>
+        <ejb-name>AirlinePOEndpointBean</ejb-name>
+        <method-intf>ServiceEndpoint</method-intf>
+        <method-name>submitAirlineReservationDetails</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <container-transaction> 
+      <method> 
+        <ejb-name>AirlineMessageEJB</ejb-name>
+        <method-name>onMessage</method-name>
+        <method-params>  
+          <method-param>javax.jms.Message</method-param>
+        </method-params>        
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+  </assembly-descriptor>
+
+</ejb-jar>

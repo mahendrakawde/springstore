@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.12 2004/10/14 03:26:36 yutayoshida Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="AirlineEJB" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/> 
+
+  <property name="AirlineEJB.home" value="."/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${AirlineEJB.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="AirlineEJB.src" value="${AirlineEJB.home}/src"/>
+  <property name="build.jardir" value="${build.dir}/jar"/>
+  <property name="AirlineEJB.jar" value="${build.dir}/airlinesupplier-ejb.jar"/>
+
+  <property name="AirlineEJB.po.jaxrpc.wsdl" value="${build.dir}/classes/AirlinePurchaseOrderService.wsdl"/>
+  <property name="AirlineEJB.po.jaxrpc.mapping" value="${build.dir}/AirlinePurchaseOrderServiceMap.xml"/>
+
+  <property name="AirlineEJB.components.basedir" value="../../../components"/>
+
+  <!-- The Service Locator Component -->
+  <property name="AirlineEJB.servloc.home" value="${AirlineEJB.components.basedir}/servicelocator"/>
+  <property name="AirlineEJB.servloc.jar" value="${AirlineEJB.servloc.home}/build/servicelocator.jar"/>
+
+  <!-- The OPC Component -->
+  <property name="AirlineEJB.opc.home" value="../../opc/opc-ejb"/>
+  <property name="AirlineEJB.broker.wsdl" value="${AirlineEJB.opc.home}/build/classes/WebServiceBroker.wsdl"/>
+
+  <path id="AirlineEJB.classpath">
+    <path refid="compile.classpath" />
+    <pathelement path="${AirlineEJB.servloc.jar}"/>
+  </path>
+
+  <!-- Banner Title for build -->
+  <property name="banner.title" value="Airline Supplier Application - EJBJAR"/>
+
+  <target name="airline-endpoint" depends="airline-provider">
+    <echo message="Running wscompile for the Airline PO endpoint:"/>
+    <echo>${wscompile}</echo>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${classes.dir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${AirlineEJB.po.jaxrpc.mapping}" />
+        <arg line="-d ${classes.dir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="${AirlineEJB.src}/conf/po-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="airline-provider" depends="tools">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${AirlineEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/sun/j2ee/blueprints/airlinesupplier/powebservice/**,java/com/sun/j2ee/blueprints/airlinesupplier/*.java">
+      <classpath refid="AirlineEJB.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile-core" depends="tools">
+
+    <mkdir dir="${classes.dir}"/>
+    <copy file="${AirlineEJB.broker.wsdl}" todir="${build.dir}" />
+
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${adventure.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${classes.dir}" />
+        <arg line="-mapping ${build.dir}/webservicebroker-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="${AirlineEJB.src}/conf/webservicebroker-client-config.xml" />
+    </exec>
+
+    <javac srcdir="${AirlineEJB.src}"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="java/com/**">
+      <classpath refid="AirlineEJB.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile-core,airline-endpoint" />
+
+  <target name="airlinesupplier-interface" depends="airline-provider,airline-endpoint" />
+
+  <target name="ejbjar" depends="compile">
+    <delete dir="${build.jardir}" quiet="true"/>
+    <mkdir dir="${build.jardir}"/>
+    <mkdir dir="${build.jardir}/META-INF"/>
+    <mkdir dir="${build.jardir}/META-INF/wsdl"/>
+    <copy todir="${build.jardir}">
+        <fileset dir="${classes.dir}">
+           <exclude name="**/*.wsdl"/>
+        </fileset>
+    </copy>
+    <copy file="${AirlineEJB.broker.wsdl}" todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${build.dir}/webservicebroker-mapping.xml" todir="${build.jardir}/META-INF" />
+    <copy file="${AirlineEJB.po.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${AirlineEJB.po.jaxrpc.mapping}"  todir="${build.jardir}/META-INF" />
+    <copy file="${AirlineEJB.src}/conf/ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${AirlineEJB.src}/conf/sun-ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${AirlineEJB.src}/conf/webservices.xml"  todir="${build.jardir}/META-INF" />
+    <jar jarfile="${AirlineEJB.jar}" basedir="${build.jardir}" excludes="cvs">
+       <manifest>
+         <attribute name="Class-Path" value="servicelocator.jar"/>
+       </manifest>
+    </jar>
+  </target>
+
+  <target name="core" depends="banner, compile, ejbjar" />
+  <target name="all" depends="core" />
+
+</project>

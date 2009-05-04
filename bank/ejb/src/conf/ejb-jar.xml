@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: ejb-jar.xml,v 1.2 2004/05/26 00:06:09 inder Exp $ -->
+<ejb-jar version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/ejb-jar_2_1.xsd">
+
+  <display-name>BankJAR</display-name>
+  <enterprise-beans>
+     <session>
+       <ejb-name>CreditCardEndpointBean</ejb-name>
+       <service-endpoint>com.sun.j2ee.blueprints.bank.creditcardservice.CreditCardIntf</service-endpoint>
+       <ejb-class>com.sun.j2ee.blueprints.bank.creditcardservice.CreditCardEndpointBean</ejb-class>
+       <session-type>Stateless</session-type>
+       <transaction-type>Container</transaction-type>      
+     </session>
+  </enterprise-beans>
+
+  <assembly-descriptor>
+    <container-transaction>
+      <method>
+        <ejb-name>CreditCardEndpointBean</ejb-name>
+        <method-intf>ServiceEndpoint</method-intf>
+        <method-name>validateCreditCard</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+  </assembly-descriptor>
+
+</ejb-jar>

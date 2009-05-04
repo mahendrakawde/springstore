@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: signon-config.xml,v 1.2 2004/05/26 00:06:36 inder Exp $ -->
+
+<signon-config>
+
+ <!-- Form Sign On Page-->
+ <signon-form-login-page>
+  signon.screen
+ </signon-form-login-page>
+
+ <!-- Error Page When Sign On fails-->
+ <signon-form-error-page>
+  signon_failed.screen
+ </signon-form-error-page>
+
+ <!-- A Protected Resource-->
+ <security-constraint>
+   <web-resource-collection>
+    <web-resource-name>Account information</web-resource-name>
+    <url-pattern>customer.do</url-pattern>
+   </web-resource-collection>
+ </security-constraint>
+
+ <!-- A Protected Resource-->
+ <security-constraint>
+   <web-resource-collection>
+    <web-resource-name>Signon</web-resource-name>
+    <url-pattern>signon_welcome.screen</url-pattern>
+   </web-resource-collection>
+ </security-constraint>
+
+ <!-- A Protected Resource-->
+ <security-constraint>
+   <web-resource-collection>
+    <web-resource-name>Order Information Screen</web-resource-name>
+    <url-pattern>enter_order_info.screen</url-pattern>
+   </web-resource-collection>
+ </security-constraint>
+
+ <!-- A Protected Resource-->
+ <security-constraint>
+   <web-resource-collection>
+    <web-resource-name>Checkout</web-resource-name>
+    <url-pattern>checkout.do</url-pattern>
+   </web-resource-collection>
+ </security-constraint>
+
+</signon-config>
