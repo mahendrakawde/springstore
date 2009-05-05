@@ -1,29 +1,67 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.sun.j2ee.blueprints</groupId>
-    <artifactId>adventure-builder</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.6-SNAPSHOT</version>
-    <name>adventure-builder</name>
-    <url>http://springstore.googlecode.com</url>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.sun.j2ee.blueprints</groupId>
+	<artifactId>adventure-builder</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.6-SNAPSHOT</version>
+	<name>adventure-builder</name>
+	<url>http://springstore.googlecode.com</url>
 
-    <parent>
-        <groupId>com.sun.j2ee.blueprints</groupId>
-        <artifactId>adventure-builder-parent</artifactId>
-        <version>1.0.6-SNAPSHOT</version>
-        <relativePath>parent/pom.xml</relativePath>
-    </parent> 
+	<parent>
+		<groupId>com.sun.j2ee.blueprints</groupId>
+		<artifactId>adventure-builder-parent</artifactId>
+		<version>1.0.6-SNAPSHOT</version>
+		<relativePath>parent/pom.xml</relativePath>
+	</parent>
 
-    <modules>
-        <module>common</module>
-        <module>activitysupplier</module>
-        <module>airlinesupplier</module>
-        <module>bank</module>
-        <module>lodgingsupplier</module>
-        <module>opc</module>
-        <module>consumerwebsite</module>
-    </modules>
+	<modules>
+		<module>common</module>
+		<module>activitysupplier</module>
+		<module>airlinesupplier</module>
+		<module>bank</module>
+		<module>lodgingsupplier</module>
+		<module>opc</module>
+		<module>consumerwebsite</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+			     <inherited>false</inherited>
+				<executions>				
+					<execution>
+						<id>create-resources</id>
+						<phase>install</phase>
+						<inherited>false</inherited>
+						<configuration>
+							<tasks unless="skip.resources">
+								<ant antfile="setup/setup.xml" target="core"/>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>remove-resources</id>
+						<phase>clean</phase>
+                        <inherited>false</inherited>                        
+						<configuration>
+							<tasks unless="skip.resources">
+								<ant antfile="setup/setup.xml" target="unsetup" inheritRefs="true"/>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: setup.xml,v 1.13 2005/11/29 20:56:12 smitha Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "./common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "./app-server-ant.xml">
+]>
+
+<project name="adventure_setup" default="core" basedir="..">
+
+  <!-- path to root -->
+  <property name="root.dir" value=".."/>
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <!-- include properties required by the asadmin utility-->
+  <property file="setup/setup.properties"/>
+  <property name="verify.result.dir" value="verifierResult"/>
+
+ <target name="core" depends="tools,populate,create-jdbc-resource-ab-catalog,create-jdbc-resource-ab,create-jms-connection-opc,create-jms-resource-opc,create-jms-resource-supplier,create-jms-connection-supplier">
+    <echo message="The J2EE SDK has now successfully configured the Adventure Builder application."/>
+    <echo message="run setup deploy-apps to deploy the Adventure Builder application."/>
+ </target>
+
+ <target name="unsetup" depends="delete-jdbc-connection-pool-ab,delete-jdbc-connection-pool-ab-catalog,delete-jms-connections-supplier,delete-jms-connections-opc">
+    <echo message="The J2EE SDK has now successfully unconfigured the Adventure Builder application."/>
+    <echo message="To reconfigure, run setup deploy-apps to deploy the Adventure Builder application."/>
+ </target>
+ 
+ <target name="create-jdbc-connection-pool-ab-catalog" depends="tools">
+    <echo message="Registering jdbc-connection-pool AdventureCatalogPool."/>
+    <antcall target="create-jdbc-connection-pooldb">
+      <param name="pool.name"     value="AdventureCatalogPool" />
+      <param name="db.user"       value="APP" />
+      <param name="db.password"   value="APP" />
+      <param name="ds.class"      value="org.apache.derby.jdbc.ClientXADataSource" />
+      <param name="db.url"        value="jdbc\:derby\://${j2ee.server.name}\:${db.port}/${db.name}" />
+     </antcall>
+ </target>
+ 
+<target name="create-jdbc-connection-pool-ab" depends="tools">
+    <echo message="Registering jdbc-connection-pool AdventurePool."/>
+    <antcall target="create-jdbc-connection-pooldb">
+      <param name="pool.name"     value="AdventurePool" />
+      <param name="db.user"       value="APP" />
+      <param name="db.password"   value="APP" />
+      <param name="ds.class"      value="org.apache.derby.jdbc.ClientXADataSource" />
+      <param name="db.url"        value="jdbc\:derby\://${j2ee.server.name}\:${db.port}/${db.name}" />
+     </antcall>
+ </target>
+
+ <target name="create-jdbc-resource-ab" depends="tools,create-jdbc-connection-pool-ab">
+    <echo message="Registering jdbc resource jdbc/adventure/AdventureDB."/>
+    <antcall target="create-jdbc-resource">
+      <param name="pool.name"            value="AdventurePool" />
+      <param name="jdbc.resource.name"   value="jdbc/adventure/AdventureDB" />
+    </antcall>
+ </target>
+
+ <target name="create-jdbc-resource-ab-catalog" depends="tools,create-jdbc-connection-pool-ab-catalog">
+    <echo message="Registering jdbc resource jdbc/adventure/AdventureCatalogDB."/>
+    <antcall target="create-jdbc-resource">
+      <param name="pool.name"            value="AdventureCatalogPool" />
+      <param name="jdbc.resource.name"   value="jdbc/adventure/AdventureCatalogDB" />
+    </antcall>
+ </target> 
+ 
+<target name="create-jms-resource-supplier" depends="tools">
+    <echo message="Creating JMS Queue for SUPPIER."/>
+    <antcall target="create-jms-resource">
+  <param name="jms.restype"   value="javax.jms.Queue" />
+  <param name="jms.resource.name"   value="jms/activity/ActivityQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_activity_ActivityQueue" />
+    </antcall>
+    <antcall target="create-jms-resource">
+  <param name="jms.restype"   value="javax.jms.Queue" />
+  <param name="jms.resource.name"   value="jms/lodging/LodgingQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_lodging_LodgingQueue" />
+    </antcall>
+    <antcall target="create-jms-resource">
+  <param name="jms.restype"   value="javax.jms.Queue" />
+  <param name="jms.resource.name"   value="jms/airline/AirlineQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_airline_AirlineQueue" />
+    </antcall>
+ </target>
+ 
+  <target name="create-jms-connection-supplier" depends="tools">
+    <echo message="Creating JMS Connection for SUPPLIER."/>
+    <antcall target="create-jms-connection">
+      <param name="jms.restype"   value="javax.jms.QueueConnectionFactory" />
+      <param name="jms.resource.name" value="jms/activity/QueueConnectionFactory" />
+    </antcall>
+    <antcall target="create-jms-connection">
+      <param name="jms.restype"   value="javax.jms.QueueConnectionFactory" />
+      <param name="jms.resource.name" value="jms/lodging/QueueConnectionFactory" />
+    </antcall>
+    <antcall target="create-jms-connection">
+      <param name="jms.restype"   value="javax.jms.QueueConnectionFactory" />
+      <param name="jms.resource.name" value="jms/airline/QueueConnectionFactory" />
+    </antcall>
+ </target>
+ 
+ <target name="delete-jms-connections-supplier" depends="tools">
+    <echo message="Deleting JMS Connections for SUPPLIER."/>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/activity/ActivityQueue" />
+    </antcall>
+        <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/lodging/LodgingQueue" />
+    </antcall>
+        <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/airline/AirlineQueue" />
+    </antcall>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/activity/QueueConnectionFactory" />
+    </antcall>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/lodging/QueueConnectionFactory" />
+    </antcall>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/airline/QueueConnectionFactory" />
+    </antcall>
+ </target>
+
+<target name="create-jms-resource-opc" depends="tools">
+    <echo message="Creating JMS Queue for OPC."/>
+    <antcall target="create-jms-resource">
+      <param name="jms.restype"                   value="javax.jms.Queue" />
+      <param name="jms.resource.name"             value="jms/opc/WorkFlowMgrQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_opc_WorkFlowMgrQueue" />
+     </antcall>
+    <antcall target="create-jms-resource">
+      <param name="jms.restype"                   value="javax.jms.Queue" />
+      <param name="jms.resource.name"             value="jms/opc/CRMQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_opc_CRMQueue" />
+     </antcall>
+    <antcall target="create-jms-resource">
+      <param name="jms.restype"                   value="javax.jms.Queue" />
+      <param name="jms.resource.name"             value="jms/opc/WebServiceBrokerQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_opc_WebServiceBrokerQueue" />
+     </antcall>
+    <antcall target="create-jms-resource">
+      <param name="jms.restype"                   value="javax.jms.Queue" />
+      <param name="jms.resource.name"             value="jms/opc/OrderFillerQueue" />
+      <param name="jms.resource.property" value="imqDestinationName=jms_opc_OrderFillerQueue" />
+     </antcall>
+ </target>
+
+ <target name="create-jms-connection-opc" depends="tools">
+    <echo message="Creating JMS Connection for OPC."/>
+    <antcall target="create-jms-connection">
+      <param name="jms.restype"   value="javax.jms.QueueConnectionFactory" />
+      <param name="jms.resource.name"   value="jms/opc/QueueConnectionFactory" />
+    </antcall>
+ </target>
+ 
+  <target name="delete-jms-connections-opc" depends="tools">
+    <echo message="Deleting JMS Connections for OPC."/>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/opc/WorkFlowMgrQueue" />
+    </antcall>
+        <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/opc/CRMQueue" />
+    </antcall>
+        <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/opc/WebServiceBrokerQueue" />
+    </antcall>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/opc/OrderFillerQueue" />
+    </antcall>
+    <antcall target="delete-jms-resource">
+      <param name="jms.resource.name" value="jms/opc/QueueConnectionFactory" />
+    </antcall>
+ </target>
+
+
+  <target name="create-mail-resource" depends="tools">
+    <echo message="Registering mail-resources."/>
+    <echo message="Registering javamail-resource mail/opc/MailSession"/>
+    <antcall target="create-javamail-resource">
+      <param name="javamail.resource.name"   value="mail/opc/MailSession"/>
+    </antcall>
+  </target>
+
+  <target name="delete-mail-resource" depends="tools">
+    <echo message="Deleting mail-resources."/>
+    <echo message="Deleting javamail-resource mail/opc/MailSession"/>
+    <antcall target="delete-javamail-resource">
+      <param name="javamail.resource.name"   value="mail/opc/MailSession"/>
+    </antcall>
+  </target>
+
+ <target name="delete-jdbc-connection-pool-ab" depends="tools,delete-jdbc-resource-ab">
+    <echo message="Deleting jdbc-connection-pool AdventurePool."/>
+    <antcall target="delete-jdbc-connection-pool">
+      <param name="jdbc.pool.name" value="AdventurePool" />
+    </antcall>
+ </target>
+
+ <target name="delete-jdbc-resource-ab" depends="tools" >
+    <echo message="Deleting jdbc resource  jdbc/adventure/AdventureDB"/>
+    <antcall target="delete-jdbc-resource">
+      <param name="jdbc.resource.name" value=" jdbc/adventure/AdventureDB" />
+    </antcall> 
+ </target>
+ 
+ <target name="delete-jdbc-connection-pool-ab-catalog" depends="tools,delete-jdbc-resource-ab-catalog">
+    <echo message="Deleting jdbc-connection-pool AdventureCatalogPool."/>
+    <antcall target="delete-jdbc-connection-pool">
+      <param name="jdbc.pool.name" value="AdventureCatalogPool" />
+    </antcall>
+ </target>
+
+ <target name="delete-jdbc-resource-ab-catalog" depends="tools" >
+    <echo message="Deleting jdbc resource  jdbc/adventure/AdventureCatalogDB"/>
+    <antcall target="delete-jdbc-resource">
+      <param name="jdbc.resource.name" value=" jdbc/adventure/AdventureCatalogDB" />
+    </antcall> 
+ </target>
+ 
+ <target name="deploy-apps">
+    <antcall target="deploy">
+     <param name="app.name" value="ConsumerWebsite"/>
+      <param name="app.module"
+        value="${root.dir}/consumerwebsite.ear"/>
+    </antcall>
+    <antcall target="deploy">
+     <param name="app.name" value="OPC"/>
+      <param name="app.module"
+        value="${root.dir}/opc.ear"/>
+    </antcall>
+    <antcall target="deploy">
+     <param name="app.name" value="Bank"/>
+      <param name="app.module"
+        value="${root.dir}/bank.ear"/>
+    </antcall>
+    <antcall target="deploy">
+     <param name="app.name" value="ActivitySupplier"/>
+      <param name="app.module"
+        value="${root.dir}/activitysupplier.ear"/>
+    </antcall>
+    <antcall target="deploy">
+     <param name="app.name" value="LodgingSupplier"/>
+      <param name="app.module"
+        value="${root.dir}/lodgingsupplier.ear"/>
+    </antcall>
+    <antcall target="deploy">
+     <param name="app.name" value="AirlineSupplier"/>
+      <param name="app.module"
+        value="${root.dir}/airlinesupplier.ear"/>
+    </antcall>
+ </target>
+
+ <target name="verify-apps" description="Static archive tests for all apps">
+   <mkdir dir="${verify.result.dir}"/>
+   <echo>The result files are stored in ${verify.result.dir}</echo>
+   <antcall target="verify">
+     <param name="app.module" value="../consumerwebsite.ear"/>
+     <param name="verify.dest.dir" value="${verify.result.dir}"/>
+   </antcall>
+   <antcall target="verify">
+     <param name="app.module" value="../airlinesupplier.ear"/>
+     <param name="verify.dest.dir" value="${verify.result.dir}"/>
+   </antcall>
+   <antcall target="verify">
+     <param name="app.module" value="../bank.ear"/>
+     <param name="verify.dest.dir" value="${verify.result.dir}"/>
+   </antcall>
+   <antcall target="verify">
+     <param name="app.module" value="../activitysupplier.ear"/>
+     <param name="verify.dest.dir" value="${verify.result.dir}"/>
+   </antcall>
+   <antcall target="verify">
+     <param name="app.module" value="../lodgingsupplier.ear"/>
+     <param name="verify.dest.dir" value="${verify.result.dir}"/>
+   </antcall>
+   <antcall target="verify">
+     <param name="app.module" value="../opc.ear"/>
+     <param name="verify.dest.dir" value="${verify.result.dir}"/>
+   </antcall>
+ </target>
+
+ <target name="populate"> 
+    <sql driver="org.apache.derby.jdbc.ClientDriver"
+         encoding="utf-8"
+         url="jdbc:derby://${j2ee.server.name}:${db.port}/${db.name};create=true"
+         userid="APP"
+         password="APP"
+         classpath="${db.root}/lib/derbyclient.jar"
+         delimiter=";"
+         autocommit="true"
+         onerror="continue" >
+      <transaction src="${db.create.src}"/>
+    </sql>
+ </target>
+
+</project> 

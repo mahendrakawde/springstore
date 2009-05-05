@@ -37,7 +37,6 @@
 		<url>http://code.google.com/p/springstore/source/browse/</url>
 	</scm>
 	
-	
     <pluginRepositories>
         <pluginRepository>
             <id>maven.java.net</id>
@@ -81,6 +80,7 @@
 
     <properties>
         <spring.version>2.5.6.A</spring.version>
+        <j2ee.home>c:/java/server/glassfish</j2ee.home>
     </properties>
 
     <build>	

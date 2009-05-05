@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.2 2004/08/05 23:51:16 gmurray71 Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../app-server-ant.xml">
+]>
+
+<project name="petstore-setup" default="core" basedir=".">
+
+ <!-- include properties required for db setup-->
+ <property file="setup-mysql.properties"/>
+ 
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <target name="core" depends="unsetup,create-jdbc-resource-mysql,create-tables,populate-data,reconfig"/>
+  <target name="unsetup" depends="drop-tables,delete-jdbc-connection-pool-mysql,reconfig"/>
+
+
+  <target name="create-jdbc-connection-pool-mysql-local" depends="tools">
+    <echo message="Registering jdbc-connection-pool AdventureCatalogPool."/>
+    <antcall target="create-jdbc-connection-pool-mysql">
+      <param name="pool.name"     value="AdventureCatalogPool" />
+      <param name="db.serverName"   value="${j2ee.server.name}" />
+      <param name="ds.class"      value="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource" />
+      <param name="db.url"        value="jdbc\:mysql\://${j2ee.server.name}\:${db.port}/${db.name}" />
+    </antcall>
+ </target>
+
+ <target name="delete-jdbc-connection-pool-mysql" depends="tools, delete-jdbc-resource-mysql">
+    <echo message="Deleting jdbc-connection-pool AdventureCatalogPool."/>
+    <antcall target="delete-jdbc-connection-pool">
+      <param name="jdbc.pool.name" value="AdventureCatalogPool" />
+    </antcall>
+ </target>
+ 
+  <target name="create-jdbc-resource-mysql" depends="tools,create-jdbc-connection-pool-mysql-local">
+    <echo message="Registering jdbc resource jdbc/adventure/AdventureCatalogDB."/>
+    <antcall target="create-jdbc-resource">
+      <param name="pool.name"            value="AdventureCatalogPool" />
+      <param name="jdbc.resource.name"   value="jdbc/adventure/AdventureCatalogDB" />
+    </antcall>
+ </target>
+ 
+  <target name="delete-jdbc-resource-mysql" depends="tools" >
+    <echo message="Deleting jdbc resource jdbc/adventure/AdventureCatalogDB"/>
+    <antcall target="delete-jdbc-resource">
+      <param name="jdbc.resource.name" value="jdbc/adventure/AdventureCatalogDB" />
+    </antcall> 
+ </target>
+ 
+ <target name="create-tables" depends="mysql-cli">
+  <exec executable="${mysql}" input="create-tables-mysql.sql">
+    <arg value="--user=${db.user}"/>
+    <arg value="--password=${db.password}"/>
+    <arg value="--database=${db.name}"/>
+   </exec>
+  </target>
+  
+ <target name="drop-tables" depends="mysql-cli">
+  <exec executable="${mysql}" input="drop-tables-mysql.sql">
+    <arg value="--user=${db.user}"/>
+    <arg value="--password=${db.password}"/>
+    <arg value="--database=${db.name}"/>
+   </exec>
+  </target>
+  
+ <target name="populate-data" depends="mysql-cli">
+  <exec executable="${mysql}" input="data-mysql.sql">
+    <arg value="--user=${db.user}"/>
+    <arg value="--password=${db.password}"/>
+    <arg value="--database=${db.name}"/>
+   </exec>
+  </target>
+
+ 
+ <target name="create-jdbc-connection-pool-mysql" depends="tools">
+    <exec executable="${asadmin}">
+        <arg line=" create-jdbc-connection-pool"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --password ${j2ee.server.password}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --datasourceclassname ${ds.class}" />
+        <arg line=" --restype javax.sql.ConnectionPoolDataSource" />
+        <arg line=" --property user=${db.user}:password=${db.password}:databaseName=${db.url}:url=${db.url}:serverName=${db.serverName}:port=${db.port}" />
+        <arg line=" ${pool.name}" />
+    </exec> 
+ </target>
+ 
+ <target name="mysql-cli">
+     <condition property="mysql" value="${mysql-cli-windows}">
+        <os family="windows"/>
+     </condition>
+     <condition property="mysql" value="${mysql-cli-unix}">
+        <not>
+           <os family="windows"/>
+        </not>
+     </condition>
+ </target>
+
+</project> 

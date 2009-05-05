@@ -1,0 +1,469 @@
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: app-server-ant.xml,v 1.11 2006/07/12 19:08:44 inder Exp $ -->
+<!-- This file contains common ant commands that are specific to J2EE
+     Server. To port this application to a different app-server, you will 
+     need to write an equivalent file. 
+     You must include common-ant.xml before including this file -->
+
+  <target name="tools">
+     <condition property="j2ee-script-suffix" value=".bat">
+        <os family="windows"/>
+     </condition>
+     <condition property="j2ee-script-suffix" value="">
+        <not>
+           <os family="windows"/>
+        </not>
+     </condition>
+     <condition property="path.separator" value=";">
+        <os family="windows"/>
+     </condition>
+     <condition property="path.separator" value=":">
+        <not>
+           <os family="windows"/>
+        </not>
+     </condition>
+
+    <!-- default values for properties -->
+    <property name="appserver.instance" value="server"/>
+    <property name="j2ee.server.name" value="localhost"/>
+    <property name="j2ee.server.port" value="8080"/>
+
+    <!-- setup properties for various J2EE tools -->
+    <property name="wscompile" value="${j2ee.home}/bin/wscompile${j2ee-script-suffix}"/>
+    <property name="asadmin" value="${j2ee.home}/bin/asadmin${j2ee-script-suffix}"/>
+    <property name="verifier" value="${j2ee.home}/bin/verifier${j2ee-script-suffix}"/>
+  </target>
+
+  <!-- Construct J2EE classpath -->
+  <path id="j2ee.classpath">
+    <pathelement location="${j2ee.home}/lib/j2ee.jar"/>
+    <pathelement location="${j2ee.home}/lib/jhall.jar"/>
+    <pathelement location="${j2ee.home}/bin"/>
+  </path>
+
+  <target name="keygen_common" depends="tools">
+    <echo message="Generating key for user ${app.user} in server."/>
+    <exec executable="${asadmin}">
+        <arg line=" create-file-user"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --groups ${app.groups}"/>
+        <arg line=" --userpassword=${app.userpassword}"/>
+        <arg line=" ${app.user}"/>
+   </exec>
+  </target>
+
+  <target name="keydel_common" depends="tools">
+    <echo message="Deleting key for user ${app.user} in server."/>
+    <exec executable="${asadmin}">
+        <arg line=" delete-file-user"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" ${app.user}"/>
+   </exec>
+  </target>
+
+ <!-- Creating JDBC connection pool -->
+ <target name="create-jdbc-connection-pooldb" 
+        depends="tools, verify-jdbc-connection-pooldb, 
+                 create-jdbc-connection-pooldb-main"/>
+
+ <target name="verify-jdbc-connection-pooldb">
+    <exec executable="${asadmin}" outputproperty="list.pool">
+        <arg line=" list-jdbc-connection-pools"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+    </exec> 
+
+    <condition property="jdbc.conpool.exist" value="true">
+  <contains string="${list.pool}" substring="${pool.name}" casesensitive="false"/>
+    </condition>
+    <antcall target="message_warning_jdbc_conpool_exists"/>
+ </target>
+
+ <target name="message_warning_jdbc_conpool_exists"
+        if="jdbc.conpool.exist">
+   <echo>
+  ===================================================================
+  JDBC Connection Pool: ${pool.name} already exists on the server.
+  The existing ${pool.name} JDBC connection pool will be used.
+  ===================================================================
+   </echo>
+ </target>
+ 
+ <target name="create-jdbc-connection-pooldb-main" unless="jdbc.conpool.exist">
+    <exec executable="${asadmin}">
+        <arg line=" create-jdbc-connection-pool"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --datasourceclassname ${ds.class}" />
+        <arg line=" --restype javax.sql.XADataSource " />
+        <arg line=" --property user=${db.user}:password=${db.password}:databaseName=${db.name}:serverName=${j2ee.server.name}" />
+        <arg line=" ${pool.name} " />
+    </exec> 
+ </target>
+ 
+  <!-- Creating JDBC resources -->
+  <target name="create-jdbc-resource" 
+          depends="tools, verify-jdbc-resource, create-jdbc-resource-main"/>
+
+  <target name="verify-jdbc-resource">
+     <echo message="Checking if JDBC Resource ${jdbc.resource.name} exists"/>
+     <exec executable="${asadmin}" outputproperty="list.resource">
+        <arg line=" list-jdbc-resources"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+    <arg line=" --target ${appserver.instance}" />
+    </exec>     
+
+    <condition property="jdbc.resource.exist" value="true">
+      <contains string="${list.resource}" 
+                substring="${jdbc.resource.name}" casesensitive="false"/>
+    </condition>
+    <antcall target="message_warning_jdbc_resource_exists"/>
+  </target>
+
+  <target name="message_warning_jdbc_resource_exists" 
+          if="jdbc.resource.exist">
+    <echo>
+    ==================================================================
+    JDBC Resource: ${jdbc.resource.name} already exists on the server.
+    The existing ${jdbc.resource.name} JDBC resource will be used.
+    =================================================================
+    </echo>
+  </target>
+
+  <target name="create-jdbc-resource-main"  unless="jdbc.resource.exist">
+     <echo message="Creating JDBC Resource ${jdbc.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="create-jdbc-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --connectionpoolid ${pool.name}" />
+        <arg line=" --enabled=true" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${jdbc.resource.name}" />
+    </exec>     
+  </target>
+
+  <!-- Creating persistence resouce -->
+  <target name="create-persistence-resource" 
+          depends="tools, verify-persistence-resource, 
+                   create-persistence-resource-main"/>
+
+  <target name="verify-persistence-resource">
+  <exec executable="${asadmin}" outputproperty="list.persistence">
+  <arg line=" list-persistence-resources"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+  <arg line=" --host ${j2ee.server.name}" />
+  <arg line=" --port ${j2ee.adminserver.port}" />
+  <arg line=" ${pm.resource.name}" />
+    </exec>
+
+    <condition property="persistence.resource.exist" value="true">
+  <contains string="${list.persistence}" substring="${pm.resource.name}" casesensitive="false"/>
+    </condition>
+    <antcall target="message_warning_persistence_resource_exists"/>
+
+ </target>
+
+  <target name="message_warning_persistence_resource_exists" 
+         if="persistence.resource.exist">
+    <echo>
+    ======================================================================
+    Persistent Resource: ${pm.resource.name} already exists on the server.
+    The existing ${pm.resource.name} persistent resource will be used.
+    ======================================================================
+    </echo>
+  </target>
+
+  <target name="create-persistence-resource-main" 
+          unless="persistence.resource.exist">
+     <exec executable="${asadmin}">
+        <arg line="create-persistence-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --factoryclass com.sun.jdo.spi.persistence.support.sqlstore.impl.PersistenceManagerFactoryImpl" />
+        <arg line=" --jdbcjndiname ${jdbc.resource.name}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${pm.resource.name}" />
+    </exec>
+  </target>
+
+  <!-- Create JMS resource -->
+  <target name="create-jms-resource"  
+          depends="tools, verify-jms-resource, create-jms-resource-main"/>
+
+  <target name="verify-jms-resource">
+     <echo message="Checking if JMS Resource ${jms.resource.name} exists"/>
+     <exec executable="${asadmin}" outputproperty="list.jms.resources" 
+           failonerror="true">
+        <arg line=" list-jms-resources"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+    </exec>
+
+    <condition property="jms.connection.exist" value="true">
+  <contains string="${list.jms.resources}" 
+                  substring="${jms.resource.name}" casesensitive="false"/>
+    </condition>
+    <antcall target="message_warning_jms_connection_exists"/>
+
+  </target>
+
+  <target name="create-jms-resource-main" unless="jms.connection.exist">
+     <echo message="Creating JMS Resource ${jms.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line=" create-jms-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --restype ${jms.restype}" />
+        <arg line=" --enabled=true" />
+        <arg line=" --property ${jms.resource.property}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${jms.resource.name}" />
+    </exec>
+  </target>
+
+  <!-- Create JMS connection -->
+  <target name="create-jms-connection" 
+          depends="tools, verify-jms-connection, create-jms-connection-main"/>
+
+  <target name="verify-jms-connection">
+     <echo message="Checking if JMS Connection ${jms.resource.name} exists"/>
+     <exec executable="${asadmin}" outputproperty="list.jms.resources"
+           failonerror="true">
+        <arg line=" list-jms-resources"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+    </exec>
+
+    <condition property="jms.connection.exist" value="true">
+  <contains string="${list.jms.resources}" 
+                  substring="${jms.resource.name}" casesensitive="false"/>
+    </condition>
+    <antcall target="message_warning_jms_connection_exists"/>
+
+  </target>
+
+  <target name="message_warning_jms_connection_exists" 
+          if="jms.connection.exist">
+    <echo>
+    ==================================================================
+    JMS Connection: ${jms.resource.name} already exists on the server.
+    The existing ${jms.resource.name} JMS connection will be used.
+     =================================================================
+    </echo>
+  </target>
+
+  <target name="create-jms-connection-main"  unless="jms.connection.exist">
+     <echo message="Creating JMS Connection ${jms.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="create-jms-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --restype ${jms.restype}" />
+        <arg line=" --enabled=true" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${jms.resource.name}" />
+    </exec>
+  </target>
+
+  <!-- Creating javamail resource -->
+  <target name="create-javamail-resource" 
+          depends="tools, verify-javamail-resource, 
+                   create-javamail-resource-main"/>
+
+  <target name="verify-javamail-resource">
+     <echo message="Checking if JavaMail Resource ${javamail.resource.name} exists"/>
+     <exec executable="${asadmin}" outputproperty="list.javamail">
+        <arg line=" list-javamail-resources"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --target ${appserver.instance}" />
+    </exec>
+
+    <condition property="javamail.resource.exist" value="true">
+  <contains string="${list.javamail}" 
+                  substring="${javamail.resource.name}" 
+                  casesensitive="false"/>
+    </condition>
+    <antcall target="message_warning_javamail_resource_exists"/>
+  </target>
+
+  <target name="message_warning_javamail_resource_exists" 
+          if="javamail.resource.exist">
+    <echo>
+    =========================================================================
+    Javamail resource: ${javamail.resource.name} already exists on the server.
+    The existing ${javamail.resource.name} javamail resource will be used.
+    =========================================================================
+    </echo>
+  </target>
+
+  <target name="create-javamail-resource-main"  unless="javamail.resource.exist">
+     <echo message="Creating JavaMail Resource ${javamail.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="create-javamail-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --mailhost ${mail.host}" />
+        <arg line=" --mailuser ${mail.username}" />
+        <arg line=" --fromaddress ${mail.fromaddress}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${javamail.resource.name}" />
+    </exec>
+  </target>
+
+  <target name="delete-javamail-resource"  depends="tools">
+     <echo message="Deleting JavaMail Resource ${javamail.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="delete-javamail-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${javamail.resource.name}" />
+    </exec>
+  </target>
+
+  <target name="listJmsDestinations">
+     <exec executable="${asadmin}">
+        <arg line="-listJmsDestination "/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+    </exec>
+  </target>
+
+  <target name="delete-persistence-resource">
+     <exec executable="${asadmin}">
+        <arg line="delete-persistence-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --target ${appserver.instance}" />
+       <arg line=" ${pm.resource.name}" />
+    </exec>
+  </target>
+
+  <target name="delete-jdbc-resource">
+     <echo message="Deleting JDBC Resource ${jdbc.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="delete-jdbc-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line="${jdbc.resource.name}" />
+    </exec>
+  </target>
+
+  <target name="delete-jdbc-connection-pool">
+     <echo message="Deleting JDBC Connection Pool ${jdbc.pool.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="delete-jdbc-connection-pool"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line="${jdbc.pool.name}" />
+    </exec>
+  </target>
+
+  <target name="delete-jms-resource">
+     <echo message="Deleting JMS Resource ${jms.resource.name}"/>
+     <exec executable="${asadmin}">
+        <arg line="delete-jms-resource"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${jms.resource.name}" />
+    </exec>
+  </target>
+  
+  <target name="reconfig" depends="tools">
+     <echo message="Reconfiguring server ${appserver.instance}"/>
+     <exec executable="${asadmin}">
+        <arg line=" set"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" server"/>
+    </exec>      
+  </target>
+  
+  <target name="undeploy" depends="tools">
+    <echo message="Undeploying ${app.name}." />
+    <exec executable="${asadmin}">
+        <arg line="undeploy"/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --target ${appserver.instance}" />
+        <arg line=" ${app.name} " />
+    </exec> 
+  </target>
+
+
+  <target name="deploy" depends="tools">
+    <fail unless="app.module" message="app.module must be set before invoking this target. Otherwise there is no application to deploy."/>
+    <fail unless="app.name" message="app.name must be set before invoking this target. Otherwise there is no application to deploy."/>
+    <echo message="Deploying ${app.module} as ${app.name}"/>
+    <exec executable="${asadmin}">
+        <arg line=" deploy "/>
+        <arg line=" --user ${j2ee.server.username}" />
+        <arg line=" --passwordfile ${j2ee.server.passwordfile}" />
+        <arg line=" --host ${j2ee.server.name}" />
+        <arg line=" --port ${j2ee.adminserver.port}" />
+        <arg line=" --name ${app.name}"/>
+        <arg line=" --force=true "/>
+        <arg line=" --upload=true "/>
+        <arg line=" --dbvendorname derby"/>
+        <arg line=" --target ${appserver.instance}" />
+        <arg line="${app.module}" />
+    </exec>
+  </target>
+
+  <target name="verify" depends="tools">
+    <echo message="Verifying Process for ${app.module}" />
+    <exec executable="${verifier}">
+      <arg line="--destdir ${verify.dest.dir}" />
+      <arg line="${app.module}" />
+    </exec>
+  </target>
