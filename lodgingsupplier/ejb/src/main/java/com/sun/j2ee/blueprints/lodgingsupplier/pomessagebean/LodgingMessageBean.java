@@ -4,12 +4,14 @@
 package com.sun.j2ee.blueprints.lodgingsupplier.pomessagebean;
 
 import javax.ejb.CreateException;
+import javax.ejb.EJBException;
+import javax.ejb.MessageDrivenBean;
+import javax.ejb.MessageDrivenContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.naming.InitialContext;
-
-import org.springframework.ejb.support.AbstractJmsMessageDrivenBean;
 
 import com.sun.j2ee.blueprints.lodgingsupplier.JNDINames;
 import com.sun.j2ee.blueprints.lodgingsupplier.powebservice.LodgingOrder;
@@ -19,7 +21,7 @@ import com.sun.j2ee.blueprints.lodgingsupplier.purchaseorder.ejb.LodgingOrderLoc
 import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
 import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
-public class LodgingMessageBean extends AbstractJmsMessageDrivenBean {
+public class LodgingMessageBean implements MessageDrivenBean, MessageListener {
 
 	/**
 	 * Default constructor.
@@ -27,9 +29,10 @@ public class LodgingMessageBean extends AbstractJmsMessageDrivenBean {
 	public LodgingMessageBean() {
 	}
 
-	protected void onEjbCreate() {
-	}
+	public void ejbCreate() {}
 
+	public void ejbRemove() throws EJBException {}
+	
 	/**
 	 * Casts the incoming message to an ObjectMessage.
 	 */
@@ -111,5 +114,8 @@ public class LodgingMessageBean extends AbstractJmsMessageDrivenBean {
 			throw new OrderSubmissionException("Error LODGE persisting order:"
 					+ ce.getMessage());
 		}
+	}
+
+	public void setMessageDrivenContext(MessageDrivenContext ctx) throws EJBException {
 	}
 }
