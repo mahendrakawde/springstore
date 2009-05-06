@@ -10,9 +10,9 @@
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
-		<artifactId>adventure-builder</artifactId>
+		<artifactId>adventure-builder-parent</artifactId>
 		<version>1.0.6-SNAPSHOT</version>
-		<relativePath>../../pom.xml</relativePath>
+		<relativePath>../../parent/pom.xml</relativePath>
 	</parent>
 
 	<dependencies>

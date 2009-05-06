@@ -17,7 +17,10 @@
 	</parent>
 
 	<modules>
-		<module>common</module>
+		<module>common/tracer</module>
+        <module>common/servicelocator</module>
+        <module>common/dao</module>
+        <module>common/waf</module>
 		<module>activitysupplier</module>
 		<module>airlinesupplier</module>
 		<module>bank</module>
@@ -34,7 +37,7 @@
 				<executions>
 					<execution>
 						<id>create-resources</id>						
-						<phase>glassfish:deploy</phase>
+						<phase>install</phase>
 						<inherited>false</inherited>
 						<configuration>
 							<tasks unless="skip.resources">
@@ -47,7 +50,7 @@
 					</execution>
 					<execution>
 						<id>remove-resources</id>
-						<phase>glassfish:undeploy</phase>
+						<phase>clean</phase>
 						<inherited>false</inherited>
 						<configuration>
 							<tasks unless="skip.resources">
@@ -59,65 +62,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.glassfish.maven.plugin</groupId>
-				<artifactId>maven-glassfish-plugin</artifactId>
-				<inherited>false</inherited>
-				<configuration>
-					<glassfishDirectory>c:/java/server/glassfish</glassfishDirectory>
-					<user>admin</user>
-					<adminPassword>adminadmin</adminPassword>
-					<!-- <passFile>path/to/asadmin/passfile</passFile> -->
-					<autoCreate>true</autoCreate>
-					<debug>true</debug>
-					<echo>true</echo>
-					<terse>true</terse>
-					<verbose>true</verbose>
-					<skip>${test.int.skip}</skip>				    
-					<domain>					    
-						<name>springstore</name>
-						<adminPort>4848</adminPort>
-						<httpPort>8080</httpPort>
-						<httpsPort>8443</httpsPort>
-						<iiopPort>3700</iiopPort>
-						<jmsPort>7676</jmsPort>
-						<reuse>false</reuse>
-						<properties>
-							<property>
-								<name>server.log-service.file</name>
-								<value>${domain.log.dir}/server.log</value>
-							</property>
-						</properties>
-					</domain>
-					<!-- Artifacts to deploy to the server -->
-					<components>
-						<component upload="true">
-							<name>activitysupplier</name>
-							<artifact>activitysupplier/ear/target/activitysupplier.ear</artifact>
-						</component>
-                        <component>
-                            <name>airlinesupplier</name>
-                            <artifact>airlinesupplier/ear/target/airlinesupplier.ear</artifact>
-                        </component>
-                        <component>
-                            <name>bank</name>
-                            <artifact>bank/ear/target/bank-ear-${version}.ear</artifact>
-                        </component>
-                        <component>
-                            <name>lodgingsupplier</name>
-                            <artifact>lodgingsupplier/ear/target/lodgingsupplier.ear</artifact>
-                        </component>
-                        <component>
-                            <name>opc</name>
-                            <artifact>opc/ear/target/opc.ear</artifact>
-                        </component>
-                        <component>
-                            <name>adventure</name>
-                            <artifact>consumerwebsite/ear/target/consumerwebsite.ear</artifact>
-                        </component>
-					</components>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
