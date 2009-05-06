@@ -281,13 +281,20 @@
    </antcall>
  </target>
 
+	<path id="db-classpath">
+		<filelist>
+			  <file id="derbyclient" name="${db.root}/lib/derbyclient.jar"/>
+		</filelist>
+    </path>
+	
  <target name="populate"> 
+ 	<echo message="DB: ${db.root}, name: ${db.name}. ${db-classpath}" />
     <sql driver="org.apache.derby.jdbc.ClientDriver"
          encoding="utf-8"
          url="jdbc:derby://${j2ee.server.name}:${db.port}/${db.name};create=true"
          userid="APP"
-         password="APP"
-         classpath="${db.root}/lib/derbyclient.jar"
+         password="APP"    	 
+    	 classpathref="db-classpath"
          delimiter=";"
          autocommit="true"
          onerror="continue" >

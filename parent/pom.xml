@@ -102,43 +102,6 @@
 					 <target>1.5</target>  
 				</configuration>  
 			</plugin>  
-            <plugin>
-                <groupId>org.glassfish.maven.plugin</groupId>
-                <artifactId>maven-glassfish-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <glassfishDirectory>c:/program files/glassfish-v2ur2</glassfishDirectory>
-                    <user>admin</user>
-                    <adminPassword>adminadmin</adminPassword>
-					<!-- <passFile>path/to/asadmin/passfile</passFile> -->
-                    <autoCreate>true</autoCreate>
-                    <debug>true</debug>
-                    <echo>true</echo>
-                    <terse>true</terse>
-                    <skip>${test.int.skip}</skip>
-                    <domain>
-                        <name>domain1</name>
-                        <adminPort>4848</adminPort>
-                        <httpPort>8080</httpPort>
-                        <httpsPort>8443</httpsPort>
-                        <iiopPort>3700</iiopPort>
-                        <jmsPort>7676</jmsPort>
-                        <reuse>false</reuse>
-                        <properties>
-                            <property>
-                                <name>server.log-service.file</name>
-                                <value>${domain.log.dir}/server.log</value>
-                            </property>
-                        </properties>
-                    </domain>
-                    <components>
-                        <component>
-                            <name>${project.artifactId}</name>
-                            <artifact>${project.build.directory}/${project.build.finalName}.ear</artifact>
-                        </component>
-                    </components>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>

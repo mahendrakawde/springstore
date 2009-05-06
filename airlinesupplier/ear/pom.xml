@@ -35,9 +35,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
 				<configuration>
-					<displayName>Airline Supplier Module</displayName>
+					<displayName>AirlineSupplierEAR</displayName>
 					<description>Airline Supplier Module J2EE Blueprint Sample Application</description>
 					<version>1.4</version>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <finalName>airlinesupplier</finalName>
 					<modules>
 						<javaModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>

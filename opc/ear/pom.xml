@@ -6,12 +6,12 @@
 	<packaging>ear</packaging>
 	<version>1.0.6-SNAPSHOT</version>
 	<name>Adventure Builder :: Order Processing Center Enterprise Application</name>
-    <url>http://springstore.googlecode.com</url>
+	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>opc</artifactId>
-		<version>1.0.6-SNAPSHOT</version>		
+		<version>1.0.6-SNAPSHOT</version>
 		<relativePath>../../parent/pom.xml</relativePath>
 	</parent>
 
@@ -21,54 +21,57 @@
 			<artifactId>opc-ejb</artifactId>
 			<version>${pom.version}</version>
 			<type>ejb</type>
-    	</dependency>
+		</dependency>
 		<dependency>
 			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>processmanager-ejb</artifactId>
 			<version>${pom.version}</version>
 			<type>ejb</type>
-    	</dependency>
+		</dependency>
 		<dependency>
 			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>servicelocator</artifactId>
 			<version>${pom.version}</version>
 			<type>jar</type>
-    	</dependency>
+		</dependency>
 	</dependencies>
-<build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-ear-plugin</artifactId>
-        <configuration>
-           <displayName>Order Processing Center Module</displayName>
-           <description>Order Processing Center Module J2EE Blueprint Sample Application</description>
-           <version>1.4</version>
-           <modules>           	
-             <javaModule>             	
-				<groupId>com.sun.j2ee.blueprints</groupId>
-				<artifactId>servicelocator</artifactId>				
-               	<includeInApplicationXml>true</includeInApplicationXml>
-               	<bundleDir>lib</bundleDir>
-             </javaModule>
-             <ejbModule>
-				<groupId>com.sun.j2ee.blueprints</groupId>
-				<artifactId>processmanager-ejb</artifactId>
-				<bundleFileName>processmanager-ejb.jar</bundleFileName>
-             </ejbModule>
-             <ejbClientModule>
-				<groupId>com.sun.j2ee.blueprints</groupId>
-				<artifactId>processmanager-ejb</artifactId>
-             </ejbClientModule>
-             <ejbModule>
-				<groupId>com.sun.j2ee.blueprints</groupId>
-				<artifactId>opc-ejb</artifactId>
-				<bundleFileName>opc-ejb.jar</bundleFileName>
-             </ejbModule>
-           </modules>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<displayName>OrderProcessingCenterEAR</displayName>
+					<description>Order Processing Center Module J2EE Blueprint
+						Sample Application</description>
+					<version>1.4</version>
+					<generateApplicationXml>true</generateApplicationXml>
+					<finalName>opc</finalName>
+					<modules>
+						<javaModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>servicelocator</artifactId>
+							<includeInApplicationXml>true</includeInApplicationXml>
+							<bundleDir>lib</bundleDir>
+						</javaModule>
+						<ejbModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>processmanager-ejb</artifactId>
+							<bundleFileName>processmanager-ejb.jar</bundleFileName>
+						</ejbModule>
+						<ejbClientModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>processmanager-ejb</artifactId>
+						</ejbClientModule>
+						<ejbModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>opc-ejb</artifactId>
+							<bundleFileName>opc-ejb.jar</bundleFileName>
+						</ejbModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

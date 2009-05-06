@@ -32,6 +32,8 @@
 					<displayName>Consumer Website Enterprise Application</displayName>
 					<description>Consumer Website Enterprise Application J2EE Blueprint Sample Application</description>
 					<version>1.4</version>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <finalName>consumerwebsite</finalName>
 					<modules>
 						<webModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>

@@ -33,21 +33,23 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ear-plugin</artifactId>
-				<configuration>
-					<displayName>Bank Module</displayName>
+				<artifactId>maven-ear-plugin</artifactId>				
+				<configuration>				    
+					<displayName>BankEAR</displayName>
 					<description>Bank Module J2EE Blueprint Sample Application</description>
 					<version>1.4</version>
-					<modules>
+					<generateApplicationXml>true</generateApplicationXml>
+					<finalName>bank</finalName>
+					<modules>					   
 						<javaModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>servicelocator</artifactId>
-							<bundleDir>lib</bundleDir>
+							<bundleDir>lib</bundleDir>							
 						</javaModule>
 						<ejbModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>bank-ejb</artifactId>
-							<bundleFileName>bank-ejb.jar</bundleFileName>
+							<bundleFileName>bank-ejb.jar</bundleFileName>							
 						</ejbModule>
 					</modules>
 				</configuration>

@@ -34,11 +34,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
-				<configuration>
-					<displayName>Activity Supplier Module</displayName>
-					<description>Activity Supplier Module J2EE Blueprint Sample
-						Application</description>
+				<configuration>				    
+					<displayName>ActivitySupplierEAR</displayName>
+					<description>Activity Supplier Module J2EE Blueprint Sample Application</description>
 					<version>1.4</version>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <finalName>activitysupplier</finalName>
 					<modules>
 						<jarModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>

@@ -35,9 +35,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
 				<configuration>
-					<displayName>Lodging Supplier Module</displayName>
+					<displayName>LodgingSupplierEAR</displayName>
 					<description>Lodging Supplier Module J2EE Blueprint Sample Application</description>
 					<version>1.4</version>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <finalName>lodgingsupplier</finalName>
 					<modules>
 						<javaModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
