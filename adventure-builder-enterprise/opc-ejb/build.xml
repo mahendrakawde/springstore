@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.18 2004/10/14 03:26:37 yutayoshida Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="OPCEjb" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/> 
+  <property name="OPCEjb.home" value="."/>
+  <property name="OPCEjb.components.basedir" value="../../../components"/>
+  <property name="build.dir" value="${OPCEjb.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="OPCEjb.src" value="${OPCEjb.home}/src"/>
+  <property name="OPCEjb.classbindir" value="${build.dir}/classes"/>
+  <property name="build.jardir" value="${build.dir}/jar"/>
+  <property name="OPCEjb.jar" value="${build.dir}/opc-ejb.jar"/>
+  <property name="OPCEjb.po.jaxrpc.wsdl" value="${build.dir}/classes/OpcPurchaseOrderService.wsdl"/>
+  <property name="OPCEjb.po.jaxrpc.mapping" value="${build.dir}/OpcPurchaseOrderServiceMap.xml"/>
+  <property name="OPCEjb.ot.jaxrpc.wsdl" value="${build.dir}/classes/OpcOrderTrackingService.wsdl"/>
+  <property name="OPCEjb.ot.jaxrpc.mapping" value="${build.dir}/OpcOrderTrackingServiceMap.xml"/>
+  <property name="OPCEjb.wsb.jaxrpc.wsdl" value="${build.dir}/classes/WebServiceBroker.wsdl"/>
+  <property name="OPCEjb.wsb.jaxrpc.mapping" value="${build.dir}/WebServiceBrokerMap.xml"/>
+  <property name="OPCEjb.jaxrpc.client.classbindir" value="${build.dir}/jaxrpc/client/classes"/>
+  <property name="banner.title" value="OPC application - EJBJAR"/>
+  <property name="javadocs.windowtitle" value="OPCEjb Component API"/>
+  <property name="javadocs.doctitle" value="OPCEjb Component"/>
+
+  <!-- Bank Application Dependencies -->
+  <property name="bank.home" value="../../bank"/>
+  <property name="bank.build" value="${bank.home}/bank-ejb/build"/>
+  <property name="bank.creditcard.jaxrpc.wsdl" value="${bank.build}/classes/CreditCardService.wsdl"/>
+
+  <!-- Activity Supplier Dependencies -->
+  <property name="activitysupplier.home" value="../../activitysupplier"/>
+  <property name="activitysupplier.build" value="${activitysupplier.home}/activitysupplier-ejb/build"/>
+  <property name="activitysupplier.wsdl" value="${activitysupplier.build}/classes/ActivityPurchaseOrderService.wsdl"/>
+
+  <!-- Lodging Supplier Dependencies -->
+  <property name="lodgingsupplier.home" value="../../lodgingsupplier"/>
+  <property name="lodgingsupplier.build" value="${lodgingsupplier.home}/lodgingsupplier-ejb/build"/>
+  <property name="lodgingsupplier.wsdl" value="${lodgingsupplier.build}/classes/LodgingPurchaseOrderService.wsdl"/>
+
+  <!-- Airline Supplier Dependencies -->
+  <property name="airlinesupplier.home" value="../../airlinesupplier"/>
+  <property name="airlinesupplier.build" value="${airlinesupplier.home}/airlinesupplier-ejb/build"/>
+  <property name="airlinesupplier.wsdl" value="${airlinesupplier.build}/classes/AirlinePurchaseOrderService.wsdl"/>
+
+
+  <!-- The ProcessManager Component -->
+  <property name="OPCEjb.processmanager.home" value="../processmanager-ejb"/>
+  <property name="OPCEjb.processmanager.ejb.jar" value="${OPCEjb.processmanager.home}/build/processmanager-ejb.jar"/>
+  <!-- ProcessManager Ejb Client jar -->
+  <property name="OPCEjb.processmanagerclient.jar" value="${OPCEjb.processmanager.home}/build/processmanager-ejb-client.jar"/>
+
+  <!-- The Service Locator Component -->
+  <property name="OPCEjb.servloc.home" value="${OPCEjb.components.basedir}/servicelocator"/>
+  <property name="OPCEjb.servloc.jar" value="${OPCEjb.servloc.home}/build/servicelocator.jar"/>
+
+  <!-- The mailer Component -->
+  <property name="OPCEjb.mailer.home" value="${OPCEjb.home}/../mailer"/>
+  <property name="OPCEjb.mailer.jar" value="${OPCEjb.mailer.home}/build/mailer.jar"/>
+
+  <path id="OPCEjb.classpath">
+    <path refid="compile.classpath" />
+    <pathelement path="${OPCEjb.servloc.jar}"/>
+
+    <pathelement path="${OPCEjb.uid.ejb.jar}"/>
+    <pathelement path="${OPCEjb.uidgenclient.jar}"/>
+    <pathelement path="${OPCEjb.processmanager.ejb.jar}"/>
+    <pathelement path="${OPCEjb.processmanagerclient.jar}"/>
+    <pathelement path="${OPCEjb.poclient.jar}"/>
+    <pathelement path="${OPCEjb.jaxrpc.client.classbindir}"/>
+  </path>
+
+
+  <path id="javadocs.classpath">
+    <path refid="OPCEjb.classpath"/>
+    <pathelement path="${OPCEjb.uid.home}/build/classes"/>
+    <pathelement path="${OPCEjb.processmanager.home}/build/classes"/>
+    <pathelement path="${OPCEjb.servloc.home}/build/classes"/>
+
+  </path>
+
+  <path id="javadocs.sourcepath">
+    <pathelement path="${OPCEjb.servloc.home}/src/java"/>
+    <pathelement path="${OPCEjb.uid.home}/src/java"/>
+    <pathelement path="${OPCEjb.processmanager.home}/src/java"/>
+    <pathelement path="${OPCEjb.src}/java"/>
+  </path>
+
+  <target name="compile-core" depends="tools">
+    <mkdir dir="${OPCEjb.classbindir}"/>
+    <javac srcdir="${OPCEjb.src}"
+           debug="${javac.debug}"
+           destdir="${OPCEjb.classbindir}"
+           source="${jdk.source.version}"
+     includes="java/com/**">
+      <classpath refid="OPCEjb.classpath"/>
+    </javac>
+  </target>
+
+  <target name="po-endpoint" depends="po-provider">
+    <echo message="Running wscompile for the OPC PURCHASE ORDER endpoint:"/>
+    <echo>${wscompile}</echo>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classbindir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${OPCEjb.po.jaxrpc.mapping}" />
+        <arg line="-d ${OPCEjb.classbindir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="src/conf/po-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="ot-endpoint" depends="ot-provider">
+    <echo message="Running wscompile for the OPC ORDER TRACKING endpoint:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classbindir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${OPCEjb.ot.jaxrpc.mapping}" />
+        <arg line="-d ${OPCEjb.classbindir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="src/conf/ot-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="broker-endpoint" depends="broker-provider">
+    <echo message="Running wscompile for the Web Service Broker endpoint:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classbindir}" />
+        <arg line="-define" />
+        <arg line="-keep" />
+        <arg line="-mapping ${OPCEjb.wsb.jaxrpc.mapping}" />
+        <arg line="-d ${OPCEjb.classbindir}" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="src/conf/broker-jaxrpc-config.xml" />
+    </exec>
+  </target>
+
+  <target name="po-provider" depends="tools">
+    <mkdir dir="${OPCEjb.classbindir}"/>
+    <javac srcdir="${OPCEjb.src}"
+           debug="${javac.debug}"
+           destdir="${OPCEjb.classbindir}"
+           source="${jdk.source.version}"
+     includes="java/com/sun/j2ee/blueprints/opc/powebservice/**,java/com/sun/j2ee/blueprints/opc/utils/**,java/com/sun/j2ee/blueprints/opc/*.java,java/com/sun/j2ee/blueprints/opc/serviceexceptions/**,java/com/sun/j2ee/blueprints/opc/purchaseorder/**">
+      <classpath refid="OPCEjb.classpath"/>
+    </javac>
+  </target>
+
+  <target name="ot-provider" depends="tools">
+    <mkdir dir="${OPCEjb.classbindir}"/>
+    <javac srcdir="${OPCEjb.src}"
+           debug="${javac.debug}"
+           destdir="${OPCEjb.classbindir}"
+           source="${jdk.source.version}"
+     includes="java/com/sun/j2ee/blueprints/opc/otwebservice/**,java/com/sun/j2ee/blueprints/opc/utils/**,java/com/sun/j2ee/blueprints/opc/*.java,java/com/sun/j2ee/blueprints/opc/serviceexceptions/**,java/com/sun/j2ee/blueprints/opc/purchaseorder/**">
+      <classpath refid="OPCEjb.classpath"/>
+    </javac>
+  </target>
+
+  <target name="broker-provider" depends="tools">
+    <mkdir dir="${OPCEjb.classbindir}"/>
+    <javac srcdir="${OPCEjb.src}"
+           debug="${javac.debug}"
+           destdir="${OPCEjb.classbindir}"
+           source="${jdk.source.version}"
+     includes="java/com/sun/j2ee/blueprints/opc/webservicebroker/provider/**,java/com/sun/j2ee/blueprints/opc/utils/**,java/com/sun/j2ee/blueprints/opc/*.java,java/com/sun/j2ee/blueprints/opc/serviceexceptions/**">
+      <classpath refid="OPCEjb.classpath"/>
+    </javac>
+  </target>
+
+  <target name="creditcard-client" depends="tools">
+    <!-- make the jaxrpc credit card client things -->
+    <copy file="${bank.creditcard.jaxrpc.wsdl}" todir="${build.dir}" />
+    <mkdir dir="${OPCEjb.jaxrpc.client.classbindir}"/>
+    <echo message="Running wscompile for the Credit Card Web service client from WSDL:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${OPCEjb.jaxrpc.client.classbindir}" />
+        <arg line="-mapping ${build.dir}/bank-creditcard-jaxrpc-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="src/conf/creditcard-client-config.xml" />
+    </exec>
+  </target>
+
+  <target name="activitysupplier-client" depends="tools">
+    <copy file="${activitysupplier.wsdl}" todir="${build.dir}" />
+    <mkdir dir="${OPCEjb.jaxrpc.client.classbindir}"/>
+    <echo message="Running wscompile for the activity supplier client:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${OPCEjb.jaxrpc.client.classbindir}" />
+        <arg line="-mapping ${build.dir}/activitysupplier-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="src/conf/activitysupplier-client-config.xml" />
+    </exec>
+  </target>
+
+  <target name="lodgingsupplier-client" depends="tools">
+    <copy file="${lodgingsupplier.wsdl}" todir="${build.dir}" />
+    <mkdir dir="${OPCEjb.jaxrpc.client.classbindir}"/>
+    <echo message="Running wscompile for the lodging supplier client:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${OPCEjb.jaxrpc.client.classbindir}" />
+        <arg line="-mapping ${build.dir}/lodgingsupplier-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="src/conf/lodgingsupplier-client-config.xml" />
+    </exec>
+  </target>
+
+  <target name="airlinesupplier-client" depends="tools">
+    <copy file="${airlinesupplier.wsdl}" todir="${build.dir}" />
+    <mkdir dir="${OPCEjb.jaxrpc.client.classbindir}"/>
+    <echo message="Running wscompile for the airline supplier client:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${OPCEjb.classpath}" />
+        <arg line="-import" />
+  <arg line="-keep" />
+        <arg line="-d  ${OPCEjb.jaxrpc.client.classbindir}" />
+        <arg line="-mapping ${build.dir}/airlinesupplier-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="src/conf/airlinesupplier-client-config.xml" />
+    </exec>
+  </target>
+
+  <target name="ws-broker-interface" depends="broker-provider, broker-endpoint" />
+  <target name="website-ws-interface" depends="po-endpoint,ot-endpoint" />
+
+  <target name="endpoints" depends="po-endpoint, ot-endpoint, broker-endpoint" />
+
+  <target name="ws-clients" depends="creditcard-client, activitysupplier-client, lodgingsupplier-client, airlinesupplier-client" />
+
+  <target name="compile" depends="ws-clients,compile-core,endpoints" />
+
+  <target name="ejbjar">
+    <delete dir="${build.jardir}" quiet="true"/>
+    <mkdir dir="${build.jardir}"/>
+    <mkdir dir="${build.jardir}/META-INF"/>
+    <mkdir dir="${build.jardir}/META-INF/wsdl"/>
+    <copy todir="${build.jardir}">
+        <fileset dir="${OPCEjb.classbindir}">
+           <exclude name="**/*.wsdl"/>
+        </fileset>
+    </copy>
+   <!-- copy in the xsds -->
+    <copy todir="${build.jardir}">
+        <fileset dir="${OPCEjb.src}/java">
+           <include name="**/*.xsd"/>
+           <include name="**/*.xsl"/>
+        </fileset>
+    </copy>
+   <!-- copy in the jaxrpc credit card client things -->
+    <copy todir="${build.jardir}">
+     <fileset dir="${OPCEjb.jaxrpc.client.classbindir}" />
+    </copy>
+    <copy file="${OPCEjb.po.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${OPCEjb.ot.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${OPCEjb.wsb.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${bank.creditcard.jaxrpc.wsdl}"  todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${activitysupplier.wsdl}" todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${lodgingsupplier.wsdl}" todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${airlinesupplier.wsdl}" todir="${build.jardir}/META-INF/wsdl" />
+    <copy file="${OPCEjb.po.jaxrpc.mapping}"  todir="${build.jardir}/META-INF" />
+    <copy file="${OPCEjb.ot.jaxrpc.mapping}"  todir="${build.jardir}/META-INF" />
+    <copy file="${OPCEjb.wsb.jaxrpc.mapping}" todir="${build.jardir}/META-INF" />
+    <copy file="${build.dir}/bank-creditcard-jaxrpc-mapping.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${build.dir}/activitysupplier-mapping.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${build.dir}/lodgingsupplier-mapping.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${build.dir}/airlinesupplier-mapping.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${OPCEjb.src}/conf/ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${OPCEjb.src}/conf/sun-ejb-jar.xml"  todir="${build.jardir}/META-INF" />
+    <copy file="${OPCEjb.src}/conf/webservices.xml"  todir="${build.jardir}/META-INF" />
+    <jar jarfile="${OPCEjb.jar}" basedir="${build.jardir}" excludes="cvs">
+       <manifest>
+         <attribute name="Class-Path" value="servicelocator.jar uidgen-ejb-client.jar processmanager-ejb-client.jar"/>
+       </manifest>
+    </jar>
+  </target>
+
+  <target name="core" depends="banner, compile, ejbjar" />
+  <target name="all" depends="core, javadocs" />
+
+</project>
+
+

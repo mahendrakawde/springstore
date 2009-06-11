@@ -7,14 +7,12 @@
     <packaging>pom</packaging>
     <version>1.0.6-SNAPSHOT</version>
     <name>Adventure Builder :: Bank Application</name>
-    <url>http://springstore.googlecode.com</url>
 
-    <parent>
-        <groupId>com.sun.j2ee.blueprints</groupId>
-        <artifactId>adventure-builder-parent</artifactId>
-        <version>1.0.6-SNAPSHOT</version>
-		<relativePath>../parent/pom.xml</relativePath>
-    </parent>
+	<parent>
+		<groupId>com.sun.j2ee.blueprints</groupId>
+		<artifactId>adventure-builder</artifactId>
+		<version>1.0.6-SNAPSHOT</version>
+	</parent>
 
     <modules>
         <module>ejb</module>

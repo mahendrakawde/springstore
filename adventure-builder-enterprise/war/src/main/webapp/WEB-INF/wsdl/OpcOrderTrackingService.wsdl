@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="OpcOrderTrackingService" targetNamespace="urn:OpcOrderTrackingService" xmlns:tns="urn:OpcOrderTrackingService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types>
+    <schema targetNamespace="urn:OpcOrderTrackingService" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:OpcOrderTrackingService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <complexType name="getOrderDetails">
+        <sequence>
+          <element name="String_1" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="getOrderDetailsResponse">
+        <sequence>
+          <element name="result" type="tns:OrderDetails" nillable="true"/></sequence></complexType>
+      <complexType name="OrderDetails">
+        <sequence>
+          <element name="PO" type="tns:PurchaseOrder" nillable="true"/>
+          <element name="status" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="PurchaseOrder">
+        <sequence>
+          <element name="activities" type="tns:Activity" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+          <element name="billingInfo" type="tns:ContactInfo" nillable="true"/>
+          <element name="creditCard" type="tns:CreditCard" nillable="true"/>
+          <element name="departureCity" type="string" nillable="true"/>
+          <element name="departureFlightInfo" type="tns:Transportation" nillable="true"/>
+          <element name="emailId" type="string" nillable="true"/>
+          <element name="endDate" type="dateTime" nillable="true"/>
+          <element name="headCount" type="int"/>
+          <element name="locale" type="string" nillable="true"/>
+          <element name="lodging" type="tns:Lodging" nillable="true"/>
+          <element name="orderDate" type="dateTime" nillable="true"/>
+          <element name="poId" type="string" nillable="true"/>
+          <element name="returnFlightInfo" type="tns:Transportation" nillable="true"/>
+          <element name="shippingInfo" type="tns:ContactInfo" nillable="true"/>
+          <element name="startDate" type="dateTime" nillable="true"/>
+          <element name="totalPrice" type="float"/>
+          <element name="userId" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="Activity">
+        <sequence>
+          <element name="activityId" type="string" nillable="true"/>
+          <element name="endDate" type="dateTime" nillable="true"/>
+          <element name="headCount" type="int"/>
+          <element name="location" type="string" nillable="true"/>
+          <element name="name" type="string" nillable="true"/>
+          <element name="price" type="float"/>
+          <element name="startDate" type="dateTime" nillable="true"/></sequence></complexType>
+      <complexType name="ContactInfo">
+        <sequence>
+          <element name="address" type="tns:Address" nillable="true"/>
+          <element name="email" type="string" nillable="true"/>
+          <element name="familyName" type="string" nillable="true"/>
+          <element name="givenName" type="string" nillable="true"/>
+          <element name="phone" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="Address">
+        <sequence>
+          <element name="city" type="string" nillable="true"/>
+          <element name="country" type="string" nillable="true"/>
+          <element name="postalCode" type="string" nillable="true"/>
+          <element name="state" type="string" nillable="true"/>
+          <element name="streetName1" type="string" nillable="true"/>
+          <element name="streetName2" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="CreditCard">
+        <sequence>
+          <element name="cardExpiryDate" type="string" nillable="true"/>
+          <element name="cardNumber" type="string" nillable="true"/>
+          <element name="cardType" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="Transportation">
+        <sequence>
+          <element name="carrier" type="string" nillable="true"/>
+          <element name="departureDate" type="dateTime" nillable="true"/>
+          <element name="departureTime" type="string" nillable="true"/>
+          <element name="destination" type="string" nillable="true"/>
+          <element name="headCount" type="int"/>
+          <element name="origin" type="string" nillable="true"/>
+          <element name="price" type="float"/>
+          <element name="transportationId" type="string" nillable="true"/>
+          <element name="travelClass" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="Lodging">
+        <sequence>
+          <element name="endDate" type="dateTime" nillable="true"/>
+          <element name="location" type="string" nillable="true"/>
+          <element name="lodgingId" type="string" nillable="true"/>
+          <element name="name" type="string" nillable="true"/>
+          <element name="noNights" type="int"/>
+          <element name="noRooms" type="int"/>
+          <element name="pricePerNight" type="float"/>
+          <element name="startDate" type="dateTime" nillable="true"/></sequence></complexType>
+      <complexType name="OrderNotFoundException">
+        <sequence>
+          <element name="message" type="string" nillable="true"/></sequence></complexType>
+      <element name="getOrderDetails" type="tns:getOrderDetails"/>
+      <element name="getOrderDetailsResponse" type="tns:getOrderDetailsResponse"/>
+      <element name="OrderNotFoundException" type="tns:OrderNotFoundException"/></schema></types>
+  <message name="OrderTrackingIntf_getOrderDetails">
+    <part name="parameters" element="tns:getOrderDetails"/></message>
+  <message name="OrderTrackingIntf_getOrderDetailsResponse">
+    <part name="result" element="tns:getOrderDetailsResponse"/></message>
+  <message name="OrderNotFoundException">
+    <part name="OrderNotFoundException" element="tns:OrderNotFoundException"/></message>
+  <portType name="OrderTrackingIntf">
+    <operation name="getOrderDetails">
+      <input message="tns:OrderTrackingIntf_getOrderDetails"/>
+      <output message="tns:OrderTrackingIntf_getOrderDetailsResponse"/>
+      <fault name="OrderNotFoundException" message="tns:OrderNotFoundException"/></operation></portType>
+  <binding name="OrderTrackingIntfBinding" type="tns:OrderTrackingIntf">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getOrderDetails">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/></input>
+      <output>
+        <soap:body use="literal"/></output>
+      <fault name="OrderNotFoundException">
+        <soap:fault name="OrderNotFoundException" use="literal"/></fault></operation></binding>
+  <service name="OpcOrderTrackingService">
+    <port name="OrderTrackingIntfPort" binding="tns:OrderTrackingIntfBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/></port></service></definitions>

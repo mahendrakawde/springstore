@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sun-ejb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 8.1 EJB 2.1//EN" "http://www.sun.com/software/appserver/dtds/sun-ejb-jar_2_1-1.dtd">
+
+<sun-ejb-jar>
+  <enterprise-beans>
+    <name>ProcessManagerJAR</name>
+    <ejb>
+      <ejb-name>ProcessManagerBean</ejb-name>
+      <jndi-name>ejb/local/processmanager/ProcessManager</jndi-name>
+      <bean-pool>
+        <steady-pool-size>0</steady-pool-size>
+        <resize-quantity>60</resize-quantity>
+        <max-pool-size>60</max-pool-size>
+        <pool-idle-timeout-in-seconds>900</pool-idle-timeout-in-seconds>
+      </bean-pool>
+    </ejb>
+    <ejb>
+      <ejb-name>ManagerBean</ejb-name>
+      <jndi-name>ejb/local/processmanager/Manager</jndi-name>
+    </ejb>
+    <cmp-resource>
+      <jndi-name>jdbc/adventure/AdventureDB</jndi-name>
+      <default-resource-principal>
+        <name>APP</name>
+        <password>APP</password>
+      </default-resource-principal>
+      <create-tables-at-deploy>true</create-tables-at-deploy>
+      <drop-tables-at-undeploy>true</drop-tables-at-undeploy>
+      <database-vendor-name>derby</database-vendor-name>
+      <schema-generator-properties>
+        <property>
+          <name>use-unique-table-names</name>
+          <value>false</value>
+        </property>
+        <property>
+          <name>java-to-database</name>
+          <value>true</value>
+        </property>
+      </schema-generator-properties>
+    </cmp-resource>
+  </enterprise-beans>
+</sun-ejb-jar>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     targetNamespace="http://java.sun.com/blueprints/ns/invoice"
+     xmlns="http://java.sun.com/blueprints/ns/invoice"
+     elementFormDefault="qualified">
+ 
+  <xsd:element name="Invoice" type="InvoiceType"/>
+
+  <xsd:complexType name="InvoiceType">
+     <xsd:sequence>
+      <xsd:element name="ID" type="xsd:string"/>
+      <xsd:element name="OPCPoId" type="xsd:string"/>
+      <xsd:element name="SupplierId" type="xsd:string"/>
+      <xsd:element name="status" type="xsd:string"/>
+      <xsd:element name="HotelId" type="xsd:string"/>
+      <xsd:element name="HotelAddress" type="xsd:string"/>
+      <xsd:element name="CancelPolicy" type="xsd:string"/>
+     </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.22 2006/11/09 22:03:18 smitha Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../setup/app-server-ant.xml">
+]>
+
+<project name="adventure" default="core" basedir=".">
+
+    <!-- path to root -->
+    <property name="root.dir" value="../.."/> 
+
+    <property name="adventure.home" value="."/>
+    <property name="build.dir" value="${adventure.home}/build"/>
+    &commonAntCommands; <!-- include common ant commands -->
+
+    <property name="adventure.jstl.lib" value="../../lib/jstl"/>
+    <property name="adventure.waf.home" value="../../components/waf"/>
+    <property name="adventure.dao.home" value="../../components/util/dao"/>
+    <property name="banner.title" value="Adventure Builder Consumer Website Application"/>
+    <property name="adventure.src" value="${adventure.home}/src"/>
+    <property name="adventure.conf" value="${adventure.src}/conf"/>
+    <property name="adventure.temp.jar.build" value="${build.dir}/jartemp"/>
+    <property name="adventure.temp.war.build" value="${build.dir}/wartemp"/>
+    <property name="adventure.lib" value="${adventure.home}/src/lib"/>
+    <property name="adventure.classbindir" value="${build.dir}/classes"/>
+    <property name="adventure.jaxrpc.client.classbindir" value="${build.dir}/jaxrpc/client/classes"/>
+    <property name="adventure.components.basedir" value="../../components"/>
+    <property name="adventure.srcdocroot" value="${adventure.home}/web"/>
+    <property name="adventure.waf.web.jar" value="${adventure.waf.home}/build/waf-web.jar"/>
+    <property name="adventure.waf.base64.jar" value="../../lib/base64/base64.jar"/>
+    <property name="app.module" value="${build.dir}/consumerwebsite.ear"/>
+    <property name="app.name" value="ConsumerWebsite"/>
+
+    <!-- OPC Application Dependencies -->
+    <property name="opc.home" value="../opc"/>
+    <property name="opc.build" value="${opc.home}/opc-ejb/build"/>
+    <property name="opc.po.jaxrpc.wsdl" value="${opc.build}/classes/OpcPurchaseOrderService.wsdl"/>
+    <property name="opc.ot.jaxrpc.wsdl" value="${opc.build}/classes/OpcOrderTrackingService.wsdl"/>
+
+    <!-- The PurchaseOrder Component -->
+    <property name="adventure.po.home" value="${OPCapp.components.basedir}/purchaseorder"/>
+ 
+    <!-- Service Locator Component -->
+    <property name="adventure.servicelocator.home" value="${adventure.components.basedir}/servicelocator"/>
+    <property name="adventure.servicelocator.jar" value="${adventure.servicelocator.home}/build/servicelocator.jar"/>
+
+    <!-- Tracer Component -->
+    <property name="adventure.tracer.home" value="${adventure.components.basedir}/util/tracer"/>
+    <property name="adventure.tracer.jar" value="${adventure.tracer.home}/build/tracer.jar"/>
+
+    <!-- DAOUtil Component -->
+    <property name="adventure.daoutil.home" value="${adventure.components.basedir}/util/dao"/>
+    <property name="adventure.daoutil.jar" value="${adventure.daoutil.home}/build/daoutils.jar"/>
+
+    <!-- verifier result destination -->
+    <property name="verify.dest.dir" value="${root.dir}/verifierResult"/>
+
+    <!-- The classpath for components. -->
+    <path id="adventure.components.classpath">
+     <pathelement location="${adventure.servicelocator.jar}"/>
+     <pathelement location="${adventure.tracer.jar}"/>
+     <pathelement location="${adventure.daoutil.jar}"/>
+     <pathelement location="${adventure.waf.web.jar}"/>
+    </path>
+
+    <!-- The classpath used for building the workspace. -->
+   <path id="adventure.classpath">
+     <pathelement location="${adventure.jaxrpc.client.classbindir}"/>
+     <pathelement location="${adventure.classbindir}"/>
+     <path refid="compile.classpath" />
+     <path refid="adventure.components.classpath" />
+   </path>
+
+  <target name="compile" depends="jaxrpc-po-client,jaxrpc-ot-client,compile-only">
+  </target>
+
+  <target name="compile-only">
+    <mkdir dir="${adventure.classbindir}"/>
+    <javac srcdir="${adventure.src}/java"
+           destdir="${adventure.classbindir}"
+           source="${jdk.source.version}"
+           includes="com/**">
+     <classpath refid="adventure.classpath"/>
+    </javac>
+  </target>
+
+  <target name="jaxrpc-po-client" depends="tools">
+    <!-- make the jaxrpc client things -->
+    <copy file="${opc.po.jaxrpc.wsdl}" todir="${build.dir}" />
+    <mkdir dir="${adventure.jaxrpc.client.classbindir}"/>
+    <echo message="Running wscompile for the PO client from WSDL:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${adventure.classpath}" />
+        <arg line="-import" />
+    <arg line="-keep" />
+        <arg line="-d  ${adventure.jaxrpc.client.classbindir}" />
+        <arg line="-mapping ${build.dir}/opc-po-jaxrpc-mapping.xml" />
+  <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="${adventure.conf}/jaxrpc-po-client-config.xml" />
+    </exec>
+  </target>
+
+  <target name="jaxrpc-ot-client" depends="tools">
+    <!-- make the jaxrpc client things -->
+    <copy file="${opc.ot.jaxrpc.wsdl}" todir="${build.dir}" />
+    <mkdir dir="${adventure.jaxrpc.client.classbindir}"/>
+    <echo message="Running wscompile for the OT client from WSDL:"/>
+    <exec executable="${wscompile}">
+        <arg line="-classpath ${adventure.classpath}" />
+        <arg line="-import" />
+    <arg line="-keep" />
+        <arg line="-d  ${adventure.jaxrpc.client.classbindir}" />
+        <arg line="-mapping ${build.dir}/opc-ot-jaxrpc-mapping.xml" />
+        <arg line="-f:wsi" />
+        <arg line="-f:documentliteral" />
+        <arg line="-f:unwrap" />
+        <arg line="${adventure.conf}/jaxrpc-ot-client-config.xml" />
+    </exec>
+  </target>
+
+  <target name="war">
+     
+    <mkdir dir="${adventure.temp.war.build}"/>
+    <!-- copy the docroot -->
+    <copy todir="${adventure.temp.war.build}">
+     <fileset dir="${adventure.srcdocroot}" excludes="**/cvs/**" />
+    </copy>
+    <!-- Copy in the Adventure Builder Web Classes -->
+    <copy todir="${adventure.temp.war.build}/WEB-INF/classes">
+     <fileset dir="${adventure.classbindir}" excludes="**/cvs/**" />
+    </copy>
+    <!-- Copy in the WAF controllers-->
+    <copy file="${adventure.waf.web.jar}" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <!-- Copy in the Service Locator-->
+    <copy file="${adventure.servicelocator.jar}" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <!-- Copy in the tracer-->
+    <copy file="${adventure.tracer.jar}" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <!-- Copy in the dao util-->
+    <copy file="${adventure.daoutil.jar}" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <!-- Copy in the base64 for avk verifier -->
+    <copy file="${adventure.waf.base64.jar}" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <!-- Copy in the Taglib TLDs and jars  -->
+    <copy file="${adventure.waf.home}/src/conf/waftags.tld" todir="${adventure.temp.war.build}/WEB-INF" />
+    <copy file="${adventure.waf.home}/src/conf/template.tld" todir="${adventure.temp.war.build}/WEB-INF" />
+    <copy file="${adventure.jstl.lib}/c.tld" todir="${adventure.temp.war.build}/WEB-INF" />
+    <copy file="${adventure.jstl.lib}/sql.tld" todir="${adventure.temp.war.build}/WEB-INF" />
+    <copy file="${adventure.jstl.lib}/fmt.tld" todir="${adventure.temp.war.build}/WEB-INF" />
+    <copy file="${adventure.jstl.lib}/fn.tld" todir="${adventure.temp.war.build}/WEB-INF" />
+    <copy file="${adventure.jstl.lib}/standard.jar" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <copy file="${adventure.jstl.lib}/jstl.jar" todir="${adventure.temp.war.build}/WEB-INF/lib" />
+    <!-- Copy JAXRPC necessary configuration files into the /WEB-INF -->
+   <copy file="${opc.po.jaxrpc.wsdl}" todir="${adventure.temp.war.build}/WEB-INF/wsdl" />
+   <copy file="${opc.ot.jaxrpc.wsdl}" todir="${adventure.temp.war.build}/WEB-INF/wsdl" />
+   <copy file="${build.dir}/opc-po-jaxrpc-mapping.xml" todir="${adventure.temp.war.build}/WEB-INF" />
+   <copy file="${build.dir}/opc-ot-jaxrpc-mapping.xml" todir="${adventure.temp.war.build}/WEB-INF" />
+   <!-- copy in the jaxrpc client things -->
+    <copy todir="${adventure.temp.war.build}/WEB-INF/classes">
+     <fileset dir="${adventure.jaxrpc.client.classbindir}" excludes="**/*.java" />
+    </copy>
+
+    <!-- copy in the EJBControllerLocal to avoid verifier error -->
+    <copy todir="${adventure.temp.war.build}/WEB-INF/classes">
+     <fileset dir="${adventure.components.basedir}/waf/build/classes" includes="com/sun/j2ee/blueprints/waf/controller/ejb/EJBControllerLocal.class" />
+    </copy>
+
+    <!-- make the war file -->
+    <delete file="${adventure.temp.war.build}/adventure.war"/>
+    <jar jarfile="${build.dir}/adventure.war" basedir="${adventure.temp.war.build}" />
+    <delete dir="${adventure.temp.war.build}"/>
+  </target>
+
+  <target name="components">
+    <ant dir="${adventure.waf.home}" target="core" inheritAll="false" inheritRefs="false"/>
+    <ant dir="${opc.home}" target="website-ws-interface" inheritAll="false" inheritRefs="false"/>
+    <ant dir="${adventure.dao.home}" target="core" inheritAll="false" inheritRefs="false"/>
+  </target>
+
+ <target name="ear">
+    <mkdir dir="${adventure.temp.jar.build}"/>
+    <mkdir dir="${adventure.temp.jar.build}/META-INF"/>
+    <copy file="${adventure.conf}/application.xml" todir="${adventure.temp.jar.build}/META-INF/" />
+    <copy file="${build.dir}/adventure.war" todir="${adventure.temp.jar.build}" />
+    <delete file="${app.module}"/>
+    <jar jarfile="${app.module}" basedir="${adventure.temp.jar.build}" />
+    <delete dir="${adventure.temp.jar.build}"/>
+  </target>
+  
+  <target name="core" depends="banner,compile,war,ear" />
+  <target name="all" depends="components, core" />
+
+</project>
+
+

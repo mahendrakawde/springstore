@@ -10,9 +10,8 @@
 
 	<parent>
         <groupId>com.sun.j2ee.blueprints</groupId>
-        <artifactId>adventure-builder-parent</artifactId>
+        <artifactId>adventure-builder-common</artifactId>
         <version>1.0.6-SNAPSHOT</version>
-        <relativePath>../../parent/pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
@@ -20,12 +19,6 @@
 			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>servicelocator</artifactId>
 			<version>1.0.6-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>com.springsource.javax.transaction</artifactId>
-			<version>1.1.0</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

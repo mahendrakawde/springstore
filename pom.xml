@@ -1,69 +1,137 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sun.j2ee.blueprints</groupId>
-	<artifactId>adventure-builder</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0.6-SNAPSHOT</version>
-	<name>adventure-builder</name>
-	<url>http://springstore.googlecode.com</url>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.sun.j2ee.blueprints</groupId>
+    <artifactId>adventure-builder</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.6-SNAPSHOT</version>
+    <name>adventure-builder</name>
+    <description>
+    	Migration showcase from a classic 1.4 J2EE Application to a lightweight Spring Framework/JPA approach.
+    </description>
+    <url>http://springstore.googlecode.com</url>
+	<inceptionYear>2009</inceptionYear>
 
-	<parent>
-		<groupId>com.sun.j2ee.blueprints</groupId>
-		<artifactId>adventure-builder-parent</artifactId>
-		<version>1.0.6-SNAPSHOT</version>
-		<relativePath>parent/pom.xml</relativePath>
-	</parent>
+	<organization>
+		<name>Conspect ICT diensten</name>
+		<url>http://www.conspect.nl</url>
+	</organization>
 
-	<modules>
-		<module>common/tracer</module>
-        <module>common/servicelocator</module>
-        <module>common/dao</module>
-        <module>common/waf</module>
-		<module>activitysupplier</module>
-		<module>airlinesupplier</module>
-		<module>bank</module>
-		<module>lodgingsupplier</module>
-		<module>opc</module>
-		<module>consumerwebsite</module>
-	</modules>
+	<developers>
+		<developer>
+			<id>mdeinum</id>
+			<name>Marten Deinum</name>
+			<email>mdeinum@gmail.com</email>
+			<url>http://mdeinum.wordpress.com</url>
+			<organization>Conspect ICT diensten</organization>
+			<organizationUrl>http://www.conspect.nl</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
 
-	<build>
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/springstore/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:svn:http://springstore.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/trunk/</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://code.google.com/p/springstore/source/browse/</url>
+	</scm>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven.java.net</id>
+			<name>Java.net Maven2 Repository</name>
+			<url>http://download.java.net/maven/2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>glassfish-javaee</groupId>
+			<artifactId>javaee</artifactId>
+			<version>2.1</version>
+			<scope>system</scope>
+			<systemPath>${env.J2EE_HOME}/lib/javaee.jar</systemPath>
+		</dependency>
+	</dependencies>
+ 
+ 	<properties>
+		<spring.version>2.5.6.SEC01</spring.version>
+		<spring-security.version>2.0.4.A</spring-security.version>
+		<spring-webflow.version>2.0.7.RELEASE</spring-webflow.version>
+		<j2ee.home>${env.J2EE_HOME}</j2ee.home>
+	</properties>
+ 
+ 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<inherited>false</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<configuration>
+					<outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
+				</configuration>
 				<executions>
 					<execution>
-						<id>create-resources</id>						
-						<phase>install</phase>
-						<inherited>false</inherited>
-						<configuration>
-							<tasks unless="skip.resources">
-								<ant antfile="setup/setup.xml" target="core" inheritRefs="true"/>
-							</tasks>
-						</configuration>
+						<phase>test</phase>
 						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>remove-resources</id>
-						<phase>clean</phase>
-						<inherited>false</inherited>
-						<configuration>
-							<tasks unless="skip.resources">
-								<ant antfile="setup/setup.xml" target="unsetup" inheritRefs="true" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
+							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					<projectNameTemplate>[artifactId]</projectNameTemplate>
+					<manifest>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifest>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.4</source>
+					<target>1.4</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+ 
+    <modules>
+        <module>common</module>
+        <module>activitysupplier</module>
+        <module>airlinesupplier</module>
+        <module>bank</module>
+        <module>lodgingsupplier</module>
+        <module>adventure-builder-enterprise</module>
+    </modules>
 
 </project>

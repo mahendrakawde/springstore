@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+
+<!-- Copyright 2004 Sun Microsystems, Inc.  All rights reserved.  You may not modify, use, reproduce, or distribute this software except in compliance with the terms of the License at: 
+ http://adventurebuilder.dev.java.net/LICENSE.txt
+ $Id: build.xml,v 1.9 2005/11/14 23:21:05 smitha Exp $ -->
+
+<!DOCTYPE project [
+  <!ENTITY commonAntCommands SYSTEM "../../../setup/common-ant.xml">
+  <!ENTITY appServerAntCommands SYSTEM "../../../setup/app-server-ant.xml">
+]>
+
+<project name="processmanager" default="core" basedir=".">
+
+  <!-- path to root -->
+  <property name="root.dir" value="../../.."/> 
+
+  <property name="processmanager.home" value="."/>
+
+  <property name="processmanager.components.basedir" value="../../../components"/>
+
+  <!-- The destination directory for the build -->
+  <property name="build.dir" value="${processmanager.home}/build"/>
+
+  &commonAntCommands; <!-- include common ant commands -->
+
+  <property name="processmanager.buildjardir" value="${build.dir}/ejbjar"/>
+  <property name="processmanager.src" value="${processmanager.home}/src"/>
+  <property name="processmanager.ejbjar" value="${build.dir}/processmanager-ejb.jar"/>
+  <property name="processmanager.client.ejbjar" value="${build.dir}/processmanager-ejb-client.jar"/>
+  <property name="processmanager.servicelocator.home" value="${processmanager.components.basedir}/servicelocator"/>
+  <property name="processmanager.servicelocator.jar" value="${processmanager.servicelocator.home}/build/servicelocator.jar"/>
+
+  <path id="processmanager.classpath">
+    <path refid="compile.classpath" />
+    <pathelement path="${processmanager.servicelocator.jar}"/>
+  </path>
+
+  <!-- Title displayed on the banner when this component is built -->
+  <property name="banner.title" value="Building Process Manager Component"/>
+
+  <!-- various properties for Javadocs -->
+  <property name="javadocs.windowtitle" value="Process Manager Component API"/>
+  <property name="javadocs.doctitle" value="Process Manager Component"/>
+  <path id="javadocs.classpath">
+    <path refid="processmanager.classpath"/>
+  </path>
+  <path id="javadocs.sourcepath">
+    <pathelement path="${processmanager.src}/java"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${processmanager.src}/java"
+           debug="${javac.debug}"
+           destdir="${classes.dir}"
+           source="${jdk.source.version}"
+     includes="com/**">
+      <classpath refid="processmanager.classpath"/>
+    </javac>
+  </target>
+
+  <target name="ejbjar" depends="compile">
+    <mkdir dir="${processmanager.buildjardir}/META-INF"/>
+    <copy todir="${processmanager.buildjardir}">
+      <fileset dir="${classes.dir}"/>
+    </copy>
+    <copy file="${processmanager.src}/conf/opc_processmanager-ejb.dbschema" tofile="${processmanager.buildjardir}/opc_processmanager-ejb.dbschema"/>
+    <copy file="${processmanager.src}/conf/ejb-jar.xml" tofile="${processmanager.buildjardir}/META-INF/ejb-jar.xml"/>
+    <copy file="${processmanager.src}/conf/sun-ejb-jar.xml" tofile="${processmanager.buildjardir}/META-INF/sun-ejb-jar.xml"/>
+    <copy file="${processmanager.src}/conf/sun-cmp-mappings.xml" tofile="${processmanager.buildjardir}/META-INF/sun-cmp-mappings.xml"/> 
+    <delete file="${processmanager.ejbjar}" quiet="true"/>
+    <jar jarfile="${processmanager.ejbjar}" basedir="${processmanager.buildjardir}">
+      <manifest>
+        <attribute name="Class-Path" value="servicelocator.jar opc_processmanager-ejb.dbschema"/>
+      </manifest>
+    </jar>
+    <delete dir="${processmanager.buildjardir}"/>
+  </target>
+
+  <target name="ejbclientjar">
+    <mkdir dir="${processmanager.buildjardir}"/>
+    <copy todir="${processmanager.buildjardir}">
+      <fileset dir="${classes.dir}"/>
+    </copy>
+    <!-- Get rid of the EJB Impl Class -->
+    <delete file="${processmanager.buildjardir}/com/sun/j2ee/blueprints/processmanager/ejb/ProcessManagerBean.class"/>
+    <delete file="${processmanager.buildjardir}/com/sun/j2ee/blueprints/processmanager/manager/ejb/ManagerBean.class"/>
+    <delete file="${processmanager.client.ejbjar}" quiet="true"/>
+    <jar jarfile="${processmanager.client.ejbjar}" basedir="${processmanager.buildjardir}"/>
+    <delete dir="${processmanager.buildjardir}"/>
+  </target>
+  <target name="component">
+   <ant dir="${processmanager.servicelocator.home}" target="core" inheritAll="false" inheritRefs="false"/>
+  </target>
+  <target name="core" depends="banner, component, compile, ejbjar, ejbclientjar" />
+  <target name="all" depends="core, javadocs" />
+
+</project>
+

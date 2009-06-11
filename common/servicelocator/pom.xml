@@ -10,29 +10,8 @@
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
-		<artifactId>adventure-builder-parent</artifactId>
+		<artifactId>adventure-builder-common</artifactId>
 		<version>1.0.6-SNAPSHOT</version>
-		<relativePath>../../parent/pom.xml</relativePath>
 	</parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>com.springsource.javax.jms</artifactId>
-			<version>1.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.ejb</groupId>
-			<artifactId>com.springsource.javax.ejb</artifactId>
-			<version>3.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>com.springsource.javax.transaction</artifactId>
-			<version>1.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
 </project>

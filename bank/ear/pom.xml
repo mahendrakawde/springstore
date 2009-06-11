@@ -11,8 +11,7 @@
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>bank</artifactId>
-		<version>1.0.6-SNAPSHOT</version>
-		<relativePath>../../parent/pom.xml</relativePath>
+		<version>1.0.6-SNAPSHOT</version>		
 	</parent>
 
 	<dependencies>

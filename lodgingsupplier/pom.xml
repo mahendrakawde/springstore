@@ -6,18 +6,17 @@
 	<packaging>pom</packaging>
 	<version>1.0.6-SNAPSHOT</version>
 	<name>Adventure Builder :: Lodging Supplier Application</name>
-    <url>http://springstore.googlecode.com</url>
+	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
-		<artifactId>adventure-builder-parent</artifactId>
+		<artifactId>adventure-builder</artifactId>
 		<version>1.0.6-SNAPSHOT</version>
-		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
 	<modules>
 		<module>ejb</module>
-    <module>ear</module>
+		<module>ear</module>
 	</modules>
 
 </project>

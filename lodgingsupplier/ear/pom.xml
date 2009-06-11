@@ -6,13 +6,12 @@
 	<packaging>ear</packaging>
 	<version>1.0.6-SNAPSHOT</version>
 	<name>Adventure Builder :: Lodging Supplier Enterprise Application</name>
-    <url>http://springstore.googlecode.com</url>
+	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>lodgingsupplier</artifactId>
 		<version>1.0.6-SNAPSHOT</version>
-		<relativePath>../../parent/pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
@@ -29,6 +28,7 @@
 			<type>jar</type>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -36,10 +36,11 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<configuration>
 					<displayName>LodgingSupplierEAR</displayName>
-					<description>Lodging Supplier Module J2EE Blueprint Sample Application</description>
+					<description>Lodging Supplier Module J2EE Blueprint Sample
+						Application</description>
 					<version>1.4</version>
-                    <generateApplicationXml>true</generateApplicationXml>
-                    <finalName>lodgingsupplier</finalName>
+					<generateApplicationXml>true</generateApplicationXml>
+					<finalName>lodgingsupplier</finalName>
 					<modules>
 						<javaModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>

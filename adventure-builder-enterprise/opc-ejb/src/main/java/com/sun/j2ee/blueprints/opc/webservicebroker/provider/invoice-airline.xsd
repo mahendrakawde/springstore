@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     targetNamespace="http://java.sun.com/blueprints/ns/invoice"
+     xmlns="http://java.sun.com/blueprints/ns/invoice"
+     elementFormDefault="qualified">
+ 
+  <xsd:element name="Invoice" type="InvoiceType"/>
+
+  <xsd:complexType name="InvoiceType">
+     <xsd:sequence>
+      <xsd:element name="InvoiceRef" type="xsd:string"/>
+      <xsd:element name="OPCPoId" type="xsd:string"/>
+      <xsd:element name="SupplierId" type="xsd:string"/>
+      <xsd:element name="AgentId" type="xsd:string"/>
+      <xsd:element name="DPT-Flight-Date" type="xsd:string"/>
+      <xsd:element name="RTN-Flight-Date" type="xsd:string"/>
+      <xsd:element name="DPT-Flight-ID" type="xsd:string"/>
+      <xsd:element name="RTN-Flight-ID" type="xsd:string"/>
+      <xsd:element name="NUM-Passengers" type="xsd:int"/>
+      <xsd:element name="Status" type="xsd:string"/>
+      <xsd:element name="Cancel-Policy" type="xsd:string"/>
+     </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
