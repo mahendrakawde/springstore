@@ -1,38 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java-wsdl-mapping version="1.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
+<java-wsdl-mapping xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
 <package-mapping>
 <package-type>com.sun.j2ee.blueprints.consumerwebsite.actions</package-type>
 <namespaceURI>urn:OpcPurchaseOrderService</namespaceURI>
 </package-mapping>
-<java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.Address</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:Address</root-type-qname>
-<qname-scope>complexType</qname-scope>
-<variable-mapping>
-<java-variable-name>city</java-variable-name>
-<xml-element-name>city</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>country</java-variable-name>
-<xml-element-name>country</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>postalCode</java-variable-name>
-<xml-element-name>postalCode</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>state</java-variable-name>
-<xml-element-name>state</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>streetName1</java-variable-name>
-<xml-element-name>streetName1</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>streetName2</java-variable-name>
-<xml-element-name>streetName2</xml-element-name>
-</variable-mapping>
-</java-xml-type-mapping>
 <java-xml-type-mapping>
 <java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.CreditCard</java-type>
 <root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:CreditCard</root-type-qname>
@@ -57,6 +28,56 @@
 <variable-mapping>
 <java-variable-name>message</java-variable-name>
 <xml-element-name>message</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.SubmitPurchaseOrder</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:submitPurchaseOrder</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>purchaseOrder_1</java-variable-name>
+<xml-element-name>PurchaseOrder_1</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.Transportation</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:Transportation</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>carrier</java-variable-name>
+<xml-element-name>carrier</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>departureDate</java-variable-name>
+<xml-element-name>departureDate</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>departureTime</java-variable-name>
+<xml-element-name>departureTime</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>destination</java-variable-name>
+<xml-element-name>destination</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>headCount</java-variable-name>
+<xml-element-name>headCount</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>origin</java-variable-name>
+<xml-element-name>origin</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>price</java-variable-name>
+<xml-element-name>price</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>transportationId</java-variable-name>
+<xml-element-name>transportationId</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>travelClass</java-variable-name>
+<xml-element-name>travelClass</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
@@ -158,44 +179,32 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.Transportation</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:Transportation</root-type-qname>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.Address</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:Address</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
-<java-variable-name>carrier</java-variable-name>
-<xml-element-name>carrier</xml-element-name>
+<java-variable-name>city</java-variable-name>
+<xml-element-name>city</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>departureDate</java-variable-name>
-<xml-element-name>departureDate</xml-element-name>
+<java-variable-name>country</java-variable-name>
+<xml-element-name>country</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>departureTime</java-variable-name>
-<xml-element-name>departureTime</xml-element-name>
+<java-variable-name>postalCode</java-variable-name>
+<xml-element-name>postalCode</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>destination</java-variable-name>
-<xml-element-name>destination</xml-element-name>
+<java-variable-name>state</java-variable-name>
+<xml-element-name>state</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>headCount</java-variable-name>
-<xml-element-name>headCount</xml-element-name>
+<java-variable-name>streetName1</java-variable-name>
+<xml-element-name>streetName1</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>origin</java-variable-name>
-<xml-element-name>origin</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>price</java-variable-name>
-<xml-element-name>price</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>transportationId</java-variable-name>
-<xml-element-name>transportationId</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>travelClass</java-variable-name>
-<xml-element-name>travelClass</xml-element-name>
+<java-variable-name>streetName2</java-variable-name>
+<xml-element-name>streetName2</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
@@ -232,30 +241,12 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.InvalidPOException</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:InvalidPOException</root-type-qname>
-<qname-scope>complexType</qname-scope>
-<variable-mapping>
-<java-variable-name>message</java-variable-name>
-<xml-element-name>message</xml-element-name>
-</variable-mapping>
-</java-xml-type-mapping>
-<java-xml-type-mapping>
 <java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.SubmitPurchaseOrderResponse</java-type>
 <root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:submitPurchaseOrderResponse</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
 <java-variable-name>result</java-variable-name>
 <xml-element-name>result</xml-element-name>
-</variable-mapping>
-</java-xml-type-mapping>
-<java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.SubmitPurchaseOrder</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:submitPurchaseOrder</root-type-qname>
-<qname-scope>complexType</qname-scope>
-<variable-mapping>
-<java-variable-name>purchaseOrder_1</java-variable-name>
-<xml-element-name>PurchaseOrder_1</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
@@ -296,20 +287,29 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.InvalidPOException</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcPurchaseOrderService">typeNS:InvalidPOException</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>message</java-variable-name>
+<xml-element-name>message</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
 <java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.Activity[]</java-type>
 <anonymous-type-qname>urn:OpcPurchaseOrderService:PurchaseOrder&gt;activities[0,unbounded]</anonymous-type-qname>
 <qname-scope>complexType</qname-scope>
 </java-xml-type-mapping>
 <exception-mapping>
-<exception-type>com.sun.j2ee.blueprints.consumerwebsite.actions.InvalidPOException</exception-type>
-<wsdl-message xmlns:exMsgNS="urn:OpcPurchaseOrderService">exMsgNS:InvalidPOException</wsdl-message>
+<exception-type>com.sun.j2ee.blueprints.consumerwebsite.actions.ProcessingException</exception-type>
+<wsdl-message xmlns:exMsgNS="urn:OpcPurchaseOrderService">exMsgNS:ProcessingException</wsdl-message>
 <constructor-parameter-order>
 <element-name>message</element-name>
 </constructor-parameter-order>
 </exception-mapping>
 <exception-mapping>
-<exception-type>com.sun.j2ee.blueprints.consumerwebsite.actions.ProcessingException</exception-type>
-<wsdl-message xmlns:exMsgNS="urn:OpcPurchaseOrderService">exMsgNS:ProcessingException</wsdl-message>
+<exception-type>com.sun.j2ee.blueprints.consumerwebsite.actions.InvalidPOException</exception-type>
+<wsdl-message xmlns:exMsgNS="urn:OpcPurchaseOrderService">exMsgNS:InvalidPOException</wsdl-message>
 <constructor-parameter-order>
 <element-name>message</element-name>
 </constructor-parameter-order>

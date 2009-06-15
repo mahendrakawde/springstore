@@ -1,43 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java-wsdl-mapping version="1.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
+<java-wsdl-mapping xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
 <package-mapping>
 <package-type>com.sun.j2ee.blueprints.consumerwebsite.actions</package-type>
 <namespaceURI>urn:OpcOrderTrackingService</namespaceURI>
 </package-mapping>
-<java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.ContactInfo</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:ContactInfo</root-type-qname>
-<qname-scope>complexType</qname-scope>
-<variable-mapping>
-<java-variable-name>address</java-variable-name>
-<xml-element-name>address</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>email</java-variable-name>
-<xml-element-name>email</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>familyName</java-variable-name>
-<xml-element-name>familyName</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>givenName</java-variable-name>
-<xml-element-name>givenName</xml-element-name>
-</variable-mapping>
-<variable-mapping>
-<java-variable-name>phone</java-variable-name>
-<xml-element-name>phone</xml-element-name>
-</variable-mapping>
-</java-xml-type-mapping>
-<java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.OrderNotFoundException</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:OrderNotFoundException</root-type-qname>
-<qname-scope>complexType</qname-scope>
-<variable-mapping>
-<java-variable-name>message</java-variable-name>
-<xml-element-name>message</xml-element-name>
-</variable-mapping>
-</java-xml-type-mapping>
 <java-xml-type-mapping>
 <java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.Address</java-type>
 <root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:Address</root-type-qname>
@@ -68,12 +34,29 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.GetOrderDetails</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:getOrderDetails</root-type-qname>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.GetOrderDetailsResponse</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:getOrderDetailsResponse</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
-<java-variable-name>string_1</java-variable-name>
-<xml-element-name>String_1</xml-element-name>
+<java-variable-name>result</java-variable-name>
+<xml-element-name>result</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.CreditCard</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:CreditCard</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>cardExpiryDate</java-variable-name>
+<xml-element-name>cardExpiryDate</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>cardNumber</java-variable-name>
+<xml-element-name>cardNumber</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>cardType</java-variable-name>
+<xml-element-name>cardType</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
@@ -123,20 +106,28 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.CreditCard</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:CreditCard</root-type-qname>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.ContactInfo</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:ContactInfo</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
-<java-variable-name>cardExpiryDate</java-variable-name>
-<xml-element-name>cardExpiryDate</xml-element-name>
+<java-variable-name>address</java-variable-name>
+<xml-element-name>address</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>cardNumber</java-variable-name>
-<xml-element-name>cardNumber</xml-element-name>
+<java-variable-name>email</java-variable-name>
+<xml-element-name>email</xml-element-name>
 </variable-mapping>
 <variable-mapping>
-<java-variable-name>cardType</java-variable-name>
-<xml-element-name>cardType</xml-element-name>
+<java-variable-name>familyName</java-variable-name>
+<xml-element-name>familyName</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>givenName</java-variable-name>
+<xml-element-name>givenName</xml-element-name>
+</variable-mapping>
+<variable-mapping>
+<java-variable-name>phone</java-variable-name>
+<xml-element-name>phone</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
@@ -250,12 +241,12 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.GetOrderDetailsResponse</java-type>
-<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:getOrderDetailsResponse</root-type-qname>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.GetOrderDetails</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:getOrderDetails</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
-<java-variable-name>result</java-variable-name>
-<xml-element-name>result</xml-element-name>
+<java-variable-name>string_1</java-variable-name>
+<xml-element-name>String_1</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
@@ -297,6 +288,15 @@
 <variable-mapping>
 <java-variable-name>travelClass</java-variable-name>
 <xml-element-name>travelClass</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.consumerwebsite.actions.OrderNotFoundException</java-type>
+<root-type-qname xmlns:typeNS="urn:OpcOrderTrackingService">typeNS:OrderNotFoundException</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>message</java-variable-name>
+<xml-element-name>message</xml-element-name>
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
