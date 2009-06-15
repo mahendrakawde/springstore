@@ -1,21 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.sun.j2ee.blueprints</groupId>
-    <artifactId>adventure-builder</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.6-SNAPSHOT</version>
-    <name>adventure-builder</name>
-    <description>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.sun.j2ee.blueprints</groupId>
+	<artifactId>adventure-builder</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.6-SNAPSHOT</version>
+	<name>adventure-builder</name>
+	<description>
     	Migration showcase from a classic 1.4 J2EE Application to a lightweight Spring Framework/JPA approach.
     </description>
-    <url>http://springstore.googlecode.com</url>
+	<url>http://springstore.googlecode.com</url>
 	<inceptionYear>2009</inceptionYear>
 
 	<organization>
 		<name>Conspect ICT diensten</name>
 		<url>http://www.conspect.nl</url>
 	</organization>
+
+	<licenses>		
+		<license>			
+			<url>http://adventurebuilder.dev.java.net/LICENSE.txt</url>
+		</license>
+	</licenses>
 
 	<developers>
 		<developer>
@@ -77,18 +83,43 @@
 			<artifactId>javaee</artifactId>
 			<version>2.1</version>
 			<scope>system</scope>
-			<systemPath>${env.J2EE_HOME}/lib/javaee.jar</systemPath>
+			<systemPath>${j2ee.home}/lib/javaee.jar</systemPath>
 		</dependency>
 	</dependencies>
- 
- 	<properties>
+
+	<properties>
 		<spring.version>2.5.6.SEC01</spring.version>
 		<spring-security.version>2.0.4.A</spring-security.version>
 		<spring-webflow.version>2.0.7.RELEASE</spring-webflow.version>
-		<j2ee.home>${env.J2EE_HOME}</j2ee.home>
+		<j2ee.home>c:/java/server/glassfish</j2ee.home>
 	</properties>
- 
- 	<build>
+
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<wscompile>${j2ee.home}/bin/wscompile.bat</wscompile>
+			</properties>
+		</profile>
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<wscompile>${j2ee.home}/bin/wscompile</wscompile>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -124,14 +155,14 @@
 			</plugin>
 		</plugins>
 	</build>
- 
-    <modules>
-        <module>common</module>
-        <module>activitysupplier</module>
-        <module>airlinesupplier</module>
-        <module>bank</module>
-        <module>lodgingsupplier</module>
-        <module>adventure-builder-enterprise</module>
-    </modules>
+
+	<modules>
+		<module>common</module>
+		<module>activitysupplier</module>
+		<module>airlinesupplier</module>
+		<module>bank</module>
+		<module>lodgingsupplier</module>
+		<module>adventure-builder-enterprise</module>
+	</modules>
 
 </project>

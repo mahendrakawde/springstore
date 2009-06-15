@@ -17,6 +17,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.j2ee.blueprints</groupId>
+			<artifactId>opc-common</artifactId>
+			<version>${pom.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.j2ee.blueprints</groupId>
+			<artifactId>opc-broker-ejb</artifactId>
+			<version>${pom.version}</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>opc-ejb</artifactId>
 			<version>${pom.version}</version>
 			<type>ejb</type>
@@ -58,6 +70,12 @@
 							<includeInApplicationXml>true</includeInApplicationXml>
 							<bundleDir>lib</bundleDir>
 						</javaModule>
+						<javaModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>opc-common</artifactId>
+							<includeInApplicationXml>true</includeInApplicationXml>
+							<bundleDir>lib</bundleDir>
+						</javaModule>
 						<ejbModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>processmanager-ejb</artifactId>
@@ -67,6 +85,11 @@
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>processmanager-ejb</artifactId>
 						</ejbClientModule>
+						<ejbModule>
+							<groupId>com.sun.j2ee.blueprints</groupId>
+							<artifactId>opc-broker-ejb</artifactId>
+							<bundleFileName>opc-broker-ejb.jar</bundleFileName>
+						</ejbModule>
 						<ejbModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>opc-ejb</artifactId>

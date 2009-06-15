@@ -1,20 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sun.j2ee.blueprints</groupId>
-	<artifactId>bank-ejb</artifactId>
-	<packaging>ejb</packaging>
+	<artifactId>opc-broker-ejb</artifactId>
 	<version>1.0.6-SNAPSHOT</version>
-	<name>Adventure Builder :: Bank EJB Module</name>
-	<url>http://springstore.googlecode.com</url>
+	<packaging>ejb</packaging>
+	<name>opc-broker-ejb</name>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
-		<artifactId>bank</artifactId>
+		<artifactId>adventure-builder-enterprise</artifactId>
 		<version>1.0.6-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.sun.j2ee.blueprints</groupId>
+			<artifactId>opc-common</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>servicelocator</artifactId>
@@ -45,12 +51,12 @@
 								<argument>-define</argument>
 								<argument>-keep</argument>
 								<argument>-mapping</argument>
-								<argument>META-INF/CreditCardServiceMap.xml</argument>
+								<argument>META-INF/WebServiceBrokerMap.xml</argument>
 								<argument>-d</argument>
-								<argument>META-INF/wsdl</argument>
+								<argument>${basedir}/target/classes/META-INF/wsdl</argument>
 								<argument>-f:wsi</argument>
 								<argument>-f:documentliteral</argument>
-								<argument>${basedir}/src/main/resources/conf/creditcard-jaxrpc-config.xml</argument>
+								<argument>${basedir}/src/main/resources/conf/broker-jaxrpc-config.xml</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -60,7 +66,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
 				<configuration>
-					<generateClient>true</generateClient>
+					<generateClient>false</generateClient>
 					<clientExcludes>
 						<clientExclude>**/ejb/*Bean.class</clientExclude>
 					</clientExcludes>

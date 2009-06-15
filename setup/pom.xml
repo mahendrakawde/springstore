@@ -51,12 +51,6 @@
 						<iiopPort>3700</iiopPort>
 						<jmsPort>7676</jmsPort>
 						<reuse>false</reuse>
-						<properties>
-							<property>
-								<name>server.log-service.file</name>
-								<value>${domain.log.dir}/server.log</value>
-							</property>
-						</properties>
 						<resources>
 							<jmsQueue>
 								<jndiName>jms/activity/ActivityQueue</jndiName>

@@ -6,7 +6,7 @@
 	<packaging>ejb</packaging>
 	<version>1.0.6-SNAPSHOT</version>
 	<name>Adventure Builder :: Airline Supplier EJB Module</name>
-    <url>http://springstore.googlecode.com</url>
+	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
@@ -24,6 +24,124 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.sun.j2ee.blueprints</groupId>
+									<artifactId>opc-broker-ejb</artifactId>
+									<version>${pom.version}</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/opc-broker-jar</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<executions>
+					<execution>
+						<id>wscompile-generate</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>${wscompile}</executable>
+							<workingDirectory>${basedir}/target/classes</workingDirectory>
+							<arguments>
+								<argument>-verbose</argument>
+								<argument>-classpath</argument>
+								<classpath />
+								<argument>-import</argument>
+								<argument>-keep</argument>
+								<argument>-mapping</argument>
+								<argument>${basedir}/src/main/resources/META-INF/webservicebroker-mapping.xml</argument>
+								<argument>-d</argument>
+								<argument>${basedir}/src/main/java</argument>
+								<argument>-f:wsi</argument>
+								<argument>-f:documentliteral</argument>
+								<argument>-f:unwrap</argument>
+								<argument>${basedir}/src/main/resources/conf/webservicebroker-client-config.xml</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<executions>
+					<execution>
+						<id>wscompile</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>${wscompile}</executable>
+							<workingDirectory>${basedir}/target/classes</workingDirectory>
+							<arguments>
+								<argument>-verbose</argument>
+								<argument>-classpath</argument>
+								<classpath />
+								<argument>-define</argument>
+								<argument>-keep</argument>
+								<argument>-mapping</argument>
+								<argument>META-INF/AirlinePurchaseOrderServiceMap.xml</argument>
+								<argument>-d</argument>
+								<argument>META-INF/wsdl</argument>
+								<argument>-f:wsi</argument>
+								<argument>-f:documentliteral</argument>
+								<argument>${basedir}/src/main/resources/conf/po-jaxrpc-config.xml</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes/META-INF/wsdl</outputDirectory>
+							<filter>false</filter>
+							<resources>
+								<resource>
+									<directory>${basedir}/target/opc-broker-jar/META-INF/wsdl</directory>
+									<includes>
+										<include>WebServiceBroker.wsdl</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
