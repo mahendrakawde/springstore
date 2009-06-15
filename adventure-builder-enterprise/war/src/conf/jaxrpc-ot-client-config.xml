@@ -6,7 +6,7 @@
 <configuration
     xmlns="http://java.sun.com/xml/ns/jax-rpc/ri/config">
     <wsdl name="OpcOrderTrackingServiceClient"
-        location="file:./build/OpcOrderTrackingService.wsdl"
+        location="file:../opc-ejb-jar/META-INF/wsdl/OpcOrderTrackingService.wsdl"
         packageName="com.sun.j2ee.blueprints.consumerwebsite.actions">
         <typeMappingRegistry />
     </wsdl>
