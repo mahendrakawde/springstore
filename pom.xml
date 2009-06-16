@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>adventure-builder</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.6-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>adventure-builder</name>
 	<description>
     	Migration showcase from a classic 1.4 J2EE Application to a lightweight Spring Framework/JPA approach.
@@ -45,10 +44,10 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:svn:http://springstore.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:svn:http://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</connection>
+		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</developerConnection>
 		<tag>HEAD</tag>
-		<url>http://code.google.com/p/springstore/source/browse/</url>
+		<url>http://code.google.com/p/springstore/source/browse/tags/adventure-builder-1.0.6</url>
 	</scm>
 
 	<pluginRepositories>
