@@ -16,8 +16,6 @@
 	</parent>
 
 	<modules>
-		<module>opc-common</module>
-		<module>opc-broker-ejb</module>
 		<module>processmanager-ejb</module>
 		<module>opc-ejb</module>
 		<module>war</module>
