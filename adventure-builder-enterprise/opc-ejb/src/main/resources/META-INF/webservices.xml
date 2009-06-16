@@ -43,18 +43,4 @@
     </port-component>
   </webservice-description>
 
-  <webservice-description>
-    <webservice-description-name>WebServiceBroker</webservice-description-name>
-    <wsdl-file>META-INF/wsdl/WebServiceBroker.wsdl</wsdl-file>
-    <jaxrpc-mapping-file>META-INF/WebServiceBrokerMap.xml</jaxrpc-mapping-file>
-    <port-component>
-      <description>port component description</description>
-      <port-component-name>BrokerServiceIntfPort</port-component-name>
-      <wsdl-port xmlns:WSBrokerns="urn:WebServiceBroker">WSBrokerns:BrokerServiceIntfPort</wsdl-port>
-      <service-endpoint-interface>com.sun.j2ee.blueprints.opc.webservicebroker.provider.BrokerServiceIntf</service-endpoint-interface>
-      <service-impl-bean>
-          <ejb-link>BrokerServiceBean</ejb-link>
-      </service-impl-bean>
-    </port-component>
-  </webservice-description>
 </webservices>

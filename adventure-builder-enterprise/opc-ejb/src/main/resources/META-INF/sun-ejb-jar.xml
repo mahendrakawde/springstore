@@ -62,37 +62,6 @@
       </webservice-endpoint>
     </ejb>
     <ejb>
-      <ejb-name>BrokerServiceBean</ejb-name>
-      <jndi-name>BrokerServiceBean</jndi-name>
-      <resource-ref> 
-        <res-ref-name>jms/opc/QueueConnectionFactory</res-ref-name>   
-        <jndi-name>jms/opc/QueueConnectionFactory</jndi-name>
-         <default-resource-principal>  
-           <name>guest</name>
-           <password>guest</password>
-         </default-resource-principal> 
-      </resource-ref>
-      <resource-env-ref>         
-        <resource-env-ref-name>jms/opc/WorkFlowMgrQueue</resource-env-ref-name> 
-        <jndi-name>jms/opc/WorkFlowMgrQueue</jndi-name>
-      </resource-env-ref>
-      
-      <bean-pool>
-        <steady-pool-size>0</steady-pool-size>
-        <resize-quantity>60</resize-quantity>
-        <max-pool-size>60</max-pool-size>
-        <pool-idle-timeout-in-seconds>900</pool-idle-timeout-in-seconds>
-      </bean-pool>
-      <webservice-endpoint>
-        <port-component-name>BrokerServiceIntfPort</port-component-name>
-        <endpoint-address-uri>webservice/WebServiceBroker</endpoint-address-uri>
-        <login-config>
-            <auth-method>CLIENT-CERT</auth-method>
-        </login-config>
-        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-      </webservice-endpoint>
-    </ejb>
-    <ejb>
       <ejb-name>OtEndpointBean</ejb-name>
       <jndi-name>OtEndpointBean</jndi-name>
       <bean-pool>
