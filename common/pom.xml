@@ -43,11 +43,18 @@
 		</plugins>
 	</build>
 
+	<!-- 
+		Common OPC modules are here because they need to be build before the other
+		projects else we might get build failures or different versions in the 
+		dependend projects.
+	 -->
 	<modules>
 		<module>tracer</module>
 		<module>servicelocator</module>
 		<module>dao</module>
-		<module>waf</module>
+		<module>waf</module>		
+		<module>opc-common</module>
+		<module>opc-broker-ejb</module>
 	</modules>
 
 	<reporting>
