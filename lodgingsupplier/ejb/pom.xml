@@ -146,7 +146,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
 				<configuration>
-					<generateClient>true</generateClient>
+					<generateClient>false</generateClient>
 					<clientExcludes>
 						<clientExclude>**/ejb/*Bean.class</clientExclude>
 					</clientExcludes>
