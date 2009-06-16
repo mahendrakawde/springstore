@@ -3,7 +3,7 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>adventure-builder-common</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.6</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<name>Adventure Builder :: Common Components</name>
 	<description>
 		This project contains the common components shared by all the blueprint projects.

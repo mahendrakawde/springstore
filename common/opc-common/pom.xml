@@ -4,7 +4,7 @@
 	<artifactId>opc-common</artifactId>
 	<packaging>jar</packaging>
 	<name>Adventure Builder :: OPC Common Module</name>
-	<version>1.0.6</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<description>Project containing shared classes.</description>
 
 	<parent>

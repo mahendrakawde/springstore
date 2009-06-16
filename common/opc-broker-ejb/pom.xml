@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>opc-broker-ejb</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<packaging>ejb</packaging>
 	<name>opc-broker-ejb</name>
 

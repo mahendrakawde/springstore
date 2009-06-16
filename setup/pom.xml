@@ -4,7 +4,7 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>adventure-builder-setup</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.6-SNAPSHOT</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<name>Adventure Builder :: Setup</name>
 	<description>
 		Adventure Builder setup project. This project containts the artifacts which install
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder</artifactId>
-		<version>1.0.6-SNAPSHOT</version>
+		<version>${pom.version}</version>
 	</parent>
 
 	<properties>

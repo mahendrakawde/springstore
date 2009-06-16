@@ -3,14 +3,14 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>activitysupplier-ejb</artifactId>
 	<packaging>ejb</packaging>
-	<version>1.0.6</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<name>Adventure Builder :: Activity Supplier EJB Module</name>
 	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>activitysupplier</artifactId>
-		<version>1.0.6</version>
+		<version>1.0.7-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
