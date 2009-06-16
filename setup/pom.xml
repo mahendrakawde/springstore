@@ -47,7 +47,7 @@
 						<name>springstore</name>
 						<adminPort>4848</adminPort>
 						<httpPort>8080</httpPort>
-						<httpsPort>8443</httpsPort>
+						<httpsPort>8181</httpsPort>
 						<iiopPort>3700</iiopPort>
 						<jmsPort>7676</jmsPort>
 						<reuse>false</reuse>
@@ -219,21 +219,22 @@
 					<onError>continue</onError>
 				</configuration>
 				<executions>
-					<execution>					   
+					<execution>
 						<id>create-db</id>
-						<phase>process-test-sources</phase>												
+						<phase>process-test-sources</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
 						<inherited>false</inherited>
 						<configuration>
-					      <orderFile>ascending</orderFile>
-						  <fileset>
-						      <basedir>${basedir}</basedir>
-						      <includes>
-						          <include>sql/derby.sql</include>
-						      </includes>
-						  </fileset>
+							<orderFile>descending</orderFile>
+							<fileset>
+								<basedir>${basedir}</basedir>
+								<includes>
+									<include>sql/drop-all-tables.sql</include>
+									<include>sql/derby.sql</include>
+								</includes>
+							</fileset>
 						</configuration>
 					</execution>
 				</executions>
