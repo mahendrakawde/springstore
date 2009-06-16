@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java-wsdl-mapping version="1.1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
+<java-wsdl-mapping xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
 <package-mapping>
 <package-type>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean</package-type>
 <namespaceURI>urn:WebServiceBroker</namespaceURI>
 </package-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.ProcessingException</java-type>
-<root-type-qname xmlns:typeNS="urn:WebServiceBroker">typeNS:ProcessingException</root-type-qname>
+<java-type>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.InvalidDocumentException</java-type>
+<root-type-qname xmlns:typeNS="urn:WebServiceBroker">typeNS:InvalidDocumentException</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
 <java-variable-name>message</java-variable-name>
@@ -14,8 +14,8 @@
 </variable-mapping>
 </java-xml-type-mapping>
 <java-xml-type-mapping>
-<java-type>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.InvalidDocumentException</java-type>
-<root-type-qname xmlns:typeNS="urn:WebServiceBroker">typeNS:InvalidDocumentException</root-type-qname>
+<java-type>com.sun.j2ee.blueprints.airlinesupplier.pomessagebean.ProcessingException</java-type>
+<root-type-qname xmlns:typeNS="urn:WebServiceBroker">typeNS:ProcessingException</root-type-qname>
 <qname-scope>complexType</qname-scope>
 <variable-mapping>
 <java-variable-name>message</java-variable-name>
