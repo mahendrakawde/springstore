@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="dataSource" class="org.apache.derby.jdbc.EmbeddedXADataSource40">
+		<property name="databaseName" value="adventure-builder"/>
+		<property name="createDatabase" value="true"/>
+		<property name="user" value="APP"/>
+		<property name="password" value="APP"/>
+	</bean>
+	
+	<bean class="com.sun.blueprints.test.jdbc.DatabasePopulator">
+		<property name="dropBeforeCreate" value="false"/>
+		<property name="schemaLocation" value="sql/create-tables.sql" />
+		<property name="testDataLocation" value="sql/testdata.sql" />
+		<property name="dropSchemaLocation" value="sql/drop-all-tables.sql" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>		
+	</bean>
+	
+</beans>

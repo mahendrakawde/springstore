@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder-enterprise</artifactId>
-		<version>1.0.6</version>
+		<version>1.0.7-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -40,6 +40,19 @@
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
+		</dependency>
+		<!--  Test Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.4.2.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
