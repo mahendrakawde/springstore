@@ -4,49 +4,52 @@
 
 package com.sun.j2ee.blueprints.opc.orderfiller;
 
-import java.text.*;
-import java.io.*;
-import java.util.*;
-import javax.ejb.*;
-import javax.jms.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import javax.ejb.EJBException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.springframework.ejb.support.AbstractJmsMessageDrivenBean;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import com.sun.j2ee.blueprints.opc.JNDINames;
-import com.sun.j2ee.blueprints.opc.utils.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Activity;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Lodging;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Transportation;
+import com.sun.j2ee.blueprints.opc.purchaseorder.XMLException;
+import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
 
 /**
  * This component splits a PO and sends string POs
  * to the Web service broker queue
  */
-public class OrderFillerBean implements MessageDrivenBean, MessageListener {
-
-    private  MessageDrivenContext context;
-    private PurchaseOrder po;
- 
-    public void setMessageDrivenContext(MessageDrivenContext context) {
-        this.context=context;
-    }  
-      
-    public void ejbCreate() {}
+public class OrderFillerBean extends AbstractJmsMessageDrivenBean {
+   
+    protected void onEjbCreate() {}
       
     public void onMessage(Message message) {        
         try {
-            String docType = message.getStringProperty(JNDINames.DOC_TYPE);
-
             //send the PO to the broker queue 
             if(message instanceof ObjectMessage){
                 ObjectMessage objMsg = (ObjectMessage) message;
-                po = (PurchaseOrder)objMsg.getObject();
+                PurchaseOrder po = (PurchaseOrder)objMsg.getObject();
+                if(po != null){          
+                	sendPO(po);
+                }
             }    
-            if(po != null){          
-                sendPO(po);
-            }
                
         } catch (Exception exe) {
             System.err.println(exe);
@@ -54,8 +57,6 @@ public class OrderFillerBean implements MessageDrivenBean, MessageListener {
         }                    
     }
     
-    public void ejbRemove(){}
-
     private void sendPO(PurchaseOrder po) throws XMLException{
   
         //get the POs in xml String format

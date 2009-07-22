@@ -50,6 +50,12 @@
 			<version>${pom.version}</version>
 			<type>war</type>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<type>jar</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -66,15 +72,34 @@
 						<javaModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>servicelocator</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
+							<includeInApplicationXml>false</includeInApplicationXml>
 							<bundleDir>lib</bundleDir>
 						</javaModule>
 						<javaModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>opc-common</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
+							<includeInApplicationXml>false</includeInApplicationXml>
 							<bundleDir>lib</bundleDir>
 						</javaModule>
+						<javaModule>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-context</artifactId>
+							<includeInApplicationXml>false</includeInApplicationXml>
+							<bundleDir>lib</bundleDir>
+						</javaModule>
+						<javaModule>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-core</artifactId>
+							<includeInApplicationXml>false</includeInApplicationXml>
+							<bundleDir>lib</bundleDir>
+						</javaModule>
+						<javaModule>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-beans</artifactId>
+							<includeInApplicationXml>false</includeInApplicationXml>
+							<bundleDir>lib</bundleDir>
+						</javaModule>
+						
 						<ejbModule>
 							<groupId>com.sun.j2ee.blueprints</groupId>
 							<artifactId>processmanager-ejb</artifactId>

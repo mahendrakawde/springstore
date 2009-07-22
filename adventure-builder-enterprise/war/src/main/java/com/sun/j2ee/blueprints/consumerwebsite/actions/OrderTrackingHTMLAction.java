@@ -2,20 +2,14 @@
 
 package com.sun.j2ee.blueprints.consumerwebsite.actions;
 
-import javax.servlet.http.*;
-import java.util.Collection;
-import javax.naming.*;
-import javax.xml.rpc.*;
+import javax.servlet.http.HttpServletRequest;
 
-// waf imports
+import com.sun.j2ee.blueprints.order.service.JNDINames;
+import com.sun.j2ee.blueprints.order.service.OrderTrackingService;
+import com.sun.j2ee.blueprints.util.dao.DAOFactory;
 import com.sun.j2ee.blueprints.waf.controller.Event;
-import com.sun.j2ee.blueprints.waf.controller.web.html.*;
-
-//adventure imports
-import com.sun.j2ee.blueprints.consumerwebsite.*;
-
-// Catalog imports
-import com.sun.j2ee.blueprints.catalog.*;
+import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException;
+import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionSupport;
 
 
 /**
@@ -59,11 +53,7 @@ public class OrderTrackingHTMLAction extends HTMLActionSupport{
      */
     private OrderDetails getOrderDetails(String orderId,
      HttpServletRequest request) throws Exception {
-             
-        Context ic = new InitialContext();
-        OpcOrderTrackingService opcOrderTrackingSvc =
-            (OpcOrderTrackingService) ic.lookup("java:comp/env/service/OpcOrderTrackingService");
-        OrderTrackingIntf port = (OrderTrackingIntf)opcOrderTrackingSvc.getOrderTrackingIntfPort();
-        return port.getOrderDetails(orderId);    
+    	OrderTrackingService service = (OrderTrackingService) DAOFactory.getDAO(JNDINames.PURCHASE_ORDER_SERVICE_CLASS);
+    	return service.getOrderDetails(orderId);
    }
 }

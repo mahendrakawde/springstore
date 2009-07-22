@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 
-import com.sun.blueprints.test.jdbc.AbstractActionTests;
+import com.sun.blueprints.test.actions.AbstractActionTests;
 import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLAction;
 
 public class SignOffHTMLActionTest extends AbstractActionTests {

@@ -5,19 +5,25 @@
 
 package com.sun.j2ee.blueprints.opc.crm.ejb;
 
-import java.util.*;
-import javax.ejb.*;
-import javax.naming.*;
-import javax.jms.*;
-import java.io.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.StreamResult;
+import java.io.StringReader;
+import java.util.Locale;
 
-import com.sun.j2ee.blueprints.opc.mailer.*;
+import javax.ejb.EJBException;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.TextMessage;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.springframework.ejb.support.AbstractJmsMessageDrivenBean;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import com.sun.j2ee.blueprints.opc.mailer.MailHelper;
+import com.sun.j2ee.blueprints.opc.mailer.MailerException;
 
 /**
  * MailCompletedOrderMDB receives a JMS message containing an Order
@@ -25,15 +31,9 @@ import com.sun.j2ee.blueprints.opc.mailer.*;
  * message that it then sends to the mailer service so that
  * the customer gets email
  */
-public class CrmBean implements MessageDrivenBean, MessageListener {
+public class CrmBean extends AbstractJmsMessageDrivenBean {
     
-  private Context context;
-  private MessageDrivenContext mdc;
-
   public CrmBean() {
-  }
-
-  public void ejbCreate() {
   }
 
   /**
@@ -53,13 +53,6 @@ public class CrmBean implements MessageDrivenBean, MessageListener {
     } catch  (JMSException je) {
       throw new EJBException(je);
     }
-  }
-
-  public void setMessageDrivenContext(MessageDrivenContext mdc) {
-    this.mdc = mdc;
-  }
-
-  public void ejbRemove() {
   }
 
     /**
@@ -117,5 +110,7 @@ public class CrmBean implements MessageDrivenBean, MessageListener {
         }
         return returnString;
     }
+
+	protected void onEjbCreate() {}
 }
 

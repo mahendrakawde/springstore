@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 
 import com.sun.blueprints.test.MockHolder;
+import com.sun.blueprints.test.actions.AbstractActionTests;
 import com.sun.blueprints.test.data.StubTestDataUtil;
-import com.sun.blueprints.test.jdbc.AbstractActionTests;
 import com.sun.j2ee.blueprints.consumerwebsite.AdventureKeys;
 import com.sun.j2ee.blueprints.consumerwebsite.CustomerBean;
 import com.sun.j2ee.blueprints.customer.Account;

@@ -4,22 +4,19 @@
 
 package com.sun.j2ee.blueprints.consumerwebsite.actions;
 
-
-import java.io.*;
 import java.util.*;
 
-
 // j2ee imports
-import javax.naming.*;
 import javax.servlet.http.*;
-import javax.xml.rpc.*;
-
 
 // WAF imports
+import com.sun.j2ee.blueprints.util.dao.DAOFactory;
 import com.sun.j2ee.blueprints.waf.controller.Event;
 import com.sun.j2ee.blueprints.waf.controller.web.html.*;
 
 // signon filter - for the userId
+import com.sun.j2ee.blueprints.order.service.JNDINames;
+import com.sun.j2ee.blueprints.order.service.PurchaseOrderService;
 import com.sun.j2ee.blueprints.signon.web.SignOnFilter;
 
 // customer component imports
@@ -160,11 +157,8 @@ public final class CheckoutHTMLAction extends HTMLActionSupport {
         if (dF != null) mypo.setDepartureFlightInfo(dF);
         if (rF != null) mypo.setReturnFlightInfo(rF);
 
-        Context ic = new InitialContext();
-        Service opcPurchaseOrderSvc =
-          (Service) ic.lookup("java:comp/env/service/OpcPurchaseOrderService");
-        PurchaseOrderIntf port = (PurchaseOrderIntf)opcPurchaseOrderSvc.getPort(PurchaseOrderIntf.class);
-        String ret = port.submitPurchaseOrder(mypo);
+        PurchaseOrderService service = (PurchaseOrderService) DAOFactory.getDAO(JNDINames.PURCHASE_ORDER_SERVICE_CLASS);
+        String ret = service.submitPurchaseOrder(mypo);
         CheckoutBean checkoutBean = new CheckoutBean(ret);
         request.setAttribute(AdventureKeys.CHECKOUT_BEAN, checkoutBean);
 

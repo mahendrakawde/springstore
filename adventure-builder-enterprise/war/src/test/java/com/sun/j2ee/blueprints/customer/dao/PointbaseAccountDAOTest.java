@@ -18,6 +18,7 @@ public class PointbaseAccountDAOTest extends AbstractDaoTests{
 
 	private PointbaseAccountDAO dao = new PointbaseAccountDAO();
 
+        @Override
 	protected void setupJndiContext() throws Exception {
 		//Setup JNDI 
 		SimpleNamingContextBuilder builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();

@@ -299,6 +299,7 @@ public final class CartHTMLAction extends HTMLActionSupport {
             }
             transportationTotal = departureTotal + returnTotal;
         } catch (Exception ex) {
+        	ex.printStackTrace();
             throw new HTMLActionException("CartHTMLAction error: " + ex);        
         }
         cartTotal = activityTotal + lodgingTotal + transportationTotal;

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.sun.blueprints.test.jdbc.AbstractActionTests;
+import com.sun.blueprints.test.actions.AbstractActionTests;
 import com.sun.j2ee.blueprints.consumerwebsite.AdventureKeys;
 import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLAction;
 

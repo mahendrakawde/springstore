@@ -8,6 +8,8 @@ import java.rmi.*;
 
 import javax.ejb.*;
 
+import org.springframework.ejb.support.AbstractStatelessSessionBean;
+
 import com.sun.j2ee.blueprints.opc.purchaseorder.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
 import com.sun.j2ee.blueprints.opc.utils.*;
@@ -18,13 +20,10 @@ import com.sun.j2ee.blueprints.opc.serviceexceptions.*;
  *  by adventure builder web site application when a user 
  *  submits an order.
  */
-public class PoEndpointBean implements SessionBean {
+public class PoEndpointBean extends AbstractStatelessSessionBean {
 
-    private SessionContext sc;
- 
     public PoEndpointBean(){}
     
-    public void ejbCreate() throws CreateException {}
 
     /**
      * Accept a purchase order, place the order in a JMS queue and return the 
@@ -56,17 +55,9 @@ public class PoEndpointBean implements SessionBean {
       throw new ProcessingException("Irrecoverable error while submitting the order for processing");
         return po.getPoId();
     }
+
+
+	protected void onEjbCreate() throws CreateException {}
         
-    public void setSessionContext(SessionContext sc) {
-        this.sc = sc;
-    }
     
-    public void ejbRemove() throws RemoteException {}    
-
-    //empty for Stateless EJBs
-    public void ejbActivate() {}
-
-    //empty for Stateless EJBs
-    public void ejbPassivate() {}
-   
 }

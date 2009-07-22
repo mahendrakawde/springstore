@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder</artifactId>
-		<version>${pom.version}</version>
+		<version>1.0.7-SNAPSHOT</version>
 	</parent>
 
 	<properties>
