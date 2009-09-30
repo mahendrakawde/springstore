@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>opc-broker-ejb</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<packaging>ejb</packaging>
 	<name>opc-broker-ejb</name>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder-common</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<dependencies>
@@ -23,11 +23,6 @@
 			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>servicelocator</artifactId>
 			<version>${pom.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
 

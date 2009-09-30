@@ -4,28 +4,31 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.provider;
 
-import java.io.StringReader;
+import java.rmi.*;
 
-import javax.ejb.CreateException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.ejb.*;
 
-import org.springframework.ejb.support.AbstractStatelessSessionBean;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
+import com.sun.j2ee.blueprints.servicelocator.*;
+import com.sun.j2ee.blueprints.servicelocator.ejb.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
-import com.sun.j2ee.blueprints.opc.serviceexceptions.InvalidDocumentException;
-import com.sun.j2ee.blueprints.opc.serviceexceptions.ProcessingException;
-import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
+import com.sun.j2ee.blueprints.opc.utils.*;
+import com.sun.j2ee.blueprints.opc.serviceexceptions.*;
 
-public class BrokerServiceBean extends AbstractStatelessSessionBean {
+import java.io.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
 
+public class BrokerServiceBean implements SessionBean {
+
+    private SessionContext sc;
     private BrokerTransformer bt = null;
  
     public BrokerServiceBean(){}
     
-    protected void onEjbCreate() throws CreateException {
+    public void ejbCreate() throws CreateException {
         bt = new BrokerTransformer();
     }
 
@@ -67,6 +70,20 @@ public class BrokerServiceBean extends AbstractStatelessSessionBean {
             JNDINames.INVOICE_DOCUMENT, xmlDoc));
     }
 
+    public void setSessionContext(SessionContext sc) {
+        this.sc = sc;
+    }
+    
+    public void ejbRemove() throws RemoteException {
+        bt = null;
+    }
+    
+    //empty for Stateless EJBs
+    public void ejbActivate() {}
+
+    //empty for Stateless EJBs
+    public void ejbPassivate() {}
+    
     public boolean validate(String xmlText) {
         Document doc = null;
         try {

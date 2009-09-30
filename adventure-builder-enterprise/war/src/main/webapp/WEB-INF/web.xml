@@ -187,12 +187,5 @@
   </env-entry>
  <!-- Signon Component Env Entries Complete -->
 
-  <!-- PurchaseOrder Env Entries -->
-  <env-entry>
-  	<description>The PurchaseOrderService Implementation Class</description>
-  	<env-entry-name>service/order/OrderServiceClass</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>com.sun.j2ee.blueprints.order.service.JaxRpcOrderService</env-entry-value>  	
-  </env-entry>
 </web-app>
 

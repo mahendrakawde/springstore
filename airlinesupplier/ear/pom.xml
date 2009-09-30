@@ -3,13 +3,13 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>airlinesupplier-ear</artifactId>
 	<packaging>ear</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>Adventure Builder :: Airline Supplier Enterprise Application</name>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>airlinesupplier</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<dependencies>

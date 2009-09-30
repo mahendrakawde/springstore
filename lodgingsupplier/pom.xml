@@ -3,14 +3,14 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>lodgingsupplier</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>Adventure Builder :: Lodging Supplier Application</name>
 	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<modules>

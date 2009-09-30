@@ -3,14 +3,14 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>util-dao</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>DAO Utility Classes</name>
     <url>http://springstore.googlecode.com</url>
 
 	<parent>
         <groupId>com.sun.j2ee.blueprints</groupId>
         <artifactId>adventure-builder-common</artifactId>
-        <version>1.0.7-SNAPSHOT</version>
+        <version>1.0.6</version>
 	</parent>
 
 	<dependencies>

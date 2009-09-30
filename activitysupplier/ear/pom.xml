@@ -3,14 +3,14 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>activitysupplier-ear</artifactId>
 	<packaging>ear</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>Adventure Builder :: Activity Supplier Enterprise Application</name>
     <url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>activitysupplier</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<dependencies>

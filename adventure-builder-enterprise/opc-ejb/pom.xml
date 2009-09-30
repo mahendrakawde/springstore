@@ -4,14 +4,14 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>opc-ejb</artifactId>
 	<packaging>ejb</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>Adventure Builder :: Order Processing Center EJB Module</name>
 	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder-enterprise</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<dependencies>
@@ -40,11 +40,6 @@
 			<groupId>com.sun.j2ee.blueprints</groupId>
 			<artifactId>util-tracer</artifactId>
 			<version>${pom.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -334,4 +329,3 @@
 	</build>
 
 </project>
-

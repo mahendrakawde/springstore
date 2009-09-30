@@ -3,14 +3,14 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>lodgingsupplier-ejb</artifactId>
 	<packaging>ejb</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>Adventure Builder :: Lodging Supplier EJB Module</name>
 	<url>http://springstore.googlecode.com</url>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>lodgingsupplier</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<dependencies>

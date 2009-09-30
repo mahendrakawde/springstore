@@ -3,7 +3,7 @@
 	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>adventure-builder</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<name>adventure-builder</name>
 	<description>
     	Migration showcase from a classic 1.4 J2EE Application to a lightweight Spring Framework/JPA approach.
@@ -147,30 +147,10 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>compile</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<source>1.4</source>
-							<target>1.4</target>
-						</configuration>
-					</execution>
-					<execution>
-						<id>test-compile</id>
-						<phase>process-test-sources</phase>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
-						<configuration>
-							<source>1.6</source>
-							<target>1.6</target>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<source>1.4</source>
+					<target>1.4</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

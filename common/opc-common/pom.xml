@@ -4,13 +4,13 @@
 	<artifactId>opc-common</artifactId>
 	<packaging>jar</packaging>
 	<name>Adventure Builder :: OPC Common Module</name>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<description>Project containing shared classes.</description>
 
 	<parent>
 		<groupId>com.sun.j2ee.blueprints</groupId>
 		<artifactId>adventure-builder-common</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 	
 	<dependencies>
