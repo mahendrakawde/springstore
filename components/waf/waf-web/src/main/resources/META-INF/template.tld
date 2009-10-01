@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+
+<!-- a tag library descriptor -->
+
+  <description>BluePrints Web Application Framework Template Tags</description>
+  <display-name>WAF Template Tags</display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>waftemplate</short-name>
+  <uri>http://java.sun.com/blueprints/waf</uri>
+
+  <!-- Template insert tag -->
+  <tag>
+    <description>
+        The insert tag is part of a templating mechanism. A template.jsp
+        defines the layout of a page and uses this tag to insert content
+        as text or includes a page. The paramater for the tag are defined
+        in screendefinitions.xml file and are placed in the request scope
+        by the TemplateServlet.java
+    </description>
+    <name>insert</name>
+    <tag-class>com.sun.j2ee.blueprints.waf.view.template.InsertTag</tag-class>
+
+    <body-content>JSP</body-content>
+
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>parameter</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+</taglib>
