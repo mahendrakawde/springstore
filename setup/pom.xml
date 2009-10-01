@@ -1,10 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sun.j2ee.blueprints</groupId>
 	<artifactId>adventure-builder-setup</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.7-SNAPSHOT</version>
 	<name>Adventure Builder :: Setup</name>
 	<description>
 		Adventure Builder setup project. This project containts the artifacts which install
@@ -12,9 +10,9 @@
 		the deployment configuration to deploy all the artifacts to the server. 
 	</description>
 	<parent>
-		<groupId>com.sun.j2ee.blueprints</groupId>
-		<artifactId>adventure-builder</artifactId>
-		<version>1.0.7-SNAPSHOT</version>
+		<groupId>nl.conspect</groupId>
+		<artifactId>adventure-parent</artifactId>
+		<version>1.0.6-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -31,12 +29,11 @@
 			<plugin>
 				<groupId>org.glassfish.maven.plugin</groupId>
 				<artifactId>maven-glassfish-plugin</artifactId>
-				<version>2.2-SNAPSHOT</version>
+				<version>2.3-SNAPSHOT</version>
 				<configuration>
-					<glassfishDirectory>c:/java/server/glassfish</glassfishDirectory>
-					<user>admin</user>
-					<adminPassword>adminadmin</adminPassword>
-					<!-- <passFile>path/to/asadmin/passfile</passFile> -->
+					<glassfishDirectory>${j2ee.home}</glassfishDirectory>
+					<user>${server.user}</user>
+					<adminPassword>${server.password}</adminPassword>
 					<autoCreate>true</autoCreate>
 					<debug>true</debug>
 					<echo>true</echo>
@@ -44,8 +41,8 @@
 					<verbose>true</verbose>
 					<skip>${test.int.skip}</skip>
 					<domain>
-						<name>springstore</name>
-						<adminPort>4848</adminPort>
+						<name>${server.domain}</name>
+						<adminPort>${server.adminport}</adminPort>
 						<httpPort>8080</httpPort>
 						<httpsPort>8181</httpsPort>
 						<iiopPort>3700</iiopPort>
@@ -179,23 +176,19 @@
 					<components>
 						<component>
 							<name>activitysupplier</name>
-							<artifact>../activitysupplier/ear/target/activitysupplier.ear</artifact>
+							<artifact>../setup/apps/activitysupplier.ear</artifact>
 						</component>
 						<component>
 							<name>airlinesupplier</name>
-							<artifact>../airlinesupplier/ear/target/airlinesupplier.ear</artifact>
+							<artifact>../setup/apps/airlinesupplier.ear</artifact>
 						</component>
 						<component>
 							<name>bank</name>
-							<artifact>../bank/ear/target/bank.ear</artifact>
+							<artifact>../setup/apps/bank.ear</artifact>
 						</component>
 						<component>
 							<name>lodgingsupplier</name>
-							<artifact>../lodgingsupplier/ear/target/lodgingsupplier.ear</artifact>
-						</component>
-						<component>
-							<name>adventure-builder-enterprise</name>
-							<artifact>../adventure-builder-enterprise/ear/target/adventure-builder-enterprise.ear</artifact>
+							<artifact>../setup/apps/lodgingsupplier.ear</artifact>
 						</component>
 					</components>
 				</configuration>
