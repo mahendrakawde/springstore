@@ -1,187 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sun.j2ee.blueprints</groupId>
-	<artifactId>adventure-builder</artifactId>
+	<groupId>nl.conspect</groupId>
+	<version>1.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<version>1.0.7-SNAPSHOT</version>
-	<name>adventure-builder</name>
+	<artifactId>adventure-builder</artifactId>
+	<name>Adventure Builder Reference application</name>	
+
 	<description>
-    	Migration showcase from a classic 1.4 J2EE Application to a lightweight Spring Framework/JPA approach.
-    </description>
-	<url>http://springstore.googlecode.com</url>
-	<inceptionYear>2009</inceptionYear>
-
-	<organization>
-		<name>Conspect ICT diensten</name>
-		<url>http://www.conspect.nl</url>
-	</organization>
-
-	<licenses>		
-		<license>			
-			<url>http://adventurebuilder.dev.java.net/LICENSE.txt</url>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<id>mdeinum</id>
-			<name>Marten Deinum</name>
-			<email>mdeinum@gmail.com</email>
-			<url>http://mdeinum.wordpress.com</url>
-			<organization>Conspect ICT diensten</organization>
-			<organizationUrl>http://www.conspect.nl</organizationUrl>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>+1</timezone>
-		</developer>
-	</developers>
-
-	<issueManagement>
-		<system>Google Code</system>
-		<url>http://code.google.com/p/springstore/issues</url>
-	</issueManagement>
-
-	<scm>
-		<connection>scm:svn:http://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</connection>
-		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</developerConnection>
-		<tag>HEAD</tag>
-		<url>http://code.google.com/p/springstore/source/browse/tags/adventure-builder-1.0.6</url>
-	</scm>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven.java.net</id>
-			<name>Java.net Maven2 Repository</name>
-			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>glassfish-javaee</groupId>
-			<artifactId>javaee</artifactId>
-			<version>2.1</version>
-			<scope>system</scope>
-			<systemPath>${j2ee.home}/lib/javaee.jar</systemPath>
-		</dependency>
-	</dependencies>
-
-	<properties>
-		<spring.version>2.5.6.SEC01</spring.version>
-		<spring-security.version>2.0.4.A</spring-security.version>
-		<spring-webflow.version>2.0.7.RELEASE</spring-webflow.version>
-		<j2ee.home>c:/java/server/glassfish</j2ee.home>
-	</properties>
-
-	<profiles>
-		<profile>
-			<id>windows</id>
-			<activation>
-				<os>
-					<family>windows</family>
-				</os>
-			</activation>
-			<properties>
-				<wscompile>${j2ee.home}/bin/wscompile.bat</wscompile>
-			</properties>
-		</profile>
-		<profile>
-			<id>unix</id>
-			<activation>
-				<os>
-					<family>unix</family>
-				</os>
-			</activation>
-			<properties>
-				<wscompile>${j2ee.home}/bin/wscompile</wscompile>
-			</properties>
-		</profile>
-	</profiles>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<configuration>
-					<outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>false</downloadJavadocs>
-					<projectNameTemplate>[artifactId]</projectNameTemplate>
-					<manifest>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifest>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>compile</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<source>1.4</source>
-							<target>1.4</target>
-						</configuration>
-					</execution>
-					<execution>
-						<id>test-compile</id>
-						<phase>process-test-sources</phase>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
-						<configuration>
-							<source>1.6</source>
-							<target>1.6</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
+	The Java BluePrints for the Enterprises program defines the application programming model for the J2EE&#153; platform. It provides best practice guidelines and architectural recommendations for real-world application scenarios to enable developers to build portable, scalable, and robust applications using the J2EE technologies.
+	</description>
+	
 	<modules>
-		<module>common</module>
-		<module>activitysupplier</module>
-		<module>airlinesupplier</module>
-		<module>bank</module>
-		<module>lodgingsupplier</module>
-		<module>adventure-builder-enterprise</module>
+		<module>components</module>
+		<module>apps</module>
 	</modules>
 
 </project>
