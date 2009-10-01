@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.conspect</groupId>
+		<artifactId>adventure-parent</artifactId>
+		<version>1.0.6-SNAPSHOT</version>
+	</parent>
+	<artifactId>opc</artifactId>
+	<packaging>ear</packaging>
+	<name>Order Processing Centre</name>
+	<dependencies>
+		<dependency>
+			<groupId>nl.conspect</groupId>
+			<artifactId>servicelocator</artifactId>
+			<version>${pom.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>nl.conspect</groupId>
+			<artifactId>processmanager-ejb</artifactId>
+			<type>ejb-client</type>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.conspect</groupId>
+			<artifactId>processmanager-ejb</artifactId>
+			<type>ejb</type>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.conspect</groupId>
+			<artifactId>opc-ejb</artifactId>
+			<type>ejb</type>
+			<version>${pom.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<displayName>OrderProcessingCenterEAR</displayName>
+					<description>Order Processing Center Application</description>
+					<version>1.4</version>
+					<modules>
+						<javaModule>
+							<groupId>nl.conspect</groupId>
+							<artifactId>servicelocator</artifactId>
+							<includeInApplicationXml>false</includeInApplicationXml>
+						</javaModule>
+						<ejbModule>
+							<groupId>nl.conspect</groupId>
+							<artifactId>processmanager-ejb</artifactId>							
+						</ejbModule>
+						<ejbModule>
+							<groupId>nl.conspect</groupId>
+							<artifactId>opc-ejb</artifactId>
+						</ejbModule>
+						<ejbClientModule>
+							<groupId>nl.conspect</groupId>
+							<artifactId>processmanager-ejb</artifactId>							
+						</ejbClientModule>
+					</modules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.glassfish.maven.plugin</groupId>
+				<artifactId>maven-glassfish-plugin</artifactId>
+				<version>2.3-SNAPSHOT</version>
+				<configuration>
+					<glassfishDirectory>${j2ee.home}</glassfishDirectory>
+					<user>${server.user}</user>
+					<adminPassword>${server.password}</adminPassword>
+					<!-- <passFile>path/to/asadmin/passfile</passFile> -->
+					<autoCreate>false</autoCreate>
+					<domain>
+						<name>${server.domain}</name>
+						<adminPort>${server.adminport}</adminPort>
+					</domain>
+					<components>
+						<component>
+							<name>${project.artifactId}</name>
+							<artifact>${project.build.directory}/${project.build.finalName}.ear</artifact>
+						</component>
+					</components>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
