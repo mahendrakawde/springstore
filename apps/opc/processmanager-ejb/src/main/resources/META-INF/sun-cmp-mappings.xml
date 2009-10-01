@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sun-cmp-mappings PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 8.1 OR Mapping//EN" "http://www.sun.com/software/appserver/dtds/sun-cmp-mapping_1_2.dtd">
+
+<sun-cmp-mappings>
+  <sun-cmp-mapping>
+    <schema>opc_processmanager-ejb</schema>
+    <entity-mapping>
+      <ejb-name>ManagerBean</ejb-name>
+      <table-name>MANAGERBEAN</table-name>
+      <cmp-field-mapping>
+        <field-name>activityOrderStatus</field-name>
+        <column-name>MANAGERBEAN.ACTIVITYORDERSTATUS</column-name>
+        <fetched-with>
+          <default/>
+        </fetched-with>
+      </cmp-field-mapping>
+      <cmp-field-mapping>
+        <field-name>airlineOrderStatus</field-name>
+        <column-name>MANAGERBEAN.AIRLINEORDERSTATUS</column-name>
+        <fetched-with>
+          <default/>
+        </fetched-with>
+      </cmp-field-mapping>
+      <cmp-field-mapping>
+        <field-name>lodgingOrderStatus</field-name>
+        <column-name>MANAGERBEAN.LODGINGORDERSTATUS</column-name>
+        <fetched-with>
+          <default/>
+        </fetched-with>
+      </cmp-field-mapping>
+      <cmp-field-mapping>
+        <field-name>orderError</field-name>
+        <column-name>MANAGERBEAN.ORDERERROR</column-name>
+        <fetched-with>
+          <default/>
+        </fetched-with>
+      </cmp-field-mapping>
+      <cmp-field-mapping>
+        <field-name>orderId</field-name>
+        <column-name>MANAGERBEAN.ORDERID</column-name>
+        <fetched-with>
+          <default/>
+        </fetched-with>
+      </cmp-field-mapping>
+      <cmp-field-mapping>
+        <field-name>status</field-name>
+        <column-name>MANAGERBEAN.STATUS</column-name>
+        <fetched-with>
+          <default/>
+        </fetched-with>
+      </cmp-field-mapping>
+      <consistency>
+        <check-modified-at-commit/>
+      </consistency>
+    </entity-mapping>
+  </sun-cmp-mapping>
+</sun-cmp-mappings>

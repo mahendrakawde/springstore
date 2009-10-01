@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java-wsdl-mapping xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
+<package-mapping>
+<package-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice</package-type>
+<namespaceURI>urn:AirlinePurchaseOrderService</namespaceURI>
+</package-mapping>
+<package-mapping>
+<package-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice</package-type>
+<namespaceURI>urn:AirlinePurchaseOrderService</namespaceURI>
+</package-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice.AirlinePOIntf_submitAirlineReservationDetails_ResponseStruct</java-type>
+<root-type-qname xmlns:typeNS="urn:AirlinePurchaseOrderService">typeNS:submitAirlineReservationDetailsResponse</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>result</java-variable-name>
+<xml-element-name>result</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice.AirlinePOIntf_submitAirlineReservationDetails_RequestStruct</java-type>
+<root-type-qname xmlns:typeNS="urn:AirlinePurchaseOrderService">typeNS:submitAirlineReservationDetails</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>String_1</java-variable-name>
+<xml-element-name>String_1</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice.OrderSubmissionException</java-type>
+<root-type-qname xmlns:typeNS="urn:AirlinePurchaseOrderService">typeNS:OrderSubmissionException</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>message</java-variable-name>
+<xml-element-name>message</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice.InvalidOrderException</java-type>
+<root-type-qname xmlns:typeNS="urn:AirlinePurchaseOrderService">typeNS:InvalidOrderException</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>message</java-variable-name>
+<xml-element-name>message</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<exception-mapping>
+<exception-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice.InvalidOrderException</exception-type>
+<wsdl-message xmlns:exMsgNS="urn:AirlinePurchaseOrderService">exMsgNS:InvalidOrderException</wsdl-message>
+<constructor-parameter-order>
+<element-name>message</element-name>
+</constructor-parameter-order>
+</exception-mapping>
+<exception-mapping>
+<exception-type>com.sun.j2ee.blueprints.airlinesupplier.powebservice.OrderSubmissionException</exception-type>
+<wsdl-message xmlns:exMsgNS="urn:AirlinePurchaseOrderService">exMsgNS:OrderSubmissionException</wsdl-message>
+<constructor-parameter-order>
+<element-name>message</element-name>
+</constructor-parameter-order>
+</exception-mapping>
+<service-interface-mapping>
+<service-interface>com.sun.j2ee.blueprints.airlinesupplier.powebservice.AirlinePurchaseOrderService</service-interface>
+<wsdl-service-name xmlns:serviceNS="urn:AirlinePurchaseOrderService">serviceNS:AirlinePurchaseOrderService</wsdl-service-name>
+<port-mapping>
+<port-name>AirlinePOIntfPort</port-name>
+<java-port-name>AirlinePOIntfPort</java-port-name>
+</port-mapping>
+</service-interface-mapping>
+<service-endpoint-interface-mapping>
+<service-endpoint-interface>com.sun.j2ee.blueprints.airlinesupplier.powebservice.AirlinePOIntf</service-endpoint-interface>
+<wsdl-port-type xmlns:portTypeNS="urn:AirlinePurchaseOrderService">portTypeNS:AirlinePOIntf</wsdl-port-type>
+<wsdl-binding xmlns:bindingNS="urn:AirlinePurchaseOrderService">bindingNS:AirlinePOIntfBinding</wsdl-binding>
+<service-endpoint-method-mapping>
+<java-method-name>submitAirlineReservationDetails</java-method-name>
+<wsdl-operation>submitAirlineReservationDetails</wsdl-operation>
+<wrapped-element/>
+<method-param-parts-mapping>
+<param-position>0</param-position>
+<param-type>java.lang.String</param-type>
+<wsdl-message-mapping>
+<wsdl-message xmlns:wsdlMsgNS="urn:AirlinePurchaseOrderService">wsdlMsgNS:AirlinePOIntf_submitAirlineReservationDetails</wsdl-message>
+<wsdl-message-part-name>String_1</wsdl-message-part-name>
+<parameter-mode>IN</parameter-mode>
+</wsdl-message-mapping>
+</method-param-parts-mapping>
+<wsdl-return-value-mapping>
+<method-return-value>java.lang.String</method-return-value>
+<wsdl-message xmlns:wsdlMsgNS="urn:AirlinePurchaseOrderService">wsdlMsgNS:AirlinePOIntf_submitAirlineReservationDetailsResponse</wsdl-message>
+<wsdl-message-part-name>result</wsdl-message-part-name>
+</wsdl-return-value-mapping>
+</service-endpoint-method-mapping>
+</service-endpoint-interface-mapping>
+</java-wsdl-mapping>

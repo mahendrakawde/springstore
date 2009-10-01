@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java-wsdl-mapping xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd">
+<package-mapping>
+<package-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor</package-type>
+<namespaceURI>urn:LodgingPurchaseOrderService</namespaceURI>
+</package-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.InvalidOrderException</java-type>
+<root-type-qname xmlns:typeNS="urn:LodgingPurchaseOrderService">typeNS:InvalidOrderException</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>message</java-variable-name>
+<xml-element-name>message</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.OrderSubmissionException</java-type>
+<root-type-qname xmlns:typeNS="urn:LodgingPurchaseOrderService">typeNS:OrderSubmissionException</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>message</java-variable-name>
+<xml-element-name>message</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.SubmitLodgingReservationDetailsResponse</java-type>
+<root-type-qname xmlns:typeNS="urn:LodgingPurchaseOrderService">typeNS:submitLodgingReservationDetailsResponse</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>result</java-variable-name>
+<xml-element-name>result</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<java-xml-type-mapping>
+<java-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.SubmitLodgingReservationDetails</java-type>
+<root-type-qname xmlns:typeNS="urn:LodgingPurchaseOrderService">typeNS:submitLodgingReservationDetails</root-type-qname>
+<qname-scope>complexType</qname-scope>
+<variable-mapping>
+<java-variable-name>string_1</java-variable-name>
+<xml-element-name>String_1</xml-element-name>
+</variable-mapping>
+</java-xml-type-mapping>
+<exception-mapping>
+<exception-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.OrderSubmissionException</exception-type>
+<wsdl-message xmlns:exMsgNS="urn:LodgingPurchaseOrderService">exMsgNS:OrderSubmissionException</wsdl-message>
+<constructor-parameter-order>
+<element-name>message</element-name>
+</constructor-parameter-order>
+</exception-mapping>
+<exception-mapping>
+<exception-type>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.InvalidOrderException</exception-type>
+<wsdl-message xmlns:exMsgNS="urn:LodgingPurchaseOrderService">exMsgNS:InvalidOrderException</wsdl-message>
+<constructor-parameter-order>
+<element-name>message</element-name>
+</constructor-parameter-order>
+</exception-mapping>
+<service-interface-mapping>
+<service-interface>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.LodgingPurchaseOrderService</service-interface>
+<wsdl-service-name xmlns:serviceNS="urn:LodgingPurchaseOrderService">serviceNS:LodgingPurchaseOrderService</wsdl-service-name>
+<port-mapping>
+<port-name>LodgingPOIntfPort</port-name>
+<java-port-name>LodgingPOIntfPort</java-port-name>
+</port-mapping>
+</service-interface-mapping>
+<service-endpoint-interface-mapping>
+<service-endpoint-interface>com.sun.j2ee.blueprints.opc.webservicebroker.requestor.LodgingPOIntf</service-endpoint-interface>
+<wsdl-port-type xmlns:portTypeNS="urn:LodgingPurchaseOrderService">portTypeNS:LodgingPOIntf</wsdl-port-type>
+<wsdl-binding xmlns:bindingNS="urn:LodgingPurchaseOrderService">bindingNS:LodgingPOIntfBinding</wsdl-binding>
+<service-endpoint-method-mapping>
+<java-method-name>submitLodgingReservationDetails</java-method-name>
+<wsdl-operation>submitLodgingReservationDetails</wsdl-operation>
+<wrapped-element/>
+<method-param-parts-mapping>
+<param-position>0</param-position>
+<param-type>java.lang.String</param-type>
+<wsdl-message-mapping>
+<wsdl-message xmlns:wsdlMsgNS="urn:LodgingPurchaseOrderService">wsdlMsgNS:LodgingPOIntf_submitLodgingReservationDetails</wsdl-message>
+<wsdl-message-part-name>String_1</wsdl-message-part-name>
+<parameter-mode>IN</parameter-mode>
+</wsdl-message-mapping>
+</method-param-parts-mapping>
+<wsdl-return-value-mapping>
+<method-return-value>java.lang.String</method-return-value>
+<wsdl-message xmlns:wsdlMsgNS="urn:LodgingPurchaseOrderService">wsdlMsgNS:LodgingPOIntf_submitLodgingReservationDetailsResponse</wsdl-message>
+<wsdl-message-part-name>result</wsdl-message-part-name>
+</wsdl-return-value-mapping>
+</service-endpoint-method-mapping>
+</service-endpoint-interface-mapping>
+</java-wsdl-mapping>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="WebServiceBroker" targetNamespace="urn:WebServiceBroker" xmlns:tns="urn:WebServiceBroker" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types>
+    <schema targetNamespace="urn:WebServiceBroker" xmlns:tns="urn:WebServiceBroker" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://www.w3.org/2001/XMLSchema">
+      <complexType name="submitDocument">
+        <sequence>
+          <element name="String_1" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="submitDocumentResponse">
+        <sequence>
+          <element name="result" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="InvalidDocumentException">
+        <sequence>
+          <element name="message" type="string" nillable="true"/></sequence></complexType>
+      <complexType name="ProcessingException">
+        <sequence>
+          <element name="message" type="string" nillable="true"/></sequence></complexType>
+      <element name="submitDocument" type="tns:submitDocument"/>
+      <element name="submitDocumentResponse" type="tns:submitDocumentResponse"/>
+      <element name="InvalidDocumentException" type="tns:InvalidDocumentException"/>
+      <element name="ProcessingException" type="tns:ProcessingException"/></schema></types>
+  <message name="BrokerServiceIntf_submitDocument">
+    <part name="parameters" element="tns:submitDocument"/></message>
+  <message name="BrokerServiceIntf_submitDocumentResponse">
+    <part name="result" element="tns:submitDocumentResponse"/></message>
+  <message name="InvalidDocumentException">
+    <part name="InvalidDocumentException" element="tns:InvalidDocumentException"/></message>
+  <message name="ProcessingException">
+    <part name="ProcessingException" element="tns:ProcessingException"/></message>
+  <portType name="BrokerServiceIntf">
+    <operation name="submitDocument">
+      <input message="tns:BrokerServiceIntf_submitDocument"/>
+      <output message="tns:BrokerServiceIntf_submitDocumentResponse"/>
+      <fault name="InvalidDocumentException" message="tns:InvalidDocumentException"/>
+      <fault name="ProcessingException" message="tns:ProcessingException"/></operation></portType>
+  <binding name="BrokerServiceIntfBinding" type="tns:BrokerServiceIntf">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="submitDocument">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/></input>
+      <output>
+        <soap:body use="literal"/></output>
+      <fault name="InvalidDocumentException">
+        <soap:fault name="InvalidDocumentException" use="literal"/></fault>
+      <fault name="ProcessingException">
+        <soap:fault name="ProcessingException" use="literal"/></fault></operation></binding>
+  <service name="WebServiceBroker">
+    <port name="BrokerServiceIntfPort" binding="tns:BrokerServiceIntfBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/></port></service></definitions>
