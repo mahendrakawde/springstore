@@ -1,0 +1,250 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.conspect</groupId>
+	<artifactId>adventure-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.6-SNAPSHOT</version>
+	<name>Adventure Builder Parent</name>
+	<description>
+    	Migration showcase from a classic 1.4 J2EE Application to a lightweight Spring Framework/Hibernate approach.
+    </description>
+	<url>http://springstore.googlecode.com</url>
+	<inceptionYear>2009</inceptionYear>
+
+	<organization>
+		<name>Conspect ICT diensten</name>
+		<url>http://www.conspect.nl</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<url>http://adventurebuilder.dev.java.net/LICENSE.txt</url>
+		</license>
+	</licenses>
+
+	<repositories>
+		<repository>
+			<id>springsource-external</id>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>springsource-snapshot</id>
+			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
+		</repository>
+		<repository>
+			<id>springsource-release</id>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+	</repositories>
+
+	<developers>
+		<developer>
+			<id>mdeinum</id>
+			<name>Marten Deinum</name>
+			<email>mdeinum@gmail.com</email>
+			<url>http://mdeinum.wordpress.com</url>
+			<organization>Conspect ICT diensten</organization>
+			<organizationUrl>http://www.conspect.nl</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/springstore/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:svn:http://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</connection>
+		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://code.google.com/p/springstore/source/browse/tags/adventure-builder-1.0.6</url>
+	</scm>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven.java.net</id>
+			<name>Java.net Maven2 Repository</name>
+			<url>http://download.java.net/maven/2</url>
+			<layout>default</layout>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>glassfish-javaee</groupId>
+			<artifactId>javaee</artifactId>
+			<version>2.1</version>
+			<scope>system</scope>
+			<systemPath>${j2ee.home}/lib/javaee.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<spring.version>2.5.6.SEC01</spring.version>
+		<spring-security.version>2.0.5.A</spring-security.version>
+		<spring-webflow.version>2.0.8.RELEASE</spring-webflow.version>
+		<integration.version>1.0.3.RELEASE</integration.version>
+		<hibernate.version>3.2.6.ga</hibernate.version>
+		<slf4j.version>1.5.6</slf4j.version>
+		<logback.version>0.9.15</logback.version>
+		<!-- Glassfish deployment properties -->
+		<j2ee.home>c:/java/server/glassfish</j2ee.home>		
+		<server.domain>springstore</server.domain>
+		<server.adminport>4848</server.adminport>
+		<server.user>admin</server.user>
+		<server.password>adminadmin</server.password>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<wscompile>${j2ee.home}/bin/wscompile.bat</wscompile>
+			</properties>
+		</profile>
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<wscompile>${j2ee.home}/bin/wscompile</wscompile>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<childDelegation>false</childDelegation>
+					<argLine>-Djava.awt.headless=true -XX:MaxPermSize=128m -Xmx128m</argLine>
+					<outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
+					<junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					<projectNameTemplate>[artifactId]</projectNameTemplate>
+					<manifest>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifest>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>			
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<source>1.4</source>
+							<target>1.4</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>process-test-sources</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<source>1.6</source>
+							<target>1.6</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/generated/java</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/generated/resources</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
