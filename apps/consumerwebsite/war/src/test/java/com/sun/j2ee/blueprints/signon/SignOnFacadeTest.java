@@ -22,6 +22,7 @@ import com.sun.j2ee.blueprints.signon.dao.SignOnDAOFinderException;
 import com.sun.j2ee.blueprints.signon.dao.UserDAO;
 import com.sun.j2ee.blueprints.test.AbstractJndiContextTests;
 import com.sun.j2ee.blueprints.test.MockHolder;
+import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 
 
 public class SignOnFacadeTest extends AbstractJndiContextTests {
@@ -29,14 +30,15 @@ public class SignOnFacadeTest extends AbstractJndiContextTests {
 	private UserDAO dao;
 	private SignOnFacade facade;
 	
+	@Before
 	public void onSetup() throws Exception {
 		dao = EasyMock.createMock(UserDAO.class);
 		MockHolder.setMock(UserDAO.class, dao);
 		facade = new SignOnFacade();
 	}
 
-	@Override
-	protected void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
+	@JndiConfig
+	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
 		builder.bind(JNDINames.SIGNON_DAO_CLASS, MockDelegatingUserDao.class.getName());		
 	}
 	

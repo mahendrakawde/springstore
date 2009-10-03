@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
@@ -19,6 +20,7 @@ import com.sun.j2ee.blueprints.catalog.dao.JNDINames;
 import com.sun.j2ee.blueprints.catalog.dao.MockDelegatingCatalogDao;
 import com.sun.j2ee.blueprints.test.AbstractJndiContextTests;
 import com.sun.j2ee.blueprints.test.MockHolder;
+import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.test.data.StubTestDataUtil;
 
 public class CatalogFacadeTest extends AbstractJndiContextTests {
@@ -28,15 +30,15 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 	
 	private static final Locale LOCALE = Locale.US;
 
-
+	@Before
 	public void onSetup() throws Exception {
 		dao = EasyMock.createMock(CatalogDAO.class);
 		MockHolder.setMock(CatalogDAO.class, dao);		
 		facade = new CatalogFacade();
 	}
 	
-	@Override
-	protected void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
+	@JndiConfig
+	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
 		builder.bind(JNDINames.CATALOG_DAO_CLASS, MockDelegatingCatalogDao.class.getName());		
 	}
 	

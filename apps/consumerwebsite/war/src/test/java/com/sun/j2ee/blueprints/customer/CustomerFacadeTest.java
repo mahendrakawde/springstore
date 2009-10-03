@@ -20,6 +20,7 @@ import com.sun.j2ee.blueprints.customer.dao.JNDINames;
 import com.sun.j2ee.blueprints.customer.dao.MockDelegatingAccountDao;
 import com.sun.j2ee.blueprints.test.AbstractJndiContextTests;
 import com.sun.j2ee.blueprints.test.MockHolder;
+import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.test.data.StubTestDataUtil;
 
 
@@ -28,14 +29,15 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 	private AccountDAO dao;
 	private CustomerFacade facade;
 	
+	@Before
 	public void onSetup() throws Exception {
 		dao = EasyMock.createMock(AccountDAO.class);
 		MockHolder.setMock(AccountDAO.class, dao);
 		facade = new CustomerFacade();
 	}
 
-	@Override
-	protected void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
+	@JndiConfig
+	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
 		builder.bind(JNDINames.ACCOUNT_DAO_CLASS, MockDelegatingAccountDao.class.getName());		
 	}
 	
