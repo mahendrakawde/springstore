@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
@@ -13,22 +14,21 @@ import com.sun.j2ee.blueprints.catalog.Activity;
 import com.sun.j2ee.blueprints.catalog.AdventurePackage;
 import com.sun.j2ee.blueprints.catalog.Lodging;
 import com.sun.j2ee.blueprints.catalog.Transportation;
-import com.sun.j2ee.blueprints.catalog.dao.JNDINames;
 import com.sun.j2ee.blueprints.test.JndiNames;
+import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.test.jdbc.AbstractDaoTests;
 
 public class PointbaseCatalogDAOTest extends AbstractDaoTests {
 
 	private PointbaseCatalogDAO dao;
 
-	@Override
-	protected void onSetup() throws Exception {
+	@Before
+	public void setup() throws Exception {
 		dao = new PointbaseCatalogDAO();
 	}
 
-	@Override
-	protected void setupJndiContext() throws Exception {
-		SimpleNamingContextBuilder builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
+	@JndiConfig
+	public void setupJndiContext(SimpleNamingContextBuilder builder) throws Exception {
 		builder.bind(JNDINames.CATALOG_DATASOURCE, JndiNames.CATALOGDB);
 		builder.bind(JndiNames.CATALOGDB, getDataSource());
 	}

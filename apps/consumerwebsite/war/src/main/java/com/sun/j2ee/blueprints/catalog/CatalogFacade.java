@@ -4,13 +4,13 @@
 
 package com.sun.j2ee.blueprints.catalog;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.ArrayList;
+
 import com.sun.j2ee.blueprints.catalog.dao.CatalogDAO;
-import com.sun.j2ee.blueprints.catalog.dao.JNDINames;
 import com.sun.j2ee.blueprints.catalog.dao.CatalogDAOException;
+import com.sun.j2ee.blueprints.catalog.dao.JNDINames;
 import com.sun.j2ee.blueprints.util.dao.DAOFactory;
-import com.sun.j2ee.blueprints.util.dao.DAOSystemException;
 
 /**
  * This class is used by clients wanting to access the catalog data
@@ -23,7 +23,7 @@ public class CatalogFacade {
         catalogDao = (CatalogDAO) DAOFactory.getDAO(JNDINames.CATALOG_DAO_CLASS);
     }
     
-    public ArrayList getLodgings(String location, Locale locale)
+    public List getLodgings(String location, Locale locale)
             throws CatalogException {
         try {
             return catalogDao.getLodgings(location,locale);
@@ -51,7 +51,7 @@ public class CatalogFacade {
         }
     }
     
-    public ArrayList getTransportations(String origin, String destination,  Locale locale)
+    public List getTransportations(String origin, String destination,  Locale locale)
             throws CatalogException {
         try {             
             return catalogDao.getTransportations(origin, destination, locale);
@@ -69,7 +69,7 @@ public class CatalogFacade {
         }
     }
     
-    public ArrayList getActivities(String location, Locale locale)
+    public List getActivities(String location, Locale locale)
             throws CatalogException {
         try {
             return catalogDao.getActivities(location,locale);

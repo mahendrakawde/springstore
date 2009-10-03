@@ -4,81 +4,88 @@
 
 package com.sun.j2ee.blueprints.opc.utils;
 
-import javax.jms.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jms.JmsException;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessagePostProcessor;
+import org.springframework.jms.support.destination.JndiDestinationResolver;
+
 import com.sun.j2ee.blueprints.opc.JNDINames;
+import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 public class JMSUtils {
 
-    public static boolean sendMessage(String jmsDest, String property, 
-              String value, String xmlDoc) {
-  Connection jmsCon = null;
-  try {
-      ServiceLocator sl = new ServiceLocator(); 
-      ConnectionFactory jmsConFactory = sl.getJMSConnectionFactory(JNDINames.OPC_QUEUE_CONNECTION_FACTORY);
-      Destination target = sl.getJMSDestination(jmsDest);
-      jmsCon = jmsConFactory.createConnection();
-      Session jmsSession = jmsCon.createSession(true,0);
-      MessageProducer jmsSender = jmsSession.createProducer(target);
-      TextMessage message = jmsSession.createTextMessage(xmlDoc);
-      message.setStringProperty(property, value);
-      jmsSender.send(message);
-        } catch (ServiceLocatorException se) {
-      System.err.println("JMSUtil exception " + se.getMessage());
-      return false;
-  } catch (JMSException exe) {
-      System.err.println("JMSUtil exception " + exe.getMessage());
-      return false;
-  } catch (Exception ge) {
-      System.err.println("JMSUtil exception " + ge.getMessage());
-      return false;
-        } finally {
-            if (jmsCon != null) {
-                try {
-                    jmsCon.close();
-                } catch (JMSException exe) {
-        System.err.println("JMSUtil exception " + exe.getMessage());
-        return false;
-                }
-            }
-        }
-  return true;
-    }
+	private static final Logger logger = LoggerFactory
+			.getLogger(JMSUtils.class);
+	private static JmsTemplate jmsTemplate;
 
-    public static boolean sendMessage(String jmsDest, String property, 
-              String value, Object obj) {  
-  Connection jmsCon = null;
-  try {
-      ServiceLocator sl = new ServiceLocator(); 
-      ConnectionFactory jmsConFactory = sl.getJMSConnectionFactory(JNDINames.OPC_QUEUE_CONNECTION_FACTORY);
-      Destination target = sl.getJMSDestination(jmsDest);
-            jmsCon = jmsConFactory.createConnection();
-            Session jmsSession = jmsCon.createSession(true,0);
-            MessageProducer jmsSender = jmsSession.createProducer(target);
-            ObjectMessage message = jmsSession.createObjectMessage((java.io.Serializable) obj);
-            message.setStringProperty(property, value); 
-            jmsSender.send(message);
-        } catch (ServiceLocatorException se) {
-      System.err.println("JMSUtil exception" + se.getMessage());
-      return false;
-  } catch (JMSException exe) {
-      System.err.println("JMSUtil exception " + exe.getMessage());
-      return false;
-  } catch (Exception ge) {
-      System.err.println("JMSUtil exception " + ge.getMessage());
-      return false;
-        } finally {
-            if (jmsCon != null) {
-                try {
-                    jmsCon.close();
-                } catch (JMSException exe) {
-        System.err.println("JMSUtil exception " + exe.getMessage());
-        return false;
-                }
-            }
-        }
-  return true;
-    }
+	static {
+		ServiceLocator sl = new ServiceLocator();
+		ConnectionFactory jmsConFactory = sl
+				.getJMSConnectionFactory(JNDINames.OPC_QUEUE_CONNECTION_FACTORY);
+		jmsTemplate = new JmsTemplate(jmsConFactory);
+		jmsTemplate.setSessionTransacted(true);
+		jmsTemplate.setSessionAcknowledgeMode(Session.SESSION_TRANSACTED);
+		jmsTemplate.setDestinationResolver(new JndiDestinationResolver());
+
+	}
+
+	private static class StringPropertMessagePostProcessor implements
+			MessagePostProcessor {
+
+		private final Map properties = new HashMap();
+
+		public StringPropertMessagePostProcessor(String property, String value) {
+			super();
+			properties.put(property, value);
+		}
+		
+		public Message postProcessMessage(Message message) throws JMSException {
+			for (Iterator iterator = properties.entrySet().iterator(); iterator
+					.hasNext();) {
+				Entry prop = (Entry) iterator.next();
+				message.setStringProperty((String) prop.getKey(), (String) prop
+						.getValue());
+
+			}
+			return message;
+		}
+
+	}
+
+	public static boolean sendMessage(String jmsDest, String property,
+			String value, String xmlDoc) {
+		try {
+			jmsTemplate.convertAndSend(jmsDest, xmlDoc,
+					new StringPropertMessagePostProcessor(property, value));
+			return true;
+		} catch (JmsException exe) {
+			logger.error("JMSUtil exception " + exe.getMessage(), exe);
+		}
+		return false;
+	}
+
+	public static boolean sendMessage(String jmsDest, String property,
+			String value, Object obj) {
+		try {
+			jmsTemplate.convertAndSend(jmsDest, obj,
+					new StringPropertMessagePostProcessor(property, value));
+			return true;
+		} catch (JmsException exe) {
+			logger.error("JMSUtil exception " + exe.getMessage(), exe);
+		}
+		return false;
+
+	}
 }

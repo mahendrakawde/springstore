@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class AdventurePackage implements java.io.Serializable {
     
-    private ArrayList activities;
+    private List activities;
     private String packageId;
     private String name;
     private String lodginglId;
@@ -28,7 +28,7 @@ public class AdventurePackage implements java.io.Serializable {
                                                 String location,
                                                 String lodginglId,
                                                 double price,
-                                                ArrayList activities) {
+                                                List activities) {
         this.packageId = packageId;
         this.name = name;
         this.description = description;
@@ -38,7 +38,7 @@ public class AdventurePackage implements java.io.Serializable {
         this.activities = activities;        
     }
     
-    public ArrayList getActivities() {
+    public List getActivities() {
         return activities;
     }
       

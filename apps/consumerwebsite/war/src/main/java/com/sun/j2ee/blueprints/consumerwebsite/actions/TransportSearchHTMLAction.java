@@ -43,17 +43,14 @@ public final class TransportSearchHTMLAction extends HTMLActionSupport {
             } else {
                 cart.setOrigin(origin);
             }
-             
-            ArrayList transpDepartureBeans = null;
-            ArrayList transpReturnBeans = null;
-            
+                       
             String noTransport = request.getParameter("no_transport");
             String showTransport = request.getParameter("show_flights");
             Locale locale = new Locale("en","us");
             String destination = cart.getDestination();
             //access catalog component and retrieve  data from the database
-            transpDepartureBeans = searchTransportation(origin, destination, locale);
-            transpReturnBeans = searchTransportation(destination, origin, locale);
+            List transpDepartureBeans = searchTransportation(origin, destination, locale);
+            List transpReturnBeans = searchTransportation(destination, origin, locale);
             
             // places result bean data in the request
             request.setAttribute("departure_result", transpDepartureBeans );
@@ -65,9 +62,9 @@ public final class TransportSearchHTMLAction extends HTMLActionSupport {
         /**
      * Access catalog component and retrieve transportation data from the database
      */
-    public ArrayList searchTransportation(String origin, String destination ,Locale locale) throws HTMLActionException {
-        ArrayList transportation = null;
-        ArrayList transportationBean = new ArrayList();
+    public List searchTransportation(String origin, String destination ,Locale locale) throws HTMLActionException {
+        List transportation = null;
+        List transportationBean = new ArrayList();
         
         //call catalog component
         try {

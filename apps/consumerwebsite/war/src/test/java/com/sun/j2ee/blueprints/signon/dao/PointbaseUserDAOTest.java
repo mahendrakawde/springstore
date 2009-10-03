@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
 import com.sun.j2ee.blueprints.test.JndiNames;
+import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.test.jdbc.AbstractDaoTests;
 import com.sun.j2ee.blueprints.util.dao.DAOSystemException;
 
@@ -15,13 +17,13 @@ public class PointbaseUserDAOTest extends AbstractDaoTests {
 
 	private PointbaseUserDAO dao;	
 	
-	public void onSetup() throws Exception {
+	@Before
+	public void setup() throws Exception {
 		dao = new PointbaseUserDAO();
 	}
 
-	@Override
-	protected void setupJndiContext() throws Exception {
-		SimpleNamingContextBuilder builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
+	@JndiConfig
+	public void setupJndiContext(SimpleNamingContextBuilder builder) throws Exception {
 		builder.bind(JNDINames.SIGNON_DATASOURCE, JndiNames.SIGNNONDB);
 		builder.bind(JndiNames.SIGNNONDB, getDataSource());
 	}
@@ -34,7 +36,7 @@ public class PointbaseUserDAOTest extends AbstractDaoTests {
 		assertEquals(count + 1, countRowsInTable(DatabaseNames.SIGNON_TABLE));		
 	}
 
-	@Test(expected=DAOSystemException.class)
+	@Test(expected=SignOnDAODupKeyException.class)
 	public void testCreateUserDuplicate() throws Exception {
 		dao.createUser("j2ee", "test123");
 	}
@@ -46,7 +48,7 @@ public class PointbaseUserDAOTest extends AbstractDaoTests {
 
 	@Test(expected=InvalidPasswordException.class)
 	public void testMatchPasswordFalse() throws Exception {		
-		assertFalse(dao.matchPassword("j2ee", "jee"));
+		dao.matchPassword("j2ee", "jee");
 	}
 	
 	@Test(expected=SignOnDAOFinderException.class) 

@@ -21,7 +21,7 @@ import com.sun.j2ee.blueprints.util.dao.DAOSystemException;
 public class MockDelegatingCatalogDao implements CatalogDAO {
 
 	@Override
-	public ArrayList getActivities(String location, Locale locale) throws CatalogDAOException, DAOSystemException {
+	public List getActivities(String location, Locale locale) throws CatalogDAOException, DAOSystemException {
 		CatalogDAO delegate = MockHolder.getMock(CatalogDAO.class);
 		return delegate.getActivities(location, locale);
 	}
@@ -48,7 +48,7 @@ public class MockDelegatingCatalogDao implements CatalogDAO {
 	}
 
 	@Override
-	public ArrayList getLodgings(String location, Locale locale)
+	public List getLodgings(String location, Locale locale)
 			throws CatalogDAOException, DAOSystemException {
 		CatalogDAO delegate = MockHolder.getMock(CatalogDAO.class);
 		return delegate.getLodgings(location, locale);
@@ -62,7 +62,7 @@ public class MockDelegatingCatalogDao implements CatalogDAO {
 	}
 
 	@Override
-	public ArrayList getTransportations(String origin, String destination,
+	public List getTransportations(String origin, String destination,
 			Locale locale) throws CatalogDAOException, DAOSystemException {
 		CatalogDAO delegate = MockHolder.getMock(CatalogDAO.class);
 		return delegate.getTransportations(origin, destination, locale);

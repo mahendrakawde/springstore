@@ -2,6 +2,7 @@ package com.sun.j2ee.blueprints.test.actions;
 
 import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.Before;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -20,6 +21,7 @@ import com.sun.j2ee.blueprints.signon.dao.MockDelegatingUserDao;
 import com.sun.j2ee.blueprints.signon.dao.UserDAO;
 import com.sun.j2ee.blueprints.test.AbstractJndiContextTests;
 import com.sun.j2ee.blueprints.test.MockHolder;
+import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLAction;
 
 /**
@@ -54,7 +56,8 @@ public abstract class AbstractActionTests extends AbstractJndiContextTests {
 	protected CustomerFacade customerFacade;
 	protected SignOnFacade signOnFacade;
 
-	protected final void onSetup() {
+	@Before
+	public final void setup() {
 		request = new MockHttpServletRequest();
 		AdventureComponentManager acm = new AdventureComponentManager();
 		acm.init(request.getSession());
@@ -89,8 +92,8 @@ public abstract class AbstractActionTests extends AbstractJndiContextTests {
 
 	}
 
-	@Override
-	protected void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
+	@JndiConfig
+	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
 		builder.bind(com.sun.j2ee.blueprints.signon.dao.JNDINames.SIGNON_DAO_CLASS, MockDelegatingUserDao.class.getName());
 		builder.bind(com.sun.j2ee.blueprints.customer.dao.JNDINames.ACCOUNT_DAO_CLASS, MockDelegatingAccountDao.class.getName());
 		builder.bind(com.sun.j2ee.blueprints.catalog.dao.JNDINames.CATALOG_DAO_CLASS, MockDelegatingCatalogDao.class.getName());

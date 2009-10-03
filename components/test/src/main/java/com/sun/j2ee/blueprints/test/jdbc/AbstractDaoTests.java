@@ -15,7 +15,4 @@ public abstract class AbstractDaoTests extends AbstractJndiIntegrationTests {
 		return template.getDataSource();
 	}
 	
-	@Override
-	protected void setupJndiContext() throws Exception {}
-
 }

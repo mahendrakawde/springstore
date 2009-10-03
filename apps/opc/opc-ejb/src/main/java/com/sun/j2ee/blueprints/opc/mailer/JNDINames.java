@@ -9,7 +9,7 @@ package com.sun.j2ee.blueprints.opc.mailer;
  * JNDI names of various entities. Any change here should
  * also be reflected in the deployment descriptors.
  */
-public class JNDINames {
+public final class JNDINames {
 
   private JNDINames() { } //Prevents instantiation
 

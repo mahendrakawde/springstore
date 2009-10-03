@@ -5,6 +5,7 @@
 package com.sun.j2ee.blueprints.catalog.dao;
 
 import java.util.*;
+
 import com.sun.j2ee.blueprints.catalog.*;
 import com.sun.j2ee.blueprints.util.dao.*;
 
@@ -13,15 +14,15 @@ import com.sun.j2ee.blueprints.util.dao.*;
  */
 public interface CatalogDAO {
     
-    public ArrayList getLodgings(String location, Locale locale)
+    public List getLodgings(String location, Locale locale)
             throws CatalogDAOException, DAOSystemException;
     public Lodging getLodging(String id, Locale locale)
             throws CatalogDAOException, DAOSystemException;
-    public ArrayList getTransportations(String origin, String destination, Locale locale)
+    public List getTransportations(String origin, String destination, Locale locale)
             throws CatalogDAOException, DAOSystemException;
     public Transportation getTransportation(String id, Locale locale)
             throws CatalogDAOException, DAOSystemException;
-    public ArrayList getActivities(String location, Locale locale)
+    public List getActivities(String location, Locale locale)
             throws CatalogDAOException, DAOSystemException;
     public Activity getActivity(String id, Locale locale)
             throws CatalogDAOException, DAOSystemException;

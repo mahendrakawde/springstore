@@ -4,12 +4,17 @@
 
 package com.sun.j2ee.blueprints.opc.mailer;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Locale;
 
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
-import javax.activation.DataHandler;
-import javax.mail.*;
-import javax.mail.internet.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 
 /**
@@ -17,6 +22,10 @@ import javax.mail.internet.*;
  */
 public class MailHelper {
 
+	private static final Logger logger = LoggerFactory.getLogger(MailHelper.class);
+	
+	private JavaMailSenderImpl mailSender;
+	
     /**
      * This method creates an email message and sends it using the
      * J2EE mail services
@@ -24,25 +33,26 @@ public class MailHelper {
      */
     public void createAndSendMail(String emailAddress, String subject, String mailContent, Locale locale) throws MailerException {
         try {
-            InitialContext ic = new InitialContext();
-            Session session = (Session) ic.lookup(JNDINames.MAIL_SESSION);
-            Message msg = new MimeMessage(session);
-            msg.setFrom();
-            msg.setRecipients(Message.RecipientType.TO,
-                     InternetAddress.parse(emailAddress, false));
-            msg.setSubject(subject);
-            String contentType = "text/html";
-            StringBuffer sb = new StringBuffer(mailContent);
-            msg.setDataHandler(new DataHandler(
-                              new ByteArrayDataSource(sb.toString(), contentType)));
-            msg.setHeader("X-Mailer", "JavaMailer");
-            msg.setSentDate(new Date());
-            Transport.send(msg);
-        } catch (Exception e) {
-            System.err.println("MailHelper caught: " + e);
-            e.printStackTrace();
+        	init();
+        	MimeMessageHelper helper = new MimeMessageHelper(mailSender.createMimeMessage());
+        	helper.setTo(emailAddress);
+            helper.setSubject(subject);
+            helper.setText(mailContent, true);
+            helper.setSentDate(new Date());
+            MimeMessage msg = helper.getMimeMessage();
+            msg.addHeader("X-Mailer", "JavaMailer");
+            mailSender.send(msg);
+        } catch (Exception e) {        	
+            logger.error("MailHelper caught: " + e.getMessage(), e);
             throw new MailerException("Failure while sending mail:" + e);
         }
+    }
+    
+    private void init() throws Exception {
+        InitialContext ic = new InitialContext();
+        Session session = (Session) ic.lookup(JNDINames.MAIL_SESSION);
+        mailSender = new JavaMailSenderImpl();
+        mailSender.setSession(session);        
     }
 }
 
