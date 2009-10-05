@@ -13,8 +13,10 @@ public final class JNDINames {
 
   private JNDINames() { } //Prevents instantiation
 
-  public static final String MAIL_SESSION =
-        "java:comp/env/mail/MailSession";
+  public static final String MAIL_SESSION = "java:comp/env/mail/MailSession";
+
+  //JNDI name for the environment entry to enable email notifications
+  public static final String SEND_MAIL = "java:comp/env/param/SendMail";
 
 }
 

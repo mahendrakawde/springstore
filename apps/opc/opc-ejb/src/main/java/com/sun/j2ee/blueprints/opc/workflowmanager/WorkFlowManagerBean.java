@@ -20,6 +20,7 @@ import javax.naming.InitialContext;
 import org.springframework.ejb.support.AbstractJmsMessageDrivenBean;
 
 import com.sun.j2ee.blueprints.opc.JNDINames;
+import com.sun.j2ee.blueprints.opc.workflowmanager.handlers.Handler;
 import com.sun.j2ee.blueprints.opc.workflowmanager.handlers.HandlerException;
 import com.sun.j2ee.blueprints.opc.workflowmanager.handlers.InvoiceHandler;
 import com.sun.j2ee.blueprints.opc.workflowmanager.handlers.POHandler;
@@ -38,8 +39,8 @@ public class WorkFlowManagerBean extends AbstractJmsMessageDrivenBean implements
 		TimedObject {
 
 	private MessageDrivenContext context;
-	private POHandler poHandler;
-	private InvoiceHandler invHandler;
+	private Handler poHandler;
+	private Handler invHandler;
 	private ProcessManagerLocal pm;
 	
 	protected void onEjbCreate() {
@@ -118,9 +119,8 @@ public class WorkFlowManagerBean extends AbstractJmsMessageDrivenBean implements
 				pm.updateStatusToCompleted(orderID);
 
 				// send the order completed mail
-				if (pm.getOrderStatus(orderID).equals(
-						OrderStatusNames.COMPLETED)) {
-					invHandler.sendOrderCompletedMail(orderID);
+				if (pm.getOrderStatus(orderID).equals(OrderStatusNames.COMPLETED)) {
+					((InvoiceHandler) invHandler).sendOrderCompletedMail(orderID);
 				}
 			}
 		} catch (Exception exe) {

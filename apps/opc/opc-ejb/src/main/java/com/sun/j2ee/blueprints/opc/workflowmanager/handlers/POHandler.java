@@ -13,7 +13,6 @@ import com.sun.j2ee.blueprints.opc.purchaseorder.*;
 import com.sun.j2ee.blueprints.opc.orderreceiver.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
 import com.sun.j2ee.blueprints.processmanager.ejb.*;
-import com.sun.j2ee.blueprints.servicelocator.*;
 import com.sun.j2ee.blueprints.servicelocator.ejb.*;
 import com.sun.j2ee.blueprints.opc.financial.*;
 import com.sun.j2ee.blueprints.opc.utils.*;
@@ -27,22 +26,20 @@ import com.sun.j2ee.blueprints.opc.mailer.*;
  * and then the CRM component. Finally it calls the 
  * order filler component. 
  */
-public class POHandler {
+public class POHandler extends AbstractHandler {
     
     private ProcessManagerLocal processManager;
-    private ServiceLocator sl;
     private POReceiver poReceiver;
     private CreditCardVerifier cardVerifier;
     
     public POHandler()throws HandlerException {
         try{
-            sl = new ServiceLocator();
             cardVerifier = new CreditCardVerifier();
             poReceiver = new POReceiver();
             ProcessManagerLocalHome pmHome = (ProcessManagerLocalHome)sl.getLocalHome(JNDINames.PM_EJB);
             processManager = pmHome.create();
         } catch (Exception exe) {
-            System.err.println(exe);
+        	logger.error(exe.getMessage(), exe);
             throw new HandlerException("OPC Exception creating POHandler");  
         }
     }
@@ -52,7 +49,6 @@ public class POHandler {
         PurchaseOrder po = null;
         String poID = null;
         String emailID = null;
-        boolean sendMail = sl.getBoolean(JNDINames.SEND_MAIL);
         
         //extract the PO from the message
         try {
@@ -88,12 +84,10 @@ public class POHandler {
                 if (ccStatus){
                     processManager.updateStatus(poID, OrderStatusNames.APPROVED);                   
                     //call CRM 
-                    if(sendMail){
-                        String subject = "Your Adventure Builder order has been  approved";
-                        String msg = "Your order (# " + poID + " ) has been approved.";
-                        msg += " Thank you for shopping with us and we hope to see you again soon";
-                        sendMail(emailID, subject, msg);                    
-                    }   
+                    String subject = "Your Adventure Builder order has been  approved";
+                    String msg = "Your order (# " + poID + " ) has been approved.";
+                    msg += " Thank you for shopping with us and we hope to see you again soon";
+                    sendMail(emailID, subject, msg);                    
                     //next call order filler
                     if (JMSUtils.sendMessage(JNDINames.ORDER_FILLER_MDB_QUEUE, 
                                          JNDINames.DOC_TYPE, JNDINames.PO_DOCUMENT,
@@ -106,32 +100,31 @@ public class POHandler {
                 } else { 
                     processManager.updateStatus(poID, OrderStatusNames.DENIED);
                     //call CRM
-                    if(sendMail){ 
-                        String subject = "Your Adventure Builder order has been  denied";
-                        String msg = "Your order (# " + poID + " ) has been denied. ";
-                        msg += " Thank you for shopping with us and we hope to see you again soon";
-                        sendMail(emailID, subject, msg);                      
-                    }
+                    String subject = "Your Adventure Builder order has been  denied";
+                    String msg = "Your order (# " + poID + " ) has been denied. ";
+                    msg += " Thank you for shopping with us and we hope to see you again soon";
+                    sendMail(emailID, subject, msg);                      
                 }
             }    
         } catch (CreateException ce) {
+        	logger.warn(ce.getMessage(), ce);
             //call CRM to notify the customer
-            if(sendMail){
-                String subject = "Problems processing your Adventure Builder order";
-                String msg = "We had problems processing your Adventure Builder order.";
-                msg += " Please resubmit the order";
-                sendMail(emailID, subject, msg);             
-            }
+            String subject = "Problems processing your Adventure Builder order";
+            String msg = "We had problems processing your Adventure Builder order.";
+            msg += " Please resubmit the order";
+            sendMail(emailID, subject, msg);             
         } catch (RemoteException re) {
             //call process manager and set error status
+        	logger.warn(re.getMessage(), re);
             try{  
                 processManager.updateStatus(poID,OrderStatusNames.PAYMENT_PROCESSING_ERROR);
                 processManager.updateOrderErrorStatus(poID, true);
             } catch(FinderException fe){
-                System.err.println(fe);
+            	logger.warn(fe.getMessage(), fe);
+
             }    
         } catch (Exception exe) {
-            System.err.println(exe);
+        	logger.warn(exe.getMessage(), exe);
             throw new HandlerException("OPC Exception handling PO");
         }  
     }

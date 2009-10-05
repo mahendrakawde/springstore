@@ -105,7 +105,6 @@ public class JMSUtilsTest extends AbstractJmsJndiContextTests {
 
 			@Override
 			public Object doInTransaction(TransactionStatus status) {
-				// TODO Auto-generated method stub
 				return jmsTemplate.receive(queue);
 			}
 		});

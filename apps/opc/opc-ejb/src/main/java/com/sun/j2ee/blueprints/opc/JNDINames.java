@@ -68,9 +68,6 @@ public class JNDINames {
     // JNDI Name for credit card service
     public static final String CREDIT_CARD_SERVICE_NAME = "java:comp/env/service/CreditCardService";
 
-    //JNDI name for the environment entry to enable email notifications
-    public static final String SEND_MAIL = "java:comp/env/param/SendMail";
-
    //JNDI name for the environment entries to configure the timer to update order status
     public static final String TIMER_EXPIRATION = "java:comp/env/param/OrderStatusTimerInitialExpiration";
     public static final String TIMER_INTERVAL = "java:comp/env/param/OrderStatusTimerInterval";

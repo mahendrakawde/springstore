@@ -42,8 +42,6 @@ public class OrderFillerBean extends AbstractJmsMessageDrivenBean {
 
 	public void onMessage(Message message) {
 		try {
-			String docType = message.getStringProperty(JNDINames.DOC_TYPE);
-
 			// send the PO to the broker queue
 			if (message instanceof ObjectMessage) {
 				ObjectMessage objMsg = (ObjectMessage) message;

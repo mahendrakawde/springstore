@@ -4,40 +4,43 @@
 
 package com.sun.j2ee.blueprints.opc.workflowmanager.handlers;
 
-import javax.jms.*;
+import javax.jms.Message;
+import javax.jms.TextMessage;
 
-import com.sun.j2ee.blueprints.opc.invoice.*;
-import com.sun.j2ee.blueprints.opc.*;
-import com.sun.j2ee.blueprints.processmanager.ejb.*;
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
-import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.*;
-import com.sun.j2ee.blueprints.opc.utils.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
-import com.sun.j2ee.blueprints.opc.mailer.*;
+import com.sun.j2ee.blueprints.opc.invoice.Invoice;
+import com.sun.j2ee.blueprints.opc.invoice.XMLException;
+import com.sun.j2ee.blueprints.opc.mailer.Mail;
+import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.PurchaseOrderLocal;
+import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.PurchaseOrderLocalHome;
+import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
+import com.sun.j2ee.blueprints.processmanager.ejb.OrderStatusNames;
+import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocal;
+import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocalHome;
 
 /**
  * This is the Invoice handler that gets called by the
  * OPC Work Flow Manager. This handler calls the
  * workers that process the invoice
  */
-public class InvoiceHandler {
+public class InvoiceHandler extends AbstractHandler {
     
     private ProcessManagerLocal processManager;    
-    private ServiceLocator sl;
     
     public InvoiceHandler() throws HandlerException {
         try{
-            sl = new ServiceLocator();
             ProcessManagerLocalHome pmHome =
                 (ProcessManagerLocalHome)sl.getLocalHome(JNDINames.PM_EJB);
             processManager = pmHome.create();
         } catch (Exception exe) {
-            System.err.println(exe);
+            logger.error(exe.getMessage(), exe);
             throw new HandlerException("OPC Exception creating InvoiceHandler"); 
         }
     }
     
+    /* (non-Javadoc)
+	 * @see com.sun.j2ee.blueprints.opc.workflowmanager.handlers.Handler#handle(javax.jms.Message)
+	 */
     public void handle(Message message) throws HandlerException {
         Invoice invoice = null;
         String inv = null;
@@ -62,7 +65,7 @@ public class InvoiceHandler {
                     processManager.updateAirlineOrderStatus(opcPoID, invStat);                                  
            }
         } catch (XMLException exe) {
-            System.err.println(exe);
+            logger.error(exe.getMessage(), exe);
             //call process manager and set error status
             try{ 
                 /* 
@@ -74,32 +77,27 @@ public class InvoiceHandler {
                 processManager.updateStatus(opcPoID,OrderStatusNames.INVOICE_XML_ERROR);
                 processManager.updateOrderErrorStatus(opcPoID, true);
             } catch(Exception xe){
-                System.err.println(xe);
+            	logger.error(exe.getMessage(), exe);
             }    
         } catch (Exception exe) {
-            System.err.println(exe);
+        	logger.error(exe.getMessage(), exe);
             throw new HandlerException("OPC Exception handling invoice");
         }    
     }
    
     public void sendOrderCompletedMail(String orderID) throws HandlerException{
-        boolean sendMail = sl.getBoolean(JNDINames.SEND_MAIL);
         try{
             //get email id and call CRM
-            if(sendMail){
-                PurchaseOrderLocalHome poHome = 
-                  (PurchaseOrderLocalHome)sl.getLocalHome(JNDINames.PO_EJB);
-                PurchaseOrderLocal poLocal = poHome.findByPrimaryKey(orderID);
-                String msg = "Your order (# " + orderID  + " ) has been completed.";
-                msg += " Thank you for shopping with us and we hope to see you again soon";
-                Mail mail = new Mail(poLocal.getEmailId(),
-                       " Your Adventure Builder order has been completed ", msg); 
-                String xmlMail = mail.toXML();
-                JMSUtils.sendMessage(JNDINames.CRM_MDB_QUEUE, 
-                                JNDINames.DOC_TYPE, JNDINames.MAIL_DOCUMENT, xmlMail);
-            }
+            PurchaseOrderLocalHome poHome = (PurchaseOrderLocalHome)sl.getLocalHome(JNDINames.PO_EJB);
+            PurchaseOrderLocal poLocal = poHome.findByPrimaryKey(orderID);
+            String msg = "Your order (# " + orderID  + " ) has been completed.";
+            msg += " Thank you for shopping with us and we hope to see you again soon";
+            Mail mail = new Mail(poLocal.getEmailId(),
+                   " Your Adventure Builder order has been completed ", msg); 
+            String xmlMail = mail.toXML();
+            JMSUtils.sendMessage(JNDINames.CRM_MDB_QUEUE, JNDINames.DOC_TYPE, JNDINames.MAIL_DOCUMENT, xmlMail);
         } catch (Exception exe) {
-            System.err.println(exe);
+        	logger.error(exe.getMessage(), exe);
             throw new HandlerException("OPC Exception sending mail");
         }     
 

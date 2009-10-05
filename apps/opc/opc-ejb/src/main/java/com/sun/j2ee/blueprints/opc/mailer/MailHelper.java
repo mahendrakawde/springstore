@@ -26,6 +26,15 @@ public class MailHelper {
 	
 	private JavaMailSenderImpl mailSender;
 	
+	public MailHelper() {
+		super();
+		try {
+			init();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
     /**
      * This method creates an email message and sends it using the
      * J2EE mail services
@@ -33,7 +42,6 @@ public class MailHelper {
      */
     public void createAndSendMail(String emailAddress, String subject, String mailContent, Locale locale) throws MailerException {
         try {
-        	init();
         	MimeMessageHelper helper = new MimeMessageHelper(mailSender.createMimeMessage());
         	helper.setTo(emailAddress);
             helper.setSubject(subject);

@@ -15,6 +15,7 @@
 
 	<logger name="org.springframework" level="INFO" />
 	<logger name="org.hibernate" level="INFO" />	
+	<logger name="org.exolab" level="INFO" />	
 	<logger name="com.sun.j2ee.blueprints" level="DEBUG" />
 	
   <root level="debug">

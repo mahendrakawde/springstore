@@ -5,14 +5,9 @@
 package com.sun.j2ee.blueprints.opc.workflowmanager.handlers;
 
 public class HandlerException extends Exception {
-    private String message;
 
-    public HandlerException(String message) {
-        super(message);
-  this.message = message;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
+	public HandlerException(String message) {
+		super(message);
+	}
+
 }

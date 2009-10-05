@@ -4,15 +4,11 @@
 
 package com.sun.j2ee.blueprints.opc.mailer;
 
-import java.io.*;
-import java.util.*;
-import java.net.*;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import java.io.StringWriter;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.CompactWriter;
+
 
 public class Mail {
 
@@ -41,41 +37,11 @@ public class Mail {
         return content;
     }
 
-    public String toXML() {      
-      String mailXML = null;      
-      try{
-                    
-          //construct the DOM tree
-          DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-          docBuilderFactory.setNamespaceAware(true);
-          DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-          Document doc = docBuilder.newDocument();          
-          Element  mailElem = doc.createElement("Mail");
-          doc.appendChild(mailElem);          
-          Element  elem = doc.createElement("Subject");          
-          elem.appendChild(doc.createTextNode(subject));
-          mailElem.appendChild(elem);          
-          elem = doc.createElement("Address");          
-          elem.appendChild(doc.createTextNode(address));
-          mailElem.appendChild(elem);          
-          elem = doc.createElement("Content");
-          elem.appendChild(doc.createTextNode(content));
-          mailElem.appendChild(elem);          
-     
-          //process the source tree
-          ByteArrayOutputStream baStream = new ByteArrayOutputStream();
-          Result res = new StreamResult(baStream);
-          TransformerFactory transFactory = TransformerFactory.newInstance();
-          Transformer transformer = transFactory.newTransformer();
-          transformer.setOutputProperty(OutputKeys.METHOD, "xml");          
-          transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-    transformer.transform(new DOMSource(doc), res);
-          mailXML = baStream.toString("UTF-8");  
-          
-      } catch(Exception exe){
-          System.err.println(exe);
-      }
-      return mailXML;   
-  }
+    public String toXML() {
+    	XStream xstream = new XStream();
+    	xstream.alias("mail", Mail.class);
+    	StringWriter writer = new StringWriter();
+    	xstream.marshal(this, new CompactWriter(writer));
+    	return writer.toString();
+    }
 }
