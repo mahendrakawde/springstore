@@ -119,6 +119,7 @@ public class ProcessManagerBean extends AbstractStatelessSessionBean {
 			ServiceLocator sl = new ServiceLocator();
 			mlh = (ManagerLocalHome) sl.getLocalHome(MANAGER_HOME_ENV_NAME);
 		} catch (ServiceLocatorException se) {
+			logger.error(se.getMessage(), se);
 			throw new EJBException("Got service locator exception! "
 					+ se.getMessage());
 		}
