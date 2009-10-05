@@ -1,5 +1,6 @@
 package com.sun.j2ee.blueprints.opc.mailer;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -13,6 +14,8 @@ public class MailTest {
 	
 	private final Mail mail = new Mail("test@test.ex", "test subject", "This is the content");
 
+	private static final String EXPECTED_XML = "<mail><address>test@test.ex</address><subject>test subject</subject><content>This is the content</content></mail>";
+	
 	private XStream xstream = new XStream();
 	
 	@Before()
@@ -20,6 +23,11 @@ public class MailTest {
 		xstream.alias("mail", Mail.class);		
 	}
 	
+	@Test
+	public void toXml() throws Exception {
+		String xml = mail.toXML();
+		assertEquals(EXPECTED_XML, xml);
+	}
 	@Test
 	public void fromXml() throws Exception{
 		String xml = mail.toXML();		
