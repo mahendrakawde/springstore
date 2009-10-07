@@ -1,6 +1,8 @@
 package com.sun.j2ee.blueprints.opc.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
@@ -16,7 +18,6 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.connection.JmsTransactionManager;
 import org.springframework.jms.connection.SingleConnectionFactory;
 import org.springframework.jms.connection.TransactionAwareConnectionFactoryProxy;

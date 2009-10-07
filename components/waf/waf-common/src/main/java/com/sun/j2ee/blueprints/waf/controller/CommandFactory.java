@@ -5,8 +5,10 @@
 package com.sun.j2ee.blueprints.waf.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import com.sun.j2ee.blueprints.util.tracer.Debug;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class provides a single point from which
@@ -17,11 +19,13 @@ import com.sun.j2ee.blueprints.util.tracer.Debug;
  * mappings.xml file and set by the 
    com.sun.j2ee.blueprints.waf.controller.RequestProcessor
  */
-public class CommandFactory implements java.io.Serializable {
+public final class CommandFactory implements java.io.Serializable {
 
-    private static HashMap commandMap = new HashMap();
+	private static final Logger logger = LoggerFactory.getLogger(CommandFactory.class);
+	
+    private static Map commandMap = new HashMap();
 
-    protected CommandFactory() {} // prevent instanciation
+    private CommandFactory() {} // prevent instanciation
 
     public static Command getCommand(Event ev) {
         String commandName = ev.getCommandClassName();
@@ -35,7 +39,8 @@ public class CommandFactory implements java.io.Serializable {
                      commandMap.put(commandName, command);
                  }
             } catch (Exception ex) {
-                Debug.print("CommandFactory: error loading command " + commandName + " :" + ex);
+            	logger.warn("CommandFactory: error loading command {}", commandName);
+            	logger.error(ex.getMessage(), ex);
             }
         }
         return command;

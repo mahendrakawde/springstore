@@ -9,12 +9,14 @@ import java.util.Collection;
 import javax.ejb.CreateException;
 import javax.ejb.EJBException;
 import javax.ejb.FinderException;
+import javax.ejb.SessionContext;
 
 import org.springframework.ejb.support.AbstractStatelessSessionBean;
 
 import com.sun.j2ee.blueprints.processmanager.manager.ejb.ManagerLocal;
 import com.sun.j2ee.blueprints.processmanager.manager.ejb.ManagerLocalHome;
 import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 public class ProcessManagerBean extends AbstractStatelessSessionBean {
@@ -23,6 +25,12 @@ public class ProcessManagerBean extends AbstractStatelessSessionBean {
 
 	private ManagerLocalHome mlh;
 
+	public void setSessionContext(SessionContext sessionContext) {
+		super.setSessionContext(sessionContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
+	}
+	
+	
 	/**
 	 * Business method used for when new purchase orders are recieved and want
 	 * to start the workflow process to fullfil the order

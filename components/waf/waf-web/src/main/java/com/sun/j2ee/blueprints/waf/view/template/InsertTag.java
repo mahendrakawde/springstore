@@ -4,14 +4,12 @@
 
 package com.sun.j2ee.blueprints.waf.view.template;
 
-// J2EE Imports
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.sun.j2ee.blueprints.waf.view.template.Parameter;
-import com.sun.j2ee.blueprints.waf.view.template.Screen;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// WAF imports
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
 
 /** 
@@ -21,6 +19,8 @@ import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
 
 public class InsertTag extends TagSupport {
     
+	private final Logger logger = LoggerFactory.getLogger(InsertTag.class);
+	
     private boolean directInclude = false;
     private String parameter = null;
     private Parameter parameterRef = null;
@@ -40,7 +40,7 @@ public class InsertTag extends TagSupport {
          try{
              pageContext.getOut().flush();
          } catch (Exception e){
-             // do nothing
+             logger.warn(e.getMessage(), e);
          }
          Screen screen = null;
         // load the ScreenFlow
@@ -52,7 +52,7 @@ public class InsertTag extends TagSupport {
         if ((screen != null) && (parameter != null)) {
             parameterRef = (Parameter)screen.getParameter(parameter);
         } else {
-            System.err.println("InsertTag: screenManager is null");
+            logger.warn("InsertTag: screenManager is null");
         }
         if (parameterRef != null) directInclude = parameterRef.isDirect();
         return SKIP_BODY;
@@ -66,8 +66,7 @@ public class InsertTag extends TagSupport {
                 if (parameterRef.getValue() != null) pageContext.getRequest().getRequestDispatcher(parameterRef.getValue()).include(pageContext.getRequest(), pageContext.getResponse());
             } 
          } catch (Exception ex) {
-             System.err.println("InsertTag:doEndTag caught: " + ex);
-             ex.printStackTrace();
+        	 logger.error("InsertTag:doEndTag caught: ", ex);
         }
         // reset everything in that this tag may be pooled
         parameterRef = null;

@@ -5,42 +5,42 @@
 
 package com.sun.j2ee.blueprints.consumerwebsite.actions;
 
-
 public class CreditCard {
-    protected java.lang.String cardExpiryDate;
-    protected java.lang.String cardNumber;
-    protected java.lang.String cardType;
-    
-    public CreditCard() {
-    }
-    
-    public CreditCard(java.lang.String cardExpiryDate, java.lang.String cardNumber, java.lang.String cardType) {
-        this.cardExpiryDate = cardExpiryDate;
-        this.cardNumber = cardNumber;
-        this.cardType = cardType;
-    }
-    
-    public java.lang.String getCardExpiryDate() {
-        return cardExpiryDate;
-    }
-    
-    public void setCardExpiryDate(java.lang.String cardExpiryDate) {
-        this.cardExpiryDate = cardExpiryDate;
-    }
-    
-    public java.lang.String getCardNumber() {
-        return cardNumber;
-    }
-    
-    public void setCardNumber(java.lang.String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-    
-    public java.lang.String getCardType() {
-        return cardType;
-    }
-    
-    public void setCardType(java.lang.String cardType) {
-        this.cardType = cardType;
-    }
+	protected java.lang.String cardExpiryDate;
+	protected java.lang.String cardNumber;
+	protected java.lang.String cardType;
+
+	public CreditCard() {
+	}
+
+	public CreditCard(java.lang.String cardExpiryDate,
+			java.lang.String cardNumber, java.lang.String cardType) {
+		this.cardExpiryDate = cardExpiryDate;
+		this.cardNumber = cardNumber;
+		this.cardType = cardType;
+	}
+
+	public java.lang.String getCardExpiryDate() {
+		return cardExpiryDate;
+	}
+
+	public void setCardExpiryDate(java.lang.String cardExpiryDate) {
+		this.cardExpiryDate = cardExpiryDate;
+	}
+
+	public java.lang.String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(java.lang.String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public java.lang.String getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(java.lang.String cardType) {
+		this.cardType = cardType;
+	}
 }

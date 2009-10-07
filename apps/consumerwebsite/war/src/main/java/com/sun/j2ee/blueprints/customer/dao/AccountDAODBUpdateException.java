@@ -5,24 +5,26 @@
 package com.sun.j2ee.blueprints.customer.dao;
 
 /**
- * AccountDAODBUpdateException is thrown by the DAOs of the account
- * component when there is an error while writing/updating databases
+ * AccountDAODBUpdateException is thrown by the DAOs of the account component
+ * when there is an error while writing/updating databases
  */
 public class AccountDAODBUpdateException extends AccountDAOException {
 
-    /**
-     * Constructor
-     * @param str    a string that explains what the exception condition is
-     */
-    public AccountDAODBUpdateException (String str) {
-        super(str);
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param str
+	 *            a string that explains what the exception condition is
+	 */
+	public AccountDAODBUpdateException(String str) {
+		super(str);
+	}
 
-    /**
-     * Default constructor. Takes no arguments
-     */
-    public AccountDAODBUpdateException () {
-        super();
-    }
+	/**
+	 * Default constructor. Takes no arguments
+	 */
+	public AccountDAODBUpdateException() {
+		super();
+	}
 
 }

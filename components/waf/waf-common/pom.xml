@@ -10,11 +10,4 @@
 	<packaging>jar</packaging>
 	<name>waf-common</name>
 	<description>WAF shared elements</description>
-	<dependencies>
-		<dependency>
-			<groupId>nl.conspect</groupId>
-			<artifactId>tracer</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-	</dependencies>
 </project>

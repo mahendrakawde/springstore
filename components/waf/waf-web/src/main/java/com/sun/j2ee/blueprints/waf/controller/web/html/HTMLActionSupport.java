@@ -5,18 +5,16 @@
 package com.sun.j2ee.blueprints.waf.controller.web.html;
 
 // j2ee imports
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.ServletRequest;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// WAF imports
-import com.sun.j2ee.blueprints.waf.controller.web.ActionException;
 import com.sun.j2ee.blueprints.waf.controller.Event;
-import com.sun.j2ee.blueprints.waf.controller.EventException;
 import com.sun.j2ee.blueprints.waf.controller.EventResponse;
+import com.sun.j2ee.blueprints.waf.controller.web.ActionException;
 
 /**
  * This class is the default implementation of the WebAction 

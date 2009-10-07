@@ -5,32 +5,34 @@
 
 package com.sun.j2ee.blueprints.consumerwebsite.actions;
 
-
 public class OrderDetails {
-    protected com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder PO;
-    protected java.lang.String status;
-    
-    public OrderDetails() {
-    }
-    
-    public OrderDetails(com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder PO, java.lang.String status) {
-        this.PO = PO;
-        this.status = status;
-    }
-    
-    public com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder getPO() {
-        return PO;
-    }
-    
-    public void setPO(com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder PO) {
-        this.PO = PO;
-    }
-    
-    public java.lang.String getStatus() {
-        return status;
-    }
-    
-    public void setStatus(java.lang.String status) {
-        this.status = status;
-    }
+	protected com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder PO;
+	protected java.lang.String status;
+
+	public OrderDetails() {
+	}
+
+	public OrderDetails(
+			com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder PO,
+			java.lang.String status) {
+		this.PO = PO;
+		this.status = status;
+	}
+
+	public com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder getPO() {
+		return PO;
+	}
+
+	public void setPO(
+			com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder PO) {
+		this.PO = PO;
+	}
+
+	public java.lang.String getStatus() {
+		return status;
+	}
+
+	public void setStatus(java.lang.String status) {
+		this.status = status;
+	}
 }

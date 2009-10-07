@@ -4,24 +4,14 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import java.beans.Beans;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
 
-// J2EE Imports
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.ejb.*;
-import javax.naming.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// Service Locator Imports
 import com.sun.j2ee.blueprints.servicelocator.web.ServiceLocator;
-
-// WAF Imports
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
-import com.sun.j2ee.blueprints.waf.util.JNDINames;
-import com.sun.j2ee.blueprints.waf.controller.*;
-
-// Tracer Imports
-import com.sun.j2ee.blueprints.util.tracer.Debug;
 
 
 /** 
@@ -31,6 +21,7 @@ import com.sun.j2ee.blueprints.util.tracer.Debug;
  */
 public class WebComponentManager implements ComponentManager, java.io.Serializable {
     
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected ServiceLocator sl = null;
     
     public WebComponentManager() {

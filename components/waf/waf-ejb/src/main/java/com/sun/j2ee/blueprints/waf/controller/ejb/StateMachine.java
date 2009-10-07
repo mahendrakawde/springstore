@@ -4,24 +4,20 @@
 
 package com.sun.j2ee.blueprints.waf.controller.ejb;
 
-import java.rmi.RemoteException;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ejb.SessionContext;
 
-import java.util.Collection;
-import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// tracer imports
-import com.sun.j2ee.blueprints.util.tracer.Debug;
-
-// WAF imports
 import com.sun.j2ee.blueprints.waf.controller.Command;
 import com.sun.j2ee.blueprints.waf.controller.CommandFactory;
-import com.sun.j2ee.blueprints.waf.controller.ejb.EJBCommand;
+import com.sun.j2ee.blueprints.waf.controller.Event;
 import com.sun.j2ee.blueprints.waf.controller.EventException;
 import com.sun.j2ee.blueprints.waf.controller.EventResponse;
-import com.sun.j2ee.blueprints.waf.controller.Event;
 
 /**
  * This class is a responsible for processing Events recieved from the 
@@ -47,16 +43,16 @@ import com.sun.j2ee.blueprints.waf.controller.Event;
  */
 public class StateMachine implements java.io.Serializable {
     
+	private final Logger logger = LoggerFactory.getLogger(StateMachine.class);
+	
     private EJBControllerLocalEJB ccejb;
-    private HashMap attributeMap;
-    private HashMap actionMap;
+    private Map attributeMap;
     private SessionContext sc;
 
     public StateMachine(EJBControllerLocalEJB ccejb, SessionContext sc) {
         this.ccejb = ccejb;
         this.sc = sc;
         attributeMap = new HashMap();
-        actionMap = new HashMap();
     }
 
     public EventResponse processEvent(Event ev) throws EventException {
@@ -67,7 +63,7 @@ public class StateMachine implements java.io.Serializable {
             // try to cast the command into an EJBCommand
             if (command != null) ejbCommand = (EJBCommand)command;
         } catch (ClassCastException cx) {
-            Debug.print("StateMachine: Command not EJBCommand");
+            logger.info("StateMachine: Command not EJBCommand", cx);
         }
         // if we have an ejb command then intialize it like one
         // otherwise treat the command as is.

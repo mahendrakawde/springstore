@@ -28,11 +28,12 @@ public class PointbaseCatalogDAOTest extends AbstractDaoTests {
 	}
 
 	@JndiConfig
-	public void setupJndiContext(SimpleNamingContextBuilder builder) throws Exception {
+	public void setupJndiContext(SimpleNamingContextBuilder builder)
+			throws Exception {
 		builder.bind(JNDINames.CATALOG_DATASOURCE, JndiNames.CATALOGDB);
 		builder.bind(JndiNames.CATALOGDB, getDataSource());
 	}
-	
+
 	@Test
 	public void testGetLodgings() {
 		List lodgings = dao.getLodgings("Antarctica", Locale.US);
@@ -40,11 +41,11 @@ public class PointbaseCatalogDAOTest extends AbstractDaoTests {
 		assertEquals(2, lodgings.size());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetLodgingsNoResults() {
 		dao.getLodgings("Sahara Dessert", Locale.US);
 	}
-	
+
 	@Test
 	public void testGetLodging() {
 		Lodging lodging = dao.getLodging("LODG-1", Locale.US);
@@ -52,77 +53,75 @@ public class PointbaseCatalogDAOTest extends AbstractDaoTests {
 		assertEquals("LODG-1", lodging.getLodgingId().trim());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetLodgingNotExisting() {
 		dao.getLodging("LODG-666", Locale.US);
 	}
-	
-	
+
 	@Test
 	public void testGetAdventurePackage() {
-		AdventurePackage package1 = dao.getAdventurePackage("PACK-12", Locale.US);
+		AdventurePackage package1 = dao.getAdventurePackage("PACK-12",
+				Locale.US);
 		assertNotNull(package1);
 		assertEquals("PACK-12", package1.getPackageId().trim());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetAdventurePackageNotExisting() {
 		dao.getAdventurePackage("PACK-66", Locale.US);
 	}
-	
-	
+
 	@Test
 	public void testGetTransportations() {
-		List transportations = dao.getTransportations("Texas", "Detroit", Locale.US);
+		List transportations = dao.getTransportations("Texas", "Detroit",
+				Locale.US);
 		assertNotNull(transportations);
 		assertEquals(1, transportations.size());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetTransportationsNoResults() {
 		dao.getTransportations("j2ee", "spring", Locale.US);
 	}
-	
-	
-	@Test(expected=NullPointerException.class)
+
+	@Test(expected = NullPointerException.class)
 	public void testGetTransportationsNullOrigin() {
 		dao.getTransportations(null, "Detroit", Locale.US);
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testGetTransportationsNullDestination() {
 		dao.getTransportations("Texas", null, Locale.US);
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testGetTransportationsNullLocale() {
 		dao.getTransportations("Texas", "Detroit", null);
 	}
 
-	
 	@Test
 	public void testGetTransportation() {
-		Transportation transportation = dao.getTransportation("TRPN-2", Locale.US);
+		Transportation transportation = dao.getTransportation("TRPN-2",
+				Locale.US);
 		assertNotNull(transportation);
 		assertEquals("TRPN-2", transportation.getTransportationId().trim());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetTransportationNotExisting() {
 		dao.getTransportation("TRPN-666", Locale.US);
 	}
-	
-	
-	@Test(expected=NullPointerException.class)
+
+	@Test(expected = NullPointerException.class)
 	public void testGetTransportationNullLocale() {
 		dao.getTransportation("TRPN-2", null);
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testGetTransportationNullId() {
 		dao.getTransportation(null, Locale.US);
 	}
-	
+
 	@Test
 	public void testGetActivities() {
 		List activities = dao.getActivities("Antarctica", Locale.US);
@@ -130,12 +129,11 @@ public class PointbaseCatalogDAOTest extends AbstractDaoTests {
 		assertEquals(5, activities.size());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetActivitiesNoResults() {
 		dao.getActivities("Sahara Dessert", Locale.US);
 	}
 
-	
 	@Test
 	public void testGetActivity() {
 		Activity activity = dao.getActivity("ACTY-10", Locale.US);
@@ -143,18 +141,17 @@ public class PointbaseCatalogDAOTest extends AbstractDaoTests {
 		assertEquals("ACTY-10", activity.getActivityId().trim());
 	}
 
-	@Test(expected=CatalogDAOException.class)
+	@Test(expected = CatalogDAOException.class)
 	public void testGetActivityNotExisting() {
 		dao.getActivity("ACTY-666", Locale.US);
 	}
-	
-	
-	@Test(expected=NullPointerException.class)
+
+	@Test(expected = NullPointerException.class)
 	public void testGetActivityNullLocale() {
 		dao.getActivity("ACTY-12", null);
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testGetActivityNullId() {
 		dao.getActivity(null, Locale.US);
 	}

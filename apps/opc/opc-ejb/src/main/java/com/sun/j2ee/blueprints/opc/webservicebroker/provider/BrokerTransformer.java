@@ -4,18 +4,33 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.provider;
 
-import java.io.*;
-import java.util.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import javax.xml.parsers.*;
-import org.xml.sax.helpers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import java.io.ByteArrayOutputStream;
+import java.io.CharArrayReader;
+import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class BrokerTransformer {
     
+	private static final Logger logger = LoggerFactory.getLogger(BrokerTransformer.class);
+	
     public static final String ACTIVITY_INVOICE = "http://java.sun.com/blueprints/schemas/invoice-activity.xsd";
     public static final String AIRLINE_INVOICE = "http://java.sun.com/blueprints/schemas/invoice-airline.xsd";
     public static final String LODGING_INVOICE = "http://java.sun.com/blueprints/schemas/invoice-lodging.xsd";
@@ -30,7 +45,7 @@ public class BrokerTransformer {
     private ByteArrayOutputStream bos = null;
     private CharArrayWriter  caw = null;
     private SAXParser parser = null;
-    private HashMap transformers = null;
+    private Map transformers = null;
     private TransformerFactory transformerFactory = null;
     
     /**
@@ -54,7 +69,7 @@ public class BrokerTransformer {
             addTransformer(AIRLINE_XSL);
             addTransformer(LODGING_XSL);
         } catch (Exception ex) {
-           System.err.println("BrokerTransformer initizalization error: " + ex);
+           logger.error("BrokerTransformer initizalization error: ", ex);
         }
     }
     
@@ -70,7 +85,9 @@ public class BrokerTransformer {
             Transformer tempTransfomer =  
                    transformerFactory.newTransformer(tranformerXSL);
                     transformers.put(name, tempTransfomer);
-        } catch (TransformerConfigurationException fcx) {}
+        } catch (TransformerConfigurationException fcx) {
+        	logger.error(fcx.getMessage(), fcx);
+        }
 
     }
     
@@ -92,7 +109,7 @@ public class BrokerTransformer {
             caw.close();
             reader.close();
         } catch (java.io.IOException iox) {
-            iox.printStackTrace();
+            logger.error(iox.getMessage(), iox);
         }
     }
     
@@ -124,16 +141,15 @@ public class BrokerTransformer {
                     }
             });
         } catch (org.xml.sax.SAXException ex) {
-            System.err.println("BrokerTransformer error: " + ex);
+            logger.error("BrokerTransformer error: ", ex);
         } catch (IOException iox) {
-            System.err.println("BrokerTransformer error: " + iox);
+            logger.error("BrokerTransformer error: ", iox);
         }
         return transformedDoc;
     }
     
     private void doXSLTTransformation (Transformer transformer) {
         StreamSource in = new StreamSource(new CharArrayReader(caw.toCharArray()));
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         StreamResult result = new StreamResult(new ByteArrayOutputStream());
           try {    
             if (transformer != null) {
@@ -142,10 +158,10 @@ public class BrokerTransformer {
                  transformedDoc =
                      ((ByteArrayOutputStream)result.getOutputStream()).toString(enc);
             } else {
-                System.err.println("BrokerTransformer error: Transformer not set");
+                logger.error("BrokerTransformer error: Transformer not set");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage(), ex);
         }
     }
 }

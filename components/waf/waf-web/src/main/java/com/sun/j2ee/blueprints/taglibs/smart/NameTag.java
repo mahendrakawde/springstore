@@ -4,11 +4,9 @@
 
 package com.sun.j2ee.blueprints.taglibs.smart;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-
-import java.io.*;
-import java.util.*;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * Name tag. Defines 'name' attribute for InputTag.

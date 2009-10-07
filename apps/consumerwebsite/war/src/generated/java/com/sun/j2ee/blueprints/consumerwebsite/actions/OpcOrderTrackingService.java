@@ -8,5 +8,6 @@ package com.sun.j2ee.blueprints.consumerwebsite.actions;
 import javax.xml.rpc.*;
 
 public interface OpcOrderTrackingService extends javax.xml.rpc.Service {
-    public com.sun.j2ee.blueprints.consumerwebsite.actions.OrderTrackingIntf getOrderTrackingIntfPort() throws ServiceException;
+	public com.sun.j2ee.blueprints.consumerwebsite.actions.OrderTrackingIntf getOrderTrackingIntfPort()
+			throws ServiceException;
 }

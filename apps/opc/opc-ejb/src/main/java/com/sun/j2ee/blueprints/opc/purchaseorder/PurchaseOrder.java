@@ -4,8 +4,8 @@
 
 package com.sun.j2ee.blueprints.opc.purchaseorder;
 
-import java.util.*;
-import java.io.*;
+import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * This object is represents the purchase order

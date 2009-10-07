@@ -47,7 +47,8 @@ public class PointbaseUserDAO implements UserDAO {
 		try {
 			userTemplate.update(CREATE_USER_QUERY, params);
 		} catch (DataIntegrityViolationException ex) {
-			throw new SignOnDAODupKeyException("Unable to create user. Duplicate Key : " + userName);
+			throw new SignOnDAODupKeyException(
+					"Unable to create user. Duplicate Key : " + userName);
 		}
 	}
 

@@ -7,11 +7,9 @@ package com.sun.j2ee.blueprints.waf.controller.ejb;
 import javax.ejb.SessionBean;
 import javax.ejb.SessionContext;
 
-// waf imports
 import com.sun.j2ee.blueprints.waf.controller.Event;
-import com.sun.j2ee.blueprints.waf.controller.EventResponse;
 import com.sun.j2ee.blueprints.waf.controller.EventException;
-import com.sun.j2ee.blueprints.waf.controller.AppException;
+import com.sun.j2ee.blueprints.waf.controller.EventResponse;
 
 /** 
  * Session Bean implementation for EJBController EJB.

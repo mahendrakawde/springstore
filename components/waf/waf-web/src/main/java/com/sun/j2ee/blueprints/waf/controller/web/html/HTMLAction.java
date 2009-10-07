@@ -5,13 +5,12 @@
 package com.sun.j2ee.blueprints.waf.controller.web.html;
 
 // j2ee imports
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
-// WAF imports
-import com.sun.j2ee.blueprints.waf.controller.web.Action;
 import com.sun.j2ee.blueprints.waf.controller.Event;
 import com.sun.j2ee.blueprints.waf.controller.EventResponse;
+import com.sun.j2ee.blueprints.waf.controller.web.Action;
 
 /**
  * This class is the base interface to request handlers on the

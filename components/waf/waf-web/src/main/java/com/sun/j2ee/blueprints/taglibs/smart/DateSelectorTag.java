@@ -4,11 +4,14 @@
 
 package com.sun.j2ee.blueprints.taglibs.smart;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-import java.io.*;
-import java.util.*;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
  * HTML 'input' tag. Use with NameTag and ValueTag.

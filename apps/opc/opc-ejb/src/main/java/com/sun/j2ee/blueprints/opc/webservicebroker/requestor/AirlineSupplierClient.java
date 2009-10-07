@@ -4,30 +4,14 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
-import javax.xml.rpc.*;
-import javax.naming.*;
-
 import com.sun.j2ee.blueprints.opc.JNDINames;
 
-public class AirlineSupplierClient implements WSClient {
+public class AirlineSupplierClient extends AbstractWSClient {
 
-    public String sendRequest(String xmlDoc) {
-  String ret = null;
-  try {
-      InitialContext ic = new InitialContext();
-      AirlinePurchaseOrderService svc = (AirlinePurchaseOrderService) 
-    ic.lookup(JNDINames.AIRLINE_SERVICE_NAME);
-      AirlinePOIntf port=(AirlinePOIntf)svc.getPort(AirlinePOIntf.class);
-      ret = port.submitAirlineReservationDetails(xmlDoc);
-  } catch (Exception ex) {
-            /* 
-             *  Advanced error handling will be done for a later release, with 
-             * the broker placing an error message in the work flow manager
-             * queue so that the work flow manager can again call the broker
-             * to send the PO to the proper supplier
-             */ 
-            System.err.println(ex);
-        }
-  return ret;
+	
+	
+    protected String sendRequestInternal(String xmlDoc) throws Exception {
+      AirlinePOIntf port=(AirlinePOIntf) sl.getPort(JNDINames.AIRLINE_SERVICE_NAME, AirlinePOIntf.class); 
+      return port.submitAirlineReservationDetails(xmlDoc);
     }
 }

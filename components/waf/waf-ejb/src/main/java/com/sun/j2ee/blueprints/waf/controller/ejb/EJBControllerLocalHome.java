@@ -4,8 +4,8 @@
 
 package com.sun.j2ee.blueprints.waf.controller.ejb;
 
-import javax.ejb.EJBLocalHome;
 import javax.ejb.CreateException;
+import javax.ejb.EJBLocalHome;
 
 /** 
  * The Home interface for EJBControllerHome 

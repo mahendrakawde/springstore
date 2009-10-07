@@ -29,6 +29,7 @@ import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocal;
 import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocalHome;
 import com.sun.j2ee.blueprints.processmanager.manager.ejb.ManagerLocal;
 import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 /**
@@ -38,10 +39,15 @@ import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 public class WorkFlowManagerBean extends AbstractJmsMessageDrivenBean implements
 		TimedObject {
 
-	private MessageDrivenContext context;
 	private Handler poHandler;
 	private Handler invHandler;
 	private ProcessManagerLocal pm;
+
+	public void setMessageDrivenContext(MessageDrivenContext messageDrivenContext) {
+		super.setMessageDrivenContext(messageDrivenContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
+	}
+
 	
 	protected void onEjbCreate() {
 		try {
@@ -83,7 +89,7 @@ public class WorkFlowManagerBean extends AbstractJmsMessageDrivenBean implements
 	private void createStatusUpdateTimer() {
 		try {
 
-			TimerService timerService = context.getTimerService();
+			TimerService timerService = getMessageDrivenContext().getTimerService();
 
 			// check if a timer already exists
 			if ((timerService.getTimers()).isEmpty()) {

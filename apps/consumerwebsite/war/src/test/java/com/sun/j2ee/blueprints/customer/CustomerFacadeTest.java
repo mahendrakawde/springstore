@@ -1,6 +1,5 @@
 package com.sun.j2ee.blueprints.customer;
 
-
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
@@ -23,12 +22,11 @@ import com.sun.j2ee.blueprints.test.MockHolder;
 import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.test.data.StubTestDataUtil;
 
-
 public class CustomerFacadeTest extends AbstractJndiContextTests {
 
 	private AccountDAO dao;
 	private CustomerFacade facade;
-	
+
 	@Before
 	public void onSetup() throws Exception {
 		dao = EasyMock.createMock(AccountDAO.class);
@@ -37,16 +35,18 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 	}
 
 	@JndiConfig
-	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
-		builder.bind(JNDINames.ACCOUNT_DAO_CLASS, MockDelegatingAccountDao.class.getName());		
+	public void setupJndiContext(final SimpleNamingContextBuilder builder)
+			throws Exception {
+		builder.bind(JNDINames.ACCOUNT_DAO_CLASS,
+				MockDelegatingAccountDao.class.getName());
 	}
-	
+
 	@After
 	public void after() {
 		EasyMock.reset(dao);
 	}
-	
-	@Test(expected=CustomerException.class)
+
+	@Test(expected = CustomerException.class)
 	public void exceptionOnFinderException() throws Exception {
 		String userId = "321";
 		expect(dao.getAccount(userId)).andThrow(new CustomerException());
@@ -54,7 +54,7 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 		facade.getAccount(userId);
 		verify(dao);
 	}
-	
+
 	@Test
 	public void getAccount() throws Exception {
 		String userId = "123";
@@ -64,7 +64,7 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 		assertEquals(account, facade.getAccount(userId));
 		verify(dao);
 	}
-	
+
 	@Test
 	public void createAccount() throws Exception {
 		Account account = StubTestDataUtil.createAccount("dummy");
@@ -74,7 +74,7 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 		verify(dao);
 	}
 
-	@Test(expected=CustomerException.class)
+	@Test(expected = CustomerException.class)
 	public void createAccountDuplicate() throws Exception {
 		Account account = StubTestDataUtil.createAccount("dummy");
 		dao.create(account);
@@ -84,7 +84,7 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 		verify(dao);
 	}
 
-	@Test(expected=CustomerException.class)
+	@Test(expected = CustomerException.class)
 	public void createAccountInvalidData() throws Exception {
 		Account account = StubTestDataUtil.createAccount("dummy");
 		dao.create(account);
@@ -93,6 +93,5 @@ public class CustomerFacadeTest extends AbstractJndiContextTests {
 		facade.createAccount(account);
 		verify(dao);
 	}
-	
-	
+
 }

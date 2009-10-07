@@ -5,15 +5,24 @@
 package com.sun.j2ee.blueprints.signon;
 
 /**
- * SignOnDAODupKeyException is thrown by the DAOs of the signon
- * component when a row is already found with a given primary key.
- * This is thrown when the user input is  fails a validation 
- * test.
+ * SignOnDAODupKeyException is thrown by the DAOs of the signon component when a
+ * row is already found with a given primary key. This is thrown when the user
+ * input is fails a validation test.
  */
 public class SignOnDupKeyException extends RuntimeException {
 
-    public SignOnDupKeyException () { }
-    public SignOnDupKeyException (String str) { super(str); }
-    public SignOnDupKeyException (Throwable cause) { super(cause); }
-    public SignOnDupKeyException (String str, Throwable cause) { super(str, cause); }
+	public SignOnDupKeyException() {
+	}
+
+	public SignOnDupKeyException(String str) {
+		super(str);
+	}
+
+	public SignOnDupKeyException(Throwable cause) {
+		super(cause);
+	}
+
+	public SignOnDupKeyException(String str, Throwable cause) {
+		super(str, cause);
+	}
 }

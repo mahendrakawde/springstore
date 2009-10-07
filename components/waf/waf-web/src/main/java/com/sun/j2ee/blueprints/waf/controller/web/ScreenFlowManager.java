@@ -4,14 +4,20 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import javax.servlet.http.*;
-import javax.servlet.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-// waf imports
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
-
-import com.sun.j2ee.blueprints.util.tracer.Debug;
 
 /**
  * This file looks at the Request URL and maps the request
@@ -19,24 +25,22 @@ import com.sun.j2ee.blueprints.util.tracer.Debug;
  */
 public class ScreenFlowManager implements java.io.Serializable {
 
-    private HashMap screens;
-    private HashMap urlMappings;
-    private ArrayList exceptionMappings;
-    private HashMap screenDefinitionMappings;
+	private final Logger logger = LoggerFactory.getLogger(ScreenFlowManager.class);
+	
+    private Map urlMappings;
+    private List exceptionMappings;
     private String defaultScreen = "";
-    private ServletContext context;
 
     public ScreenFlowManager() {
-        screens = new HashMap();
+    	super();
     }
 
     public void init(ServletContext context) {
-        this.context = context;
         String requestMappingsURL = null;
         try {
             requestMappingsURL = context.getResource("/WEB-INF/mappings.xml").toString();
         } catch (java.net.MalformedURLException ex) {
-            System.err.println("ScreenFlowManager: initializing ScreenFlowManager malformed URL exception: " + ex);
+            logger.error("ScreenFlowManager: initializing ScreenFlowManager malformed URL exception: ", ex);
         }
         urlMappings = (HashMap)context.getAttribute(WebKeys.URL_MAPPINGS);
         ScreenFlowData screenFlowData = URLMappingsXmlDAO.loadScreenFlowData(requestMappingsURL);
@@ -97,21 +101,22 @@ public class ScreenFlowManager implements java.io.Serializable {
                     //the screen itself
                     if (currentScreen == null) currentScreen = flowResult;
                } catch (Exception ex) {
-                   System.err.println("ScreenFlowManager caught loading handler: " + ex);
+            	   logger.error("ScreenFlowManager caught loading handler: ", ex);
                }
             }
         }
         if (currentScreen == null) {
-            throw new RuntimeException("Screen not found for " + selectedURL);
+            throw new IllegalArgumentException("Screen not found for " + selectedURL);
         }
-        context.getRequestDispatcher("/" + currentScreen).forward(request, response);
+        
+        request.getRequestDispatcher("/" + currentScreen).forward(request, response);
         
     }
     /**
             go through the list and use the Class.isAssignableFrom(Class method)
             to see it is a subclass of one of the exceptions
     */
-    public String getExceptionScreen(Throwable e) {
+    public String getExceptionScreen(final Throwable e) {
         Iterator it = exceptionMappings.iterator();
         while (it.hasNext()) {
             ErrorMapping em = (ErrorMapping)it.next();

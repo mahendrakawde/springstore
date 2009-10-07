@@ -4,12 +4,9 @@
 
 package com.sun.j2ee.blueprints.taglibs.smart;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-
-
-import java.io.IOException;
-import java.util.*;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * HTML 'option' tag. Child of SelectTag.

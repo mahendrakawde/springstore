@@ -5,16 +5,25 @@
 package com.sun.j2ee.blueprints.signon.dao;
 
 /**
- * InvalidPasswordException is thrown by the the signon
- * component when there is some failure because of user error.
- * This is thrown when the user input is  fails a validation 
- * test.
+ * InvalidPasswordException is thrown by the the signon component when there is
+ * some failure because of user error. This is thrown when the user input is
+ * fails a validation test.
  */
 public class InvalidPasswordException extends RuntimeException {
 
-    public InvalidPasswordException () { }
-    public InvalidPasswordException (String str) { super(str); }
-    public InvalidPasswordException (Throwable cause) { super(cause); }
-    public InvalidPasswordException (String str, Throwable cause) { super(str, cause); }
+	public InvalidPasswordException() {
+	}
+
+	public InvalidPasswordException(String str) {
+		super(str);
+	}
+
+	public InvalidPasswordException(Throwable cause) {
+		super(cause);
+	}
+
+	public InvalidPasswordException(String str, Throwable cause) {
+		super(str, cause);
+	}
 
 }

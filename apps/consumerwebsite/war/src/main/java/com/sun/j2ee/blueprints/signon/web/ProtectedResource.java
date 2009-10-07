@@ -4,7 +4,6 @@
 
 package com.sun.j2ee.blueprints.signon.web;
 
-
 import java.util.ArrayList;
 
 /**
@@ -13,29 +12,30 @@ import java.util.ArrayList;
 
 public class ProtectedResource implements java.io.Serializable {
 
-    private String name = null;
-    private String urlPattern = null;
-    private ArrayList roles = null;
+	private String name = null;
+	private String urlPattern = null;
+	private ArrayList roles = null;
 
-    public ProtectedResource (String name, String urlPattern, ArrayList roles) {
-        this.name = name;
-        this.urlPattern = urlPattern;
-        this.roles = roles;
-    }
+	public ProtectedResource(String name, String urlPattern, ArrayList roles) {
+		this.name = name;
+		this.urlPattern = urlPattern;
+		this.roles = roles;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getURLPattern() {
-        return urlPattern;
-    }
+	public String getURLPattern() {
+		return urlPattern;
+	}
 
-    public ArrayList getRoles() {
-        return roles;
-    }
+	public ArrayList getRoles() {
+		return roles;
+	}
 
-    public String toString() {
-        return "ProtectedResource [ name=" + name + ", urlPattern=" + urlPattern + ", roles=" + roles + "]";
-    }
+	public String toString() {
+		return "ProtectedResource [ name=" + name + ", urlPattern="
+				+ urlPattern + ", roles=" + roles + "]";
+	}
 }

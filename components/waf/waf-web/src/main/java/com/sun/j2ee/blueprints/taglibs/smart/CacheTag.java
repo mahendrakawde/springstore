@@ -5,16 +5,23 @@
 package com.sun.j2ee.blueprints.taglibs.smart;
 
 import java.io.IOException;
-import java.util.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTagSupport;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A caching tag.
  */
 public class CacheTag extends BodyTagSupport {
 
+	private final Logger logger = LoggerFactory.getLogger(CacheTag.class);
+	
     private String scope;
     private String name;
     private long duration;
@@ -75,7 +82,7 @@ public class CacheTag extends BodyTagSupport {
                     out.print(content);
                 }
                 catch (IOException ioe) {
-                    System.err.println("Problems with writing...");
+                    logger.error("Problems with writing...", ioe);
                 }
             }
         } else {
@@ -84,7 +91,7 @@ public class CacheTag extends BodyTagSupport {
                 out.print(entry.getContent());
             }
             catch (IOException ioe) {
-                System.err.println("Problems with writing...");
+                logger.error("Problems with writing...", ioe);
             }
         }
         //reset everything

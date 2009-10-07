@@ -4,15 +4,24 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
-import javax.jms.*;
-import javax.ejb.*;
+import javax.ejb.EJBException;
+import javax.ejb.MessageDrivenContext;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.TextMessage;
 
 import org.springframework.ejb.support.AbstractJmsMessageDrivenBean;
 
 import com.sun.j2ee.blueprints.opc.JNDINames;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 
 public class BrokerRequestorBean extends AbstractJmsMessageDrivenBean {
 
+	public void setMessageDrivenContext(MessageDrivenContext messageDrivenContext) {
+		super.setMessageDrivenContext(messageDrivenContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
+	}
+	
 	protected void onEjbCreate() {
 	}
 

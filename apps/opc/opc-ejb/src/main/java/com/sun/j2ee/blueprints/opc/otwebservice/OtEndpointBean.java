@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 import javax.ejb.CreateException;
 import javax.ejb.FinderException;
+import javax.ejb.SessionContext;
 
 import org.springframework.ejb.support.AbstractStatelessSessionBean;
 
@@ -17,6 +18,7 @@ import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.PurchaseOrderLocalHome;
 import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocal;
 import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocalHome;
 import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 /**
@@ -28,7 +30,9 @@ public class OtEndpointBean extends AbstractStatelessSessionBean {
 	private ProcessManagerLocal processManager = null;
 	private PurchaseOrderLocalHome poHome = null;
 
-	public OtEndpointBean() {
+	public void setSessionContext(SessionContext sessionContext) {
+		super.setSessionContext(sessionContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
 	}
 
 	protected void onEjbCreate() throws CreateException {

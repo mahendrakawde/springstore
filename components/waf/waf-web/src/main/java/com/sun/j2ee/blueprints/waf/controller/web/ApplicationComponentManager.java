@@ -4,21 +4,16 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import java.beans.Beans;
-import java.util.HashMap;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.util.Map;
 
-// Service Locator imports
-import com.sun.j2ee.blueprints.servicelocator.web.ServiceLocator;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
-// tracer import
-import com.sun.j2ee.blueprints.util.tracer.Debug;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// WAF imports
-import com.sun.j2ee.blueprints.waf.util.JNDINames;
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
-import com.sun.j2ee.blueprints.waf.controller.web.URLMappingsXmlDAO;
 
 
 /**
@@ -27,6 +22,8 @@ import com.sun.j2ee.blueprints.waf.controller.web.URLMappingsXmlDAO;
  */
 public class ApplicationComponentManager implements ServletContextListener {
     
+	private final Logger logger = LoggerFactory.getLogger(ApplicationComponentManager.class);
+	
     public ApplicationComponentManager() {}
     
     public void contextDestroyed(ServletContextEvent sce){
@@ -39,8 +36,8 @@ public class ApplicationComponentManager implements ServletContextListener {
             getRequestProcessor(sce.getServletContext());
             getScreenFlowManager(sce.getServletContext());
         } catch (Throwable ex) {
-            System.out.println("WAF ApplicaitonComponentManager Error Initializing:" + ex);
-            throw new RuntimeException(ex);
+        	logger.error("WAF ApplicaitonComponentManager Error Initializing:", ex);
+            throw new IllegalStateException(ex);
         }
     }
     
@@ -49,15 +46,15 @@ public class ApplicationComponentManager implements ServletContextListener {
         try {
             requestMappingsURL = context.getResource("/WEB-INF/mappings.xml").toString();
         } catch (java.net.MalformedURLException ex) {
-            System.err.println("ApplicationComponentManager: initializing ScreenFlowManager malformed URL exception: " + ex);
+           logger.error("ApplicationComponentManager: initializing ScreenFlowManager malformed URL exception: ", ex);
         }
-        HashMap urlMappings = URLMappingsXmlDAO.loadRequestMappings(requestMappingsURL);
+        Map urlMappings = URLMappingsXmlDAO.loadRequestMappings(requestMappingsURL);
         context.setAttribute(WebKeys.URL_MAPPINGS, urlMappings);
-        HashMap eventMappings = URLMappingsXmlDAO.loadEventMappings(requestMappingsURL);
+        Map eventMappings = URLMappingsXmlDAO.loadEventMappings(requestMappingsURL);
         context.setAttribute(WebKeys.EVENT_MAPPINGS, eventMappings);
     }
        
-    public static RequestProcessor getRequestProcessor(ServletContext context) {
+    public static RequestProcessor getRequestProcessor(final ServletContext context) {
         RequestProcessor rp = (RequestProcessor)context.getAttribute(WebKeys.REQUEST_PROCESSOR);
         if ( rp == null ) {
             rp = new RequestProcessor();
@@ -67,7 +64,7 @@ public class ApplicationComponentManager implements ServletContextListener {
         return rp;
     }
     
-    public static ScreenFlowManager getScreenFlowManager(ServletContext context) {
+    public static ScreenFlowManager getScreenFlowManager(final ServletContext context) {
         ScreenFlowManager screenManager = (ScreenFlowManager)context.getAttribute(WebKeys.SCREEN_FLOW_MANAGER);
         if (screenManager == null ) {
             screenManager = new ScreenFlowManager();

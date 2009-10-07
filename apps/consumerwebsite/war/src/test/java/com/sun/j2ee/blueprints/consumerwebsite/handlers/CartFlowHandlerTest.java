@@ -9,21 +9,21 @@ import org.springframework.mock.web.MockHttpServletRequest;
 public class CartFlowHandlerTest {
 
 	private CartFlowHandler handler = new CartFlowHandler();
-	
+
 	private MockHttpServletRequest request = new MockHttpServletRequest();
-	
+
 	@After
 	public void clean() {
 		request.clearAttributes();
 		request.getSession().invalidate();
 	}
-	
+
 	@Test
 	public void processFlowBogusAction() throws Exception {
 		request.addParameter("target_action", "bogus-action");
 		assertEquals("CART", handler.processFlow(request));
 	}
-	
+
 	@Test
 	public void processNullAction() throws Exception {
 		assertEquals("CART", handler.processFlow(request));
@@ -65,7 +65,6 @@ public class CartFlowHandlerTest {
 		assertEquals("CART-ACTIVITIES", handler.processFlow(request));
 	}
 
-	
 	@Test
 	public void processUpdateLodgingRoomCount() throws Exception {
 		request.addParameter("target_action", "update_lodging_room_count");
@@ -89,7 +88,7 @@ public class CartFlowHandlerTest {
 		request.addParameter("target_action", "no_transportation");
 		assertEquals("CART", handler.processFlow(request));
 	}
-	
+
 	@Test
 	public void processCancelDepartureFlight() throws Exception {
 		request.addParameter("target_action", "cancel_departure_flight");
@@ -107,5 +106,5 @@ public class CartFlowHandlerTest {
 		request.addParameter("target_action", "cancel");
 		assertEquals("CANCEL", handler.processFlow(request));
 	}
-	
+
 }

@@ -6,6 +6,7 @@ import com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrder;
 
 public interface PurchaseOrderService {
 
-	String submitPurchaseOrder(PurchaseOrder po) throws ProcessingException, InvalidPOException;
+	String submitPurchaseOrder(PurchaseOrder po) throws ProcessingException,
+			InvalidPOException;
 
 }

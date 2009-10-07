@@ -12,11 +12,10 @@ import com.sun.j2ee.blueprints.util.dao.DAOSystemException;
  */
 public interface AccountDAO {
 
-    public void create(Account accountDetails) throws DAOSystemException,
-                                AccountDAODupKeyException,
-                                AccountDAODBUpdateException,
-                                AccountDAOException;
+	public void create(Account accountDetails) throws DAOSystemException,
+			AccountDAODupKeyException, AccountDAODBUpdateException,
+			AccountDAOException;
 
-    public Account getAccount(String userId) throws AccountDAOFinderException,
-                                            DAOSystemException;
+	public Account getAccount(String userId) throws AccountDAOFinderException,
+			DAOSystemException;
 }

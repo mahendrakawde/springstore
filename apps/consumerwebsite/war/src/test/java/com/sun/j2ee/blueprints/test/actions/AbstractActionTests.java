@@ -25,12 +25,13 @@ import com.sun.j2ee.blueprints.test.annotation.JndiConfig;
 import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLAction;
 
 /**
- * Base class for testing {@link HTMLAction} classes. It makes sure that
- * the environment is setup correctly. It registers a {@link AdventureComponentManager}
- * in the MockHttpSession. The AdventureComponentManager needs some JNDI
- * properties set, we also setup those. Finally we honor the {@link HTMLAction}
- * lifecycle. We first call {@link HTMLAction#doStart(javax.servlet.http.HttpServletRequest)}
- * and after the test we call 
+ * Base class for testing {@link HTMLAction} classes. It makes sure that the
+ * environment is setup correctly. It registers a
+ * {@link AdventureComponentManager} in the MockHttpSession. The
+ * AdventureComponentManager needs some JNDI properties set, we also setup
+ * those. Finally we honor the {@link HTMLAction} lifecycle. We first call
+ * {@link HTMLAction#doStart(javax.servlet.http.HttpServletRequest)} and after
+ * the test we call
  * {@link HTMLAction#doEnd(javax.servlet.http.HttpServletRequest, com.sun.j2ee.blueprints.waf.controller.EventResponse)}
  * .
  * 
@@ -39,7 +40,7 @@ import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLAction;
  * 1 mock.
  * 
  * @author Marten Deinum
- *
+ * 
  * @see HTMLAction
  */
 public abstract class AbstractActionTests extends AbstractJndiContextTests {
@@ -51,7 +52,7 @@ public abstract class AbstractActionTests extends AbstractJndiContextTests {
 	protected UserDAO userDAO;
 	protected PurchaseOrderService purchaseOrderService;
 	protected OrderTrackingService orderTrackingService;
-	
+
 	protected CatalogFacade catalogFacade;
 	protected CustomerFacade customerFacade;
 	protected SignOnFacade signOnFacade;
@@ -62,60 +63,73 @@ public abstract class AbstractActionTests extends AbstractJndiContextTests {
 		AdventureComponentManager acm = new AdventureComponentManager();
 		acm.init(request.getSession());
 		populateRequest(request);
-		
-		//Create mocks
+
+		// Create mocks
 		accountDAO = EasyMock.createMock(AccountDAO.class);
 		catalogDAO = EasyMock.createMock(CatalogDAO.class);
 		userDAO = EasyMock.createMock(UserDAO.class);
 		purchaseOrderService = EasyMock.createMock(PurchaseOrderService.class);
 		orderTrackingService = EasyMock.createMock(OrderTrackingService.class);
-		
+
 		catalogFacade = new CatalogFacade();
 		customerFacade = new CustomerFacade();
 		signOnFacade = new SignOnFacade();
 
-		//register facades
+		// register facades
 		request.setAttribute(AdventureKeys.CATALOG_FACADE, catalogFacade);
 		request.setAttribute(AdventureKeys.CUSTOMER_FACADE, customerFacade);
 		request.setAttribute(AdventureKeys.SIGN_ON_FACADE, signOnFacade);
-		
-		//Register mocks		
+
+		// Register mocks
 		MockHolder.setMock(AccountDAO.class, accountDAO);
 		MockHolder.setMock(CatalogDAO.class, catalogDAO);
 		MockHolder.setMock(UserDAO.class, userDAO);
 
-		//Hook for additional setup
+		// Hook for additional setup
 		doOnSetup();
 
-		//start		
+		// start
 		getActionUnderTest().doStart(request);
 
 	}
 
 	@JndiConfig
-	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
-		builder.bind(com.sun.j2ee.blueprints.signon.dao.JNDINames.SIGNON_DAO_CLASS, MockDelegatingUserDao.class.getName());
-		builder.bind(com.sun.j2ee.blueprints.customer.dao.JNDINames.ACCOUNT_DAO_CLASS, MockDelegatingAccountDao.class.getName());
-		builder.bind(com.sun.j2ee.blueprints.catalog.dao.JNDINames.CATALOG_DAO_CLASS, MockDelegatingCatalogDao.class.getName());
+	public void setupJndiContext(final SimpleNamingContextBuilder builder)
+			throws Exception {
+		builder.bind(
+				com.sun.j2ee.blueprints.signon.dao.JNDINames.SIGNON_DAO_CLASS,
+				MockDelegatingUserDao.class.getName());
+		builder
+				.bind(
+						com.sun.j2ee.blueprints.customer.dao.JNDINames.ACCOUNT_DAO_CLASS,
+						MockDelegatingAccountDao.class.getName());
+		builder
+				.bind(
+						com.sun.j2ee.blueprints.catalog.dao.JNDINames.CATALOG_DAO_CLASS,
+						MockDelegatingCatalogDao.class.getName());
 	}
-	
+
 	@After
 	public final void tearDown() {
 		getActionUnderTest().doEnd(request, null);
 		MockHolder.clear();
 		onTearDown();
 	}
-	
-	protected void populateRequest(MockHttpServletRequest request2) {}
+
+	protected void populateRequest(MockHttpServletRequest request2) {
+	}
 
 	protected final AdventureComponentManager getAdventureComponentManager() {
-		return (AdventureComponentManager) request.getSession().getAttribute(AdventureKeys.COMPONENT_MANAGER);
+		return (AdventureComponentManager) request.getSession().getAttribute(
+				AdventureKeys.COMPONENT_MANAGER);
 	}
-	
-	protected void doOnSetup() {}
-	protected void onTearDown() {}
+
+	protected void doOnSetup() {
+	}
+
+	protected void onTearDown() {
+	}
 
 	protected abstract HTMLAction getActionUnderTest();
-	
-	
+
 }

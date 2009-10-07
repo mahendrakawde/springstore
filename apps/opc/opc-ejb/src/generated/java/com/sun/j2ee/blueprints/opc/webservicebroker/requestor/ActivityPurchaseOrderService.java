@@ -5,7 +5,7 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
-import javax.xml.rpc.*;
+import javax.xml.rpc.ServiceException;
 
 public interface ActivityPurchaseOrderService extends javax.xml.rpc.Service {
     public com.sun.j2ee.blueprints.opc.webservicebroker.requestor.ActivityPOIntf getActivityPOIntfPort() throws ServiceException;

@@ -6,6 +6,8 @@ package com.sun.j2ee.blueprints.opc.mailer;
 
 import java.io.StringWriter;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 
@@ -43,5 +45,9 @@ public class Mail {
     	StringWriter writer = new StringWriter();
     	xstream.marshal(this, new CompactWriter(writer));
     	return writer.toString();
+    }
+    
+    public String toString() {
+    	return ToStringBuilder.reflectionToString(this);
     }
 }

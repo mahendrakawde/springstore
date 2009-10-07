@@ -5,11 +5,8 @@
 package com.sun.j2ee.blueprints.taglibs.smart;
 
 import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.BodyContent;
-
-import java.io.IOException;
-import java.util.*;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * Defines 'value' attribute for 'input' tag.

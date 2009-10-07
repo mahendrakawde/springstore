@@ -4,14 +4,14 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import java.util.*;
+import java.util.List;
 
 public class ScreenFlowData implements java.io.Serializable {
 
-    private ArrayList exceptionMappings;
+    private List exceptionMappings;
     private String defaultScreen = null;
 
-    public ScreenFlowData (ArrayList exceptionMappings,
+    public ScreenFlowData (List exceptionMappings,
                            String defaultScreen) {
         this.exceptionMappings = exceptionMappings;
         this.defaultScreen = defaultScreen;
@@ -21,7 +21,7 @@ public class ScreenFlowData implements java.io.Serializable {
         return defaultScreen;
     }
     
-    public ArrayList getExceptionMappings() {
+    public List getExceptionMappings() {
         return exceptionMappings;
     }
     

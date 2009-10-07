@@ -3,9 +3,12 @@
  $Id: CreditCardBean.java,v 1.2 2004/05/26 00:06:56 inder Exp $ */
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.EntityBean;
+import javax.ejb.EntityContext;
+import javax.ejb.RemoveException;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.CreditCard;
 
 /**
  * Implementation class for the  CreditCardBean .

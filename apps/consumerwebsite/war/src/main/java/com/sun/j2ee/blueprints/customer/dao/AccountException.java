@@ -5,24 +5,26 @@
 package com.sun.j2ee.blueprints.customer.dao;
 
 /**
- * AccountException is thrown by the account component when there is
- * some failure because of user error
+ * AccountException is thrown by the account component when there is some
+ * failure because of user error
  */
 public class AccountException extends Exception {
 
-    /**
-     * Constructor
-     * @param str    a string that explains what the exception condition is
-     */
-    public AccountException (String str) {
-        super(str);
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param str
+	 *            a string that explains what the exception condition is
+	 */
+	public AccountException(String str) {
+		super(str);
+	}
 
-    /**
-     * Default constructor. Takes no arguments
-     */
-    public AccountException () {
-        super();
-    }
+	/**
+	 * Default constructor. Takes no arguments
+	 */
+	public AccountException() {
+		super();
+	}
 
 }

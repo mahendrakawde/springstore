@@ -5,8 +5,12 @@
 package com.sun.j2ee.blueprints.opc.mailer;
 
 
-import java.io.*;
-import java.util.Date;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+
 import javax.activation.DataSource;
 
 

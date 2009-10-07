@@ -8,5 +8,6 @@ package com.sun.j2ee.blueprints.consumerwebsite.actions;
 import javax.xml.rpc.*;
 
 public interface OpcPurchaseOrderService extends javax.xml.rpc.Service {
-    public com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrderIntf getPurchaseOrderIntfPort() throws ServiceException;
+	public com.sun.j2ee.blueprints.consumerwebsite.actions.PurchaseOrderIntf getPurchaseOrderIntfPort()
+			throws ServiceException;
 }

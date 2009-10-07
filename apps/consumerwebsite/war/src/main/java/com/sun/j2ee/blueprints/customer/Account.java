@@ -5,35 +5,35 @@
 package com.sun.j2ee.blueprints.customer;
 
 /**
- * This class provides methods to view account
- * information for a particular account.
- * This class is immutable
+ * This class provides methods to view account information for a particular
+ * account. This class is immutable
  */
-public class Account  implements java.io.Serializable {
+public class Account implements java.io.Serializable {
 
-    protected String userId;
-    protected ContactInformation info;
-   
-    public Account () {}
+	protected String userId;
+	protected ContactInformation info;
 
-    public Account (String userId, ContactInformation info) {
-        this.userId = userId;
-        this.info = info;
-    }
+	public Account() {
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public Account(String userId, ContactInformation info) {
+		this.userId = userId;
+		this.info = info;
+	}
 
-    public ContactInformation getContactInformation() {
-        return info;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public String toString() {
-        String ret = null;
-        ret = "userId = " + userId + "\n";
-        ret += "contact info = " + info.toString() + "\n";
-        return ret;
-    }
+	public ContactInformation getContactInformation() {
+		return info;
+	}
+
+	public String toString() {
+		String ret = null;
+		ret = "userId = " + userId + "\n";
+		ret += "contact info = " + info.toString() + "\n";
+		return ret;
+	}
 
 }

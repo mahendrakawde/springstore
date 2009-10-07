@@ -4,7 +4,7 @@
 
 package com.sun.j2ee.blueprints.opc.purchaseorder;
 
-import java.io.*;
+import java.io.Serializable;
 
 public class Address implements Serializable{
 

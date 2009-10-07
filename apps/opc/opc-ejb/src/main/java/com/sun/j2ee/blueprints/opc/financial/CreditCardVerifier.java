@@ -4,35 +4,35 @@
 
 package com.sun.j2ee.blueprints.opc.financial;
 
-import javax.naming.*;
-import javax.xml.rpc.*;
-import java.rmi.*;
+import java.rmi.RemoteException;
 
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sun.j2ee.blueprints.opc.JNDINames;
+import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 /**
- * This component verifies a credit card
- * with the bank's credit card service
+ * This component verifies a credit card with the bank's credit card service
  */
-public class CreditCardVerifier { 
-    
-    private CreditCardIntf port;
-  
-    public CreditCardVerifier () {
-    try{
-        Context ic = new InitialContext();
-  CreditCardService ccSvc = (CreditCardService) ic.lookup(JNDINames.CREDIT_CARD_SERVICE_NAME);
-      port = (CreditCardIntf) ccSvc.getPort(CreditCardIntf.class);
-    } catch (Exception exe){
-        System.err.println(exe);    
-    }
-    }
-    
-    public boolean verifyCreditCard(String cc) throws RemoteException { 
-        boolean stat = false; 
-  stat = port.validateCreditCard(cc);
-        return stat;
-    }
+public class CreditCardVerifier {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(CreditCardVerifier.class);
+
+	private CreditCardIntf port;
+
+	public CreditCardVerifier() {
+		try {
+			ServiceLocator sl = new ServiceLocator();
+			port = (CreditCardIntf) sl.getPort(
+					JNDINames.CREDIT_CARD_SERVICE_NAME, CreditCardIntf.class);
+		} catch (Exception exe) {
+			logger.error(exe.getMessage(), exe);
+		}
+	}
+
+	public boolean verifyCreditCard(String cc) throws RemoteException {
+		return port.validateCreditCard(cc);
+	}
 }

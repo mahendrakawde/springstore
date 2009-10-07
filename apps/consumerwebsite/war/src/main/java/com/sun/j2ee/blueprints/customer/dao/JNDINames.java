@@ -5,20 +5,18 @@
 package com.sun.j2ee.blueprints.customer.dao;
 
 /**
- * This class is the central location to store the internal
- * names of various entities, and these internal names are later 
- * mapped to the JNDI names in the deployment environment. Any change 
- * here should also be reflected in the deployment descriptors.
+ * This class is the central location to store the internal names of various
+ * entities, and these internal names are later mapped to the JNDI names in the
+ * deployment environment. Any change here should also be reflected in the
+ * deployment descriptors.
  */
-public class JNDINames {
+public final class JNDINames {
 
-      
-    private JNDINames() { } //Prevents instantiation
+	private JNDINames() {
+	} // Prevents instantiation
 
-    public static final String CUSTOMER_DATASOURCE =
-         "java:comp/env/customer/CustomerDataSource";
-    
-    //ENV Entry for name of DAO class to use
-    public static final String ACCOUNT_DAO_CLASS =
-         "java:comp/env/dao/customer/AccountDAOClass";
+	public static final String CUSTOMER_DATASOURCE = "java:comp/env/customer/CustomerDataSource";
+
+	// ENV Entry for name of DAO class to use
+	public static final String ACCOUNT_DAO_CLASS = "java:comp/env/dao/customer/AccountDAOClass";
 }

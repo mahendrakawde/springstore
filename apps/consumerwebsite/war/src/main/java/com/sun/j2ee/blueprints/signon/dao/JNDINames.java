@@ -5,21 +5,18 @@
 package com.sun.j2ee.blueprints.signon.dao;
 
 /**
- * This class is the central location to store the internal
- * names of various entities, and these internal names are later 
- * mapped to the JNDI names in the deployment environment. Any change 
- * here should also be reflected in the deployment descriptors.
+ * This class is the central location to store the internal names of various
+ * entities, and these internal names are later mapped to the JNDI names in the
+ * deployment environment. Any change here should also be reflected in the
+ * deployment descriptors.
  */
-public class JNDINames {
+public final class JNDINames {
 
+	private JNDINames() {
+	} // Prevents instantiation
 
-    private JNDINames() { } //Prevents instantiation
+	public static final String SIGNON_DATASOURCE = "java:comp/env/signon/SignOnDataSource";
 
-      
-    public static final String SIGNON_DATASOURCE =
-         "java:comp/env/signon/SignOnDataSource";
-    
-    //name of DAO class to use
-    public static final String SIGNON_DAO_CLASS =
-         "java:comp/env/dao/signon/SignOnDAOClass";
+	// name of DAO class to use
+	public static final String SIGNON_DAO_CLASS = "java:comp/env/dao/signon/SignOnDAOClass";
 }

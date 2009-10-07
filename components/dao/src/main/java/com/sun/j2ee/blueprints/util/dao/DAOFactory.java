@@ -4,8 +4,8 @@
 
 package com.sun.j2ee.blueprints.util.dao;
 
-import javax.naming.NamingException;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 public final class DAOFactory {
 

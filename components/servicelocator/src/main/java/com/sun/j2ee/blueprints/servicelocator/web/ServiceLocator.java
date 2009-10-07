@@ -4,14 +4,19 @@
 
 package com.sun.j2ee.blueprints.servicelocator.web;
 
-import java.util.*;
-import java.net.*;
-import javax.ejb.*;
-import javax.jms.*;
-import javax.naming.*;
-import javax.rmi.*;
-import javax.sql.*;
-import javax.transaction.*;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ejb.EJBHome;
+import javax.ejb.EJBLocalHome;
+import javax.jms.ConnectionFactory;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
+import javax.xml.rpc.Service;
 
 import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
 
@@ -182,4 +187,15 @@ public final class ServiceLocator {
             throw new ServiceLocatorException(e);
         }
     }
+    
+    public java.rmi.Remote getPort(final String envName, Class portInterface) throws ServiceLocatorException {
+    	try {
+    		Service service = (Service) ic.lookup(envName);
+    		return service.getPort(portInterface);
+    	} catch (Exception e) {
+    		throw new ServiceLocatorException(e);
+    	}
+	}
+    
+    
 }

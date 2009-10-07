@@ -4,32 +4,13 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
-import javax.xml.rpc.*;
-import javax.naming.*;
-
 import com.sun.j2ee.blueprints.opc.JNDINames;
 
-public class ActivitySupplierClient implements WSClient {
+public class ActivitySupplierClient extends AbstractWSClient {
 
-    public String sendRequest(String xmlDoc) {
-  String ret = null;
 
-  try {
-      InitialContext ic = new InitialContext();
-      ActivityPurchaseOrderService svc = (ActivityPurchaseOrderService) 
-    ic.lookup(JNDINames.ACTIVITY_SERVICE_NAME);
-      ActivityPOIntf port= (ActivityPOIntf)
-                     svc.getPort(ActivityPOIntf.class);
-      ret = port.submitActivityReservationDetails(xmlDoc);
-  } catch (Exception exe) {
-            /* 
-             *  Advanced error handling will be done for a later release, with 
-             * the broker placing an error message in the work flow manager
-             * queue so that the work flow manager can again call the broker
-             * to send the PO to the proper supplier
-             */  
-            System.err.println(exe);
-  }
-  return ret;
-    }
+	protected String sendRequestInternal(String xmlDoc) throws Exception {
+		ActivityPOIntf port = (ActivityPOIntf) sl.getPort(JNDINames.ACTIVITY_SERVICE_NAME, ActivityPOIntf.class);
+		return port.submitActivityReservationDetails(xmlDoc);
+	}
 }

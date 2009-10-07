@@ -4,26 +4,21 @@
 
 package com.sun.j2ee.blueprints.waf.view.template;
 
-import org.xml.sax.InputSource;
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.SAXException;
-
-
-// jaxp 1.0.1 imports
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-import com.sun.j2ee.blueprints.waf.view.template.Screen;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXParseException;
 
 
 /**
@@ -34,6 +29,8 @@ import com.sun.j2ee.blueprints.waf.view.template.Screen;
 
 public class ScreenDefinitionDAO {
 
+	private static final Logger logger = LoggerFactory.getLogger(ScreenDefinitionDAO.class);
+	
     // event - flow constants
     public static final String URL_MAPPING = "url-mapping";
     public static final String SCREEN_DEFINITION = "screen-definition";
@@ -70,17 +67,10 @@ public class ScreenDefinitionDAO {
             root.normalize();
             return root;
         } catch (SAXParseException err) {
-            System.err.println ("ScreenFlowXmlDAO ** Parsing error" + ", line " +
-                        err.getLineNumber () + ", uri " + err.getSystemId ());
-            System.err.println("ScreenFlowXmlDAO error: " + err.getMessage ());
-        } catch (SAXException e) {
-            System.err.println("ScreenFlowXmlDAO error: " + e);
-        } catch (java.net.MalformedURLException mfx) {
-            System.err.println("ScreenFlowXmlDAO error: " + mfx);
-        } catch (java.io.IOException e) {
-            System.err.println("ScreenFlowXmlDAO error: " + e);
+            logger.error("ScreenFlowXmlDAO ** Parsing error, line {}, uri {}", Integer.valueOf(err.getLineNumber()), err.getSystemId());
+            logger.error("ScreenFlowXmlDAO error: ", err);
         } catch (Exception pce) {
-            System.err.println("ScreenFlowXmlDAO error: " + pce);
+            logger.error("ScreenFlowXmlDAO error: ", pce);
         }
         return null;
     }
@@ -94,8 +84,8 @@ public class ScreenDefinitionDAO {
 
 
 
-    public static HashMap getScreenDefinitions(Element root) {
-        HashMap screensDefs = new HashMap();
+    public static Map getScreenDefinitions(Element root) {
+        Map screensDefs = new HashMap();
         NodeList list = root.getElementsByTagName(SCREEN_DEFINITION);
         for (int loop = 0; loop < list.getLength(); loop++) {
             Node node = list.item(loop);
@@ -109,8 +99,7 @@ public class ScreenDefinitionDAO {
                 if ((language != null) && (url != null) && !screensDefs.containsKey(language)) {
                     screensDefs.put(language, url);
                 } else {
-                    System.err.println("*** Non Fatal errror: ScreenDefinitions for language " + language + 
-                                       " defined more than once in screen definitions file");
+                    logger.warn("*** Non Fatal errror: ScreenDefinitions for language {} defined more than once in screen definitions file", language);
                 }
             }
         }
@@ -121,8 +110,7 @@ public class ScreenDefinitionDAO {
         // get the template
         String defaultTemplate = getTagValue(root, DEFAULT_TEMPLATE);
         if (defaultTemplate == null) {
-            System.err.println("*** ScreenDefinitionDAO error: " + 
-                               " Default Template not Defined.");
+            logger.warn("*** ScreenDefinitionDAO error: Default Template not Defined.");
             return null;
         }
 
@@ -135,13 +123,12 @@ public class ScreenDefinitionDAO {
             if ((node != null) && node instanceof Element) {
                 String templateName = ((Element)node).getAttribute(TEMPLATE);
                 String screenName = ((Element)node).getAttribute(NAME);
-                HashMap parameters = getParameters(node);
+                Map parameters = getParameters(node);
                 Screen screen = new Screen(screenName, templateName, parameters);
                 if (!screens.containsScreen(screenName)) {
                     screens.addScreen(screenName, screen);
                 } else {
-                    System.err.println("*** Non Fatal errror: Screen " + screenName + 
-                                       " defined more than once in screen definitions file");
+                    logger.warn("*** Non Fatal errror: Screen {} defined more than once in screen definitions file", screenName);
                 }
             }
         }
@@ -166,15 +153,14 @@ public class ScreenDefinitionDAO {
                 if (!screens.containsTemplate(templateName)) {
                     screens.addTemplate(templateName, templateURL);
                 } else {
-                    System.err.println("*** Non Fatal errror: Template " + templateName + 
-                                       " defined more than once in screen definitions file");
+                	logger.warn("*** Non Fatal errror: Template {} defined more than once in screen definitions file", templateName);
                 }
             }
         };
     }
 
-    private static HashMap getParameters(Node node) {
-        HashMap params = new HashMap();
+    private static Map getParameters(Node node) {
+        Map params = new HashMap();
         if (node != null) {
             NodeList  children = node.getChildNodes();
             for (int innerLoop =0; innerLoop < children.getLength(); innerLoop++) {
@@ -192,9 +178,7 @@ public class ScreenDefinitionDAO {
                         if (!params.containsKey(key)) {
                             params.put(key, new Parameter(key, value, direct));
                         } else {
-                            System.err.println("*** Non Fatal errror: " + 
-                                               "Parameter " + key + " is defined more than once");
-
+                            logger.warn("*** Non Fatal errror: Parameter {} is defined more than once", key);
                         }
                     }
                 }

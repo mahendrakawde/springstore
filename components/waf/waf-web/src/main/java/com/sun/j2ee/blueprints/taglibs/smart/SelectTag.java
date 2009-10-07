@@ -4,11 +4,12 @@
 
 package com.sun.j2ee.blueprints.taglibs.smart;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * HTML 'select' tag. 

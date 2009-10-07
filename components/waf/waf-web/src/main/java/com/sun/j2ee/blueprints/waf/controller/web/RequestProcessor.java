@@ -4,16 +4,21 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import org.slf4j.*;
 
-// WAF imports
-import com.sun.j2ee.blueprints.waf.util.JNDINames;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.sun.j2ee.blueprints.waf.controller.Event;
+import com.sun.j2ee.blueprints.waf.controller.EventException;
+import com.sun.j2ee.blueprints.waf.controller.EventResponse;
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
-import com.sun.j2ee.blueprints.waf.controller.*;
-// tracer import
-import com.sun.j2ee.blueprints.util.tracer.Debug;
 
 /** 
  * This is the web tier controller for the sample application.
@@ -28,10 +33,12 @@ import com.sun.j2ee.blueprints.util.tracer.Debug;
  */
 public class RequestProcessor implements java.io.Serializable {
 
-    private ServletContext context;
-    private HashMap urlMappings;
-    private HashMap eventMappings;
-    private HashMap actionMap;
+	private final Logger logger = LoggerFactory.getLogger(RequestProcessor.class);
+	
+	private ServletContext context;
+    private Map urlMappings;
+    private Map eventMappings;
+    private Map actionMap;
 
     public RequestProcessor() {
         actionMap = new HashMap();
@@ -39,9 +46,9 @@ public class RequestProcessor implements java.io.Serializable {
 
 
     public void init(ServletContext context) {
-        this.context = context;
-        urlMappings = (HashMap)context.getAttribute(WebKeys.URL_MAPPINGS);
-        eventMappings = (HashMap)context.getAttribute(WebKeys.EVENT_MAPPINGS);
+    	this.context=context;
+        urlMappings = (Map)context.getAttribute(WebKeys.URL_MAPPINGS);
+        eventMappings = (Map)context.getAttribute(WebKeys.EVENT_MAPPINGS);
     }
     
     /**
@@ -80,12 +87,11 @@ public class RequestProcessor implements java.io.Serializable {
     */
     public void processRequest(URLMapping urlMapping, ServletRequest request) 
          throws ActionException, EventException, ServletException {
-        Event ev = null;
         Action action = getAction(urlMapping);
         if (action != null) {
             action.setServletContext(context);
             action.doStart(request);
-            ev = action.perform(request);
+            Event ev = action.perform(request);
             EventResponse eventResponse = null;
             if (ev != null) {
                // set the command class name on the event
@@ -123,8 +129,7 @@ public class RequestProcessor implements java.io.Serializable {
                         handler = (Action)getClass().getClassLoader().loadClass(actionClassString).newInstance();
                         actionMap.put(actionClassString, handler);
                     } catch (Exception ex) {
-                        ex.printStackTrace();
-                        Debug.print("RequestProcessor caught loading action: " + ex);          
+                    	logger.error("RequestProcessor caught loading action: ", ex);
                     }
                 }
             }

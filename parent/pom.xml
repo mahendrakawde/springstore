@@ -60,10 +60,10 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:svn:http://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</connection>
-		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/tags/adventure-builder-1.0.6</developerConnection>
+		<connection>scm:svn:http://springstore.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://springstore.googlecode.com/svn/trunk</developerConnection>
 		<tag>HEAD</tag>
-		<url>http://code.google.com/p/springstore/source/browse/tags/adventure-builder-1.0.6</url>
+		<url>http://code.google.com/p/springstore/source/browse/trunk</url>
 	</scm>
 
 	<pluginRepositories>

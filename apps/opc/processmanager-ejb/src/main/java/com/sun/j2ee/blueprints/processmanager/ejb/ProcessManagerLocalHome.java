@@ -5,11 +5,7 @@
 package com.sun.j2ee.blueprints.processmanager.ejb;
 
 
-import java.rmi.RemoteException;
-
 import javax.ejb.CreateException;
-import javax.ejb.FinderException;
-import javax.ejb.DuplicateKeyException;
 
 /**
  * The home interface of the ProcessManager Entity EJB.

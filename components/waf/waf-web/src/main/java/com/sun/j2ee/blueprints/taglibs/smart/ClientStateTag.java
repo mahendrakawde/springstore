@@ -4,18 +4,25 @@
 
 package com.sun.j2ee.blueprints.taglibs.smart;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
-// Apache Commons- Tag-Lib Imports
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.apache.commons.codec.base64.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// J2EE Imports
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.http.*;
-
-// WAF imports
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
 
 /**
@@ -31,6 +38,8 @@ import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
  */
 public class ClientStateTag extends BodyTagSupport {
 
+	private final Logger logger = LoggerFactory.getLogger(ClientStateTag.class);
+	
     private String altText = "";
     private String buttonText;
     private String imageURL;
@@ -39,7 +48,7 @@ public class ClientStateTag extends BodyTagSupport {
     private boolean encodeRequestAttributes = true;
     private boolean encodeRequestParameters = true;
     private Class serializableClass = null;
-    private HashMap parameters = null;
+    private Map parameters = null;
 
     public void setId(String cacheId) {
         this.cacheId = cacheId;
@@ -113,12 +122,13 @@ public class ClientStateTag extends BodyTagSupport {
         // check the request for previous parameters
         Map params = (Map)request.getParameterMap();
         if (!params.isEmpty() && encodeRequestParameters) {
-            Iterator it = params.keySet().iterator();
+            Iterator it = params.entrySet().iterator();
             // copy in the request parameters stored
             while (it.hasNext()) {
-                String key = (String)it.next();
+            	Entry entry = (Entry) it.next();
+                String key = (String) entry.getKey();
                 if (!key.startsWith(cacheId)) {
-                    String[] values = (String[])params.get(key);
+                    String[] values = (String[]) entry.getValue();
                     String valueString = values[0];
                     buffer.append(" <input type=\"hidden\" name=\"" +
                                              key + "\" value=\"" +
@@ -145,7 +155,7 @@ public class ClientStateTag extends BodyTagSupport {
                             try {
                                  serializableClass = Class.forName("java.io.Serializable");
                              } catch (java.lang.ClassNotFoundException cnf) {
-                                 System.err.println("ClientStateTag caught: " + cnf);
+                                 logger.error("ClientStateTag caught: ", cnf);
                              }
                          }
                          // check if seralizable
@@ -159,10 +169,10 @@ public class ClientStateTag extends BodyTagSupport {
                                         "_attribute_" + key + "\" value=\"" +
                                        new String(Base64.encode(bos.toByteArray()), "ISO-8859-1")  + "\" />");
                          } catch (java.io.IOException iox) {
-                                 System.err.println("ClientStateTag caught: " + iox);
+                             logger.error("ClientStateTag caught: ", iox);
                          }
                      } else {
-                         System.out.println(key + " not to Serializeable");
+                    	 logger.info(key + " not to Serializeable");
                      }
                  }
             }
@@ -181,7 +191,7 @@ public class ClientStateTag extends BodyTagSupport {
                JspWriter out = pageContext.getOut();
                 out.print(buffer.toString());
         } catch (IOException ioe) {
-            System.err.println("ClientStateTag: Problems with writing...");
+            logger.error("ClientStateTag: Problems with writing...", ioe);
         }
         // reset everything
         parameters = null;

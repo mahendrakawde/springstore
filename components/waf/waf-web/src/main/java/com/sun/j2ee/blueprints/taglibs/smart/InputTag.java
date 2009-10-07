@@ -5,10 +5,9 @@
 package com.sun.j2ee.blueprints.taglibs.smart;
 
 import java.io.IOException;
-import java.util.*;
 
 import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.*;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * HTML 'input' tag. Use with NameTag and ValueTag.

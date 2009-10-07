@@ -5,28 +5,32 @@
 package com.sun.j2ee.blueprints.waf.view.template;
 
 import java.io.IOException;
-import java.net.URL;
 import java.io.PrintWriter;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.util.HashMap;
-import java.util.Locale;
+import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringTokenizer;
 
-// J2EE imports
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.transaction.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
 
 public class TemplateServlet extends HttpServlet {
 
-    private HashMap allScreens;
+	private final Logger logger = LoggerFactory.getLogger(TemplateServlet.class);
+	
+    private Map allScreens;
     private ServletConfig config;
     private ServletContext context;
     private String defaultLocale;
@@ -41,7 +45,7 @@ public class TemplateServlet extends HttpServlet {
         String cachePreviousScreenAttributesString = config.getInitParameter("cache_previous_screen_attributes");
         if (cachePreviousScreenAttributesString != null) {
             if (cachePreviousScreenAttributesString.toLowerCase().equals("true")) {
-                System.out.println("TemplateServlet: Enabled caching of previous screen attributes.");
+                logger.info("TemplateServlet: Enabled caching of previous screen attributes.");
                 cachePreviousScreenAttributes = true;
             }
         }
@@ -49,7 +53,7 @@ public class TemplateServlet extends HttpServlet {
         String cachePreviousScreenParametersString = config.getInitParameter("cache_previous_screen_parameters");
         if (cachePreviousScreenParametersString != null) {
             if (cachePreviousScreenParametersString.toLowerCase().equals("true")) {
-                System.out.println("TemplateServlet: Enabled caching of previous screen parameters.");
+                logger.info("TemplateServlet: Enabled caching of previous screen parameters.");
                 cachePreviousScreenParameters = true;
             }
         }
@@ -72,17 +76,17 @@ public class TemplateServlet extends HttpServlet {
         try {
             screenDefinitionURL = context.getResource("/WEB-INF/screendefinitions_" + language + ".xml");
         } catch (java.net.MalformedURLException ex) {
-            System.err.println("TemplateServlet: malformed URL exception: " + ex);
+            logger.error("TemplateServlet: malformed URL exception: ", ex);
         }
         if (screenDefinitionURL != null) {
             Screens screenDefinitions = ScreenDefinitionDAO.loadScreenDefinitions(screenDefinitionURL);
             if (screenDefinitions != null) {
                 allScreens.put(language, screenDefinitions);
             } else {
-                System.err.println("Template Servlet Error Loading Screen Definitions: Confirm that file at URL /WEB-INF/screendefinitions_" + language + ".xml contains the screen definitions");
+                logger.error("Template Servlet Error Loading Screen Definitions: Confirm that file at URL /WEB-INF/screendefinitions_{}.xml contains the screen definitions", language);
             }
         } else {
-            System.err.println("Template Servlet Error Loading Screen Definitions: URL /WEB-INF/screendefinitions_" + language + ".xml not found");
+            logger.error("Template Servlet Error Loading Screen Definitions: URL /WEB-INF/screendefinitions_{}.xml not found", language);
         }
     }
 
@@ -190,7 +194,7 @@ public class TemplateServlet extends HttpServlet {
             if (localeScreens != null) screen = (Screen)localeScreens.getScreen(screenName);
             // default to the default locale screen if it was not defined in the locale specific definitions
             if (screen == null) {
-                System.err.println("Screen not Found loading default from " + defaultLocale);
+                logger.warn("Screen not Found loading default from {}.",  defaultLocale);
                 localeScreens = (Screens)allScreens.get(defaultLocale);
                 screen = (Screen)localeScreens.getScreen(screenName);
             }

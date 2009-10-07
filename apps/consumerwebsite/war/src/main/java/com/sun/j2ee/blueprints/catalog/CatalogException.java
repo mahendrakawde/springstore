@@ -5,18 +5,24 @@
 package com.sun.j2ee.blueprints.catalog;
 
 /**
- * CatalogException is an exception that extends the
- * standard Exception. This is thrown by the the signon
- * component when there is some failure because of user error
+ * CatalogException is an exception that extends the standard Exception. This is
+ * thrown by the the signon component when there is some failure because of user
+ * error
  */
 public class CatalogException extends RuntimeException {
 
-    public CatalogException() {}
-    public CatalogException(String msg) { super(msg); }
-    public CatalogException(String msg, Throwable cause) {
-        super(msg, cause);
-    }
-    public CatalogException(Throwable cause) {
-        super(cause);
-    }
+	public CatalogException() {
+	}
+
+	public CatalogException(String msg) {
+		super(msg);
+	}
+
+	public CatalogException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public CatalogException(Throwable cause) {
+		super(cause);
+	}
 }

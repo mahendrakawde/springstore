@@ -6,20 +6,16 @@ package com.sun.j2ee.blueprints.waf.controller.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.util.Map;
-import java.util.Iterator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-// Apache Commons- Tag-Lib Imports
-import org.apache.commons.codec.base64.Base64;
-
-// J2EE imports 
 import javax.servlet.http.HttpServletRequest;
 
-// tracer import
-import com.sun.j2ee.blueprints.util.tracer.Debug;
+import org.apache.commons.codec.base64.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// WAF imports
 import com.sun.j2ee.blueprints.waf.controller.web.FlowHandler;
 import com.sun.j2ee.blueprints.waf.controller.web.FlowHandlerException;
 
@@ -30,6 +26,8 @@ import com.sun.j2ee.blueprints.waf.controller.web.FlowHandlerException;
 */
 public class ClientStateFlowHandler implements FlowHandler {
 
+	private final Logger logger = LoggerFactory.getLogger(ClientStateFlowHandler.class);
+	
     public void doStart(HttpServletRequest request){
     }
     
@@ -59,11 +57,11 @@ public class ClientStateFlowHandler implements FlowHandler {
                         String requestObjectKey = key.substring((cacheId + "_attribute_").length(), key.length());
                         request.setAttribute(requestObjectKey, requestObject);
                     } catch (java.io.OptionalDataException ode) {
-                        Debug.print("ClientCacheLinkFlowHandler caught: " + ode);
+                        logger.error("ClientCacheLinkFlowHandler caught: ", ode);
                     } catch (java.lang.ClassNotFoundException cnfe) {
-                        Debug.print("ClientCacheLinkFlowHandler caught: " + cnfe);                  
+                    	logger.error("ClientCacheLinkFlowHandler caught: ", cnfe);                  
                     } catch (java.io.IOException iox) {
-                        Debug.print("ClientCacheLinkFlowHandler caught: " + iox);                  
+                    	logger.error("ClientCacheLinkFlowHandler caught: ", iox);                  
                     }
                 }
             }

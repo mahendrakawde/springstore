@@ -3,12 +3,14 @@
  $Id: ContactInfoBean.java,v 1.2 2004/05/26 00:06:56 inder Exp $ */
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.EntityBean;
+import javax.ejb.EntityContext;
+import javax.ejb.RemoveException;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
-
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.ContactInfo;
+import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
+import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 
 /**

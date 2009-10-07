@@ -7,8 +7,9 @@ package com.sun.j2ee.blueprints.opc.powebservice;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
-import com.sun.j2ee.blueprints.opc.serviceexceptions.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
+import com.sun.j2ee.blueprints.opc.serviceexceptions.InvalidPOException;
+import com.sun.j2ee.blueprints.opc.serviceexceptions.ProcessingException;
 
 /**
  * Interface for the PO web service endpoint of the 

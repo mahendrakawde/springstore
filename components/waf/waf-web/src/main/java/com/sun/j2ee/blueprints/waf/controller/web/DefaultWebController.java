@@ -4,20 +4,11 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import java.util.Locale;
-import java.util.Collection;
+import javax.servlet.http.HttpSession;
 
-// J2EE imports
-import javax.servlet.http.*;
-import javax.servlet.*;
-
-// tracer import
-import com.sun.j2ee.blueprints.util.tracer.Debug;
-
-// WAF imports
-import com.sun.j2ee.blueprints.waf.util.JNDINames;
-import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
-import com.sun.j2ee.blueprints.waf.controller.*;
+import com.sun.j2ee.blueprints.waf.controller.Event;
+import com.sun.j2ee.blueprints.waf.controller.EventException;
+import com.sun.j2ee.blueprints.waf.controller.EventResponse;
 
 /**
  *

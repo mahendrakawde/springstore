@@ -4,13 +4,14 @@
 
 package com.sun.j2ee.blueprints.opc.orderreceiver;
 
-import javax.ejb.*;
+import javax.ejb.CreateException;
 
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
-import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
+import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.PurchaseOrderLocal;
+import com.sun.j2ee.blueprints.opc.purchaseorder.ejb.PurchaseOrderLocalHome;
+import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
+import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 /**
  * This component receives and persists a 

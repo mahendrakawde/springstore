@@ -14,14 +14,15 @@ import com.sun.j2ee.blueprints.util.dao.DAOSystemException;
 /**
  * Stub {@link CatalogDAO} which delegates to a Mock registered in the
  * {@link MockHolder}.
- *  
+ * 
  * @author Marten Deinum
- *
+ * 
  */
 public class MockDelegatingCatalogDao implements CatalogDAO {
 
 	@Override
-	public List getActivities(String location, Locale locale) throws CatalogDAOException, DAOSystemException {
+	public List getActivities(String location, Locale locale)
+			throws CatalogDAOException, DAOSystemException {
 		CatalogDAO delegate = MockHolder.getMock(CatalogDAO.class);
 		return delegate.getActivities(location, locale);
 	}

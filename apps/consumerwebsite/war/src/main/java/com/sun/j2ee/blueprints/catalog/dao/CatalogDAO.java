@@ -13,20 +13,26 @@ import com.sun.j2ee.blueprints.util.dao.*;
  * This is the interface for Catalog DAO.
  */
 public interface CatalogDAO {
-    
-    public List getLodgings(String location, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    public Lodging getLodging(String id, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    public List getTransportations(String origin, String destination, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    public Transportation getTransportation(String id, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    public List getActivities(String location, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    public Activity getActivity(String id, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    public AdventurePackage getAdventurePackage(String packageId, Locale locale)
-            throws CatalogDAOException, DAOSystemException;
-    
+
+	public List getLodgings(String location, Locale locale)
+			throws CatalogDAOException, DAOSystemException;
+
+	public Lodging getLodging(String id, Locale locale)
+			throws CatalogDAOException, DAOSystemException;
+
+	public List getTransportations(String origin, String destination,
+			Locale locale) throws CatalogDAOException, DAOSystemException;
+
+	public Transportation getTransportation(String id, Locale locale)
+			throws CatalogDAOException, DAOSystemException;
+
+	public List getActivities(String location, Locale locale)
+			throws CatalogDAOException, DAOSystemException;
+
+	public Activity getActivity(String id, Locale locale)
+			throws CatalogDAOException, DAOSystemException;
+
+	public AdventurePackage getAdventurePackage(String packageId, Locale locale)
+			throws CatalogDAOException, DAOSystemException;
+
 }

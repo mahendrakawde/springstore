@@ -5,7 +5,7 @@
 
 package com.sun.j2ee.blueprints.opc.financial;
 
-import javax.xml.rpc.*;
+import javax.xml.rpc.ServiceException;
 
 public interface CreditCardService extends javax.xml.rpc.Service {
     public com.sun.j2ee.blueprints.opc.financial.CreditCardIntf getCreditCardIntfPort() throws ServiceException;

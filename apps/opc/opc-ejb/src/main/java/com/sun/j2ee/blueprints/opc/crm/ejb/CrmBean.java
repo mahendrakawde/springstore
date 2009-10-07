@@ -7,6 +7,7 @@ package com.sun.j2ee.blueprints.opc.crm.ejb;
 import java.util.Locale;
 
 import javax.ejb.EJBException;
+import javax.ejb.MessageDrivenContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -19,6 +20,7 @@ import org.springframework.xml.transform.StringSource;
 import com.sun.j2ee.blueprints.opc.mailer.JNDINames;
 import com.sun.j2ee.blueprints.opc.mailer.Mail;
 import com.sun.j2ee.blueprints.opc.mailer.MailHelper;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 /**
@@ -37,6 +39,12 @@ public class CrmBean extends AbstractJmsMessageDrivenBean {
 		((XStreamMarshaller)marshaller).addAlias("mail", Mail.class);
 	}
 
+	public void setMessageDrivenContext(MessageDrivenContext messageDrivenContext) {
+		super.setMessageDrivenContext(messageDrivenContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
+	}
+
+	
 	/**
 	 * Receive a JMS Message containing the Order that is completed, generate
 	 * Mail xml messages for the customer The Mail xml mesages contain html
@@ -74,6 +82,7 @@ public class CrmBean extends AbstractJmsMessageDrivenBean {
 					.getDefault());
 		} catch (Exception ex) {
 			logger.error("CrmBean: caught=" + ex.getMessage(), ex);
+			return "failed";
 		}
 		return "success";
 	}

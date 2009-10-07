@@ -18,31 +18,32 @@ import com.sun.j2ee.blueprints.waf.controller.web.html.*;
 // adventure imports
 import com.sun.j2ee.blueprints.consumerwebsite.*;
 import com.sun.j2ee.blueprints.consumerwebsite.exceptions.*;
+
 /**
- * Handles responsibilities related to getting HTTP request 
- * info and making the calls to the signon component 
- * to access the database.
+ * Handles responsibilities related to getting HTTP request info and making the
+ * calls to the signon component to access the database.
  */
 public class CreateSignOnHTMLAction extends HTMLActionSupport {
 
-    public static final String SIGNON_CREATE = "createSignOn";
-    public static final String PASSWD_CHECK = "checkPassword";
+	public static final String SIGNON_CREATE = "createSignOn";
+	public static final String PASSWD_CHECK = "checkPassword";
 
-    /**
-     * Handles the http request to create an signon, and provides an
-     * appropriate response.
-     *
-     * Post-condition: Set user name and password in session 
-     * for the CustomerHTMLAction to pick up and create a sign
-     * on and a Customer in a single transaction.
-     */
-    public Event perform(HttpServletRequest request)
-  throws HTMLActionException {
-            String userId = request.getParameter("j_username");
-            String password = request.getParameter("j_password");
-            // put the username and password in the session for future reference
-            request.getSession().setAttribute(AdventureKeys.SIGN_ON_TEMP_USERNAME, userId);
-            request.getSession().setAttribute(AdventureKeys.SIGN_ON_TEMP_PASSWORD, password);
-        return null;
-    }
+	/**
+	 * Handles the http request to create an signon, and provides an appropriate
+	 * response.
+	 * 
+	 * Post-condition: Set user name and password in session for the
+	 * CustomerHTMLAction to pick up and create a sign on and a Customer in a
+	 * single transaction.
+	 */
+	public Event perform(HttpServletRequest request) throws HTMLActionException {
+		String userId = request.getParameter("j_username");
+		String password = request.getParameter("j_password");
+		// put the username and password in the session for future reference
+		request.getSession().setAttribute(AdventureKeys.SIGN_ON_TEMP_USERNAME,
+				userId);
+		request.getSession().setAttribute(AdventureKeys.SIGN_ON_TEMP_PASSWORD,
+				password);
+		return null;
+	}
 }

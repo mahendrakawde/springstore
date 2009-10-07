@@ -8,12 +8,22 @@ import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException;
 
 /**
  * An application exception indicating something has gone wrong
- *
+ * 
  */
 public class OrderNotFoundException extends HTMLActionException {
 
-    public OrderNotFoundException() {}
-    public OrderNotFoundException(String s) { super(s); }
-    public OrderNotFoundException(Throwable cause) { super(cause); }
-    public OrderNotFoundException(String s, Throwable cause) { super(s, cause); }
+	public OrderNotFoundException() {
+	}
+
+	public OrderNotFoundException(String s) {
+		super(s);
+	}
+
+	public OrderNotFoundException(Throwable cause) {
+		super(cause);
+	}
+
+	public OrderNotFoundException(String s, Throwable cause) {
+		super(s, cause);
+	}
 }

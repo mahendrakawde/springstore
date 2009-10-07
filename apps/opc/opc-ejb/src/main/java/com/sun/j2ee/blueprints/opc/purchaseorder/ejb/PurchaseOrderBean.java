@@ -3,12 +3,19 @@
  $Id: PurchaseOrderBean.java,v 1.2 2004/05/26 00:06:57 inder Exp $ */
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.EntityBean;
+import javax.ejb.EntityContext;
+import javax.ejb.RemoveException;
+
+import com.sun.j2ee.blueprints.opc.purchaseorder.Activity;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
+import com.sun.j2ee.blueprints.servicelocator.ServiceLocatorException;
+import com.sun.j2ee.blueprints.servicelocator.ejb.ServiceLocator;
 
 /**
  * Implementation class for the  PurchaseOrderBean .

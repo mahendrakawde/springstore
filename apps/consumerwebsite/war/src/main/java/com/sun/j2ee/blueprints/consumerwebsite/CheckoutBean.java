@@ -6,32 +6,26 @@ package com.sun.j2ee.blueprints.consumerwebsite;
 
 import java.io.Serializable;
 
-
-
 /**
  * A JavaBeans component representing checkout information.
  */
 public class CheckoutBean implements Serializable {
 
+	private String orderId = null;
 
-    private String orderId = null;
+	public CheckoutBean(String orderId) {
+		this.orderId = orderId;
 
+	}
 
+	// getter methods
 
-    public CheckoutBean(String orderId) {
-      this.orderId = orderId;
-  
-    }
+	public String getOrderId() {
+		return orderId;
+	}
 
-   //getter methods
-
-   public String getOrderId() {
-        return orderId;
-    }
- 
-
-    public String toString() {
-      return "CustomerBean[orderId=" + orderId + "]";
-    }
+	public String toString() {
+		return "CustomerBean[orderId=" + orderId + "]";
+	}
 
 }

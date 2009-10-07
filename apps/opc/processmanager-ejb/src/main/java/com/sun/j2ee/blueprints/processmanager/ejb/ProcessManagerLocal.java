@@ -4,8 +4,11 @@
 
 package com.sun.j2ee.blueprints.processmanager.ejb;
 
-import javax.ejb.*;
-import java.util.*;
+import java.util.Collection;
+
+import javax.ejb.CreateException;
+import javax.ejb.EJBLocalObject;
+import javax.ejb.FinderException;
 
 /**
  * This interface provides methods to view and modify

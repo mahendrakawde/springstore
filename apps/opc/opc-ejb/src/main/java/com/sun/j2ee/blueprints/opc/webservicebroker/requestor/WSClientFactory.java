@@ -4,24 +4,31 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
-import javax.naming.NamingException;
 import javax.naming.InitialContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Factory for creating {@link WSClient} instances.
+ * 
+ * @author Marten Deinum
+ *
+ * @See WSClient
+ */
 public class WSClientFactory {
 
-    public static WSClient getWSClient(String providerName) {
+	private static final Logger logger = LoggerFactory.getLogger(WSClientFactory.class);
 
-        WSClient client = null;
-        try {
-            InitialContext ic = new InitialContext();
-            String className = (String) ic.lookup(providerName);
-            client = (WSClient) Class.forName(className).newInstance();
-        } catch (NamingException ne) {
-      System.err.println(ne);
-        } catch (Exception se) {
-      System.err.println(se);
-        }
-        return client;
-    }
+	public static WSClient getWSClient(String providerName) {
+		WSClient client = null;
+		try {
+			InitialContext ic = new InitialContext();
+			String className = (String) ic.lookup(providerName);
+			client = (WSClient) Class.forName(className).newInstance();
+		} catch (Exception se) {
+			logger.error(se.getMessage(), se);
+		}
+		return client;
+	}
 }
-

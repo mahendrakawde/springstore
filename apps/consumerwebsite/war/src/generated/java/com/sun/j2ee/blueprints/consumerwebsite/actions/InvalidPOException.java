@@ -5,17 +5,15 @@
 
 package com.sun.j2ee.blueprints.consumerwebsite.actions;
 
-
 public class InvalidPOException extends java.lang.Exception {
-    private java.lang.String message;
-    
-    
-    public InvalidPOException(java.lang.String message) {
-        super(message);
-        this.message = message;
-    }
-    
-    public java.lang.String getMessage() {
-        return message;
-    }
+	private java.lang.String message;
+
+	public InvalidPOException(java.lang.String message) {
+		super(message);
+		this.message = message;
+	}
+
+	public java.lang.String getMessage() {
+		return message;
+	}
 }

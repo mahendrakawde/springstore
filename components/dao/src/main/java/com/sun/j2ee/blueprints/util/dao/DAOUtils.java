@@ -4,8 +4,13 @@
 
 package com.sun.j2ee.blueprints.util.dao;
 
-import java.sql.*;
-import javax.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import com.sun.j2ee.blueprints.servicelocator.web.ServiceLocator;
 
 public final class DAOUtils {

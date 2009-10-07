@@ -5,13 +5,23 @@
 package com.sun.j2ee.blueprints.customer;
 
 /**
- * CustomerAppException is an exception that extends the
- * standard Exception. This is thrown by the the customer
- * component when there is some failure because of user error
+ * CustomerAppException is an exception that extends the standard Exception.
+ * This is thrown by the the customer component when there is some failure
+ * because of user error
  */
 public class CustomerException extends RuntimeException {
-    public CustomerException() {}
-    public CustomerException(String msg) { super(msg); }
-    public CustomerException(String msg, Throwable cause) { super(msg, cause); }
-    public CustomerException(Throwable cause) { super(cause); }    
+	public CustomerException() {
+	}
+
+	public CustomerException(String msg) {
+		super(msg);
+	}
+
+	public CustomerException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public CustomerException(Throwable cause) {
+		super(cause);
+	}
 }

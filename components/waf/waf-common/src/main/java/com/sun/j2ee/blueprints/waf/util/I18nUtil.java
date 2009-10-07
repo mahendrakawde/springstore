@@ -4,25 +4,27 @@
 
 package com.sun.j2ee.blueprints.waf.util;
 
+import java.io.ByteArrayOutputStream;
+import java.text.BreakIterator;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Vector;
-import java.text.NumberFormat;
-import java.text.DecimalFormat;
-import java.text.BreakIterator;
-import java.util.Locale;
-import java.io.ByteArrayOutputStream;
 
-
-import com.sun.j2ee.blueprints.util.tracer.Debug;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This utility class for internationalization. This class provides a 
  * central location to do specialized formatting in both 
  * a default and a locale specfic manner.
  */
-public final class I18nUtil extends Object {
+public final class I18nUtil {
 
+	private static final Logger logger = LoggerFactory.getLogger(I18nUtil.class);
 
+	private I18nUtil() {}
+	
     /**
      * Converts a String SJIS or JIS URL encoded hex encoding to a Unicode String
      *
@@ -39,7 +41,9 @@ public final class I18nUtil extends Object {
         String convertedString = null;
         try {
             convertedString =  new String(bos.toByteArray(), "JISAutoDetect");
-        } catch (java.io.UnsupportedEncodingException uex) {}
+        } catch (java.io.UnsupportedEncodingException uex) {
+        	logger.warn(uex.getMessage(), uex);
+        }
         return convertedString;
     }
    
@@ -94,7 +98,7 @@ public final class I18nUtil extends Object {
     }
     return keywords;
       } catch (Throwable e){
-    Debug.print(e, "Error while parsing search string");
+    	  logger.warn("Error while parsing search string", e);
       }
   } 
   return null;
@@ -116,7 +120,7 @@ public final class I18nUtil extends Object {
     }
     return keywords;
       } catch (Throwable e){
-    Debug.print(e, "Error while parsing search string" );
+    	  logger.warn("Error while parsing search string", e);
       }
 
   }

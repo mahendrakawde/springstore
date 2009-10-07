@@ -1,8 +1,10 @@
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.EJBLocalHome;
+import javax.ejb.FinderException;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Address;
 
 /**
  * Local Home Interface for the AddressBean.

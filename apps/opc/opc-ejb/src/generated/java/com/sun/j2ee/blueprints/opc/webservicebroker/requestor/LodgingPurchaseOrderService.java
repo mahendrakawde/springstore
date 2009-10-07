@@ -5,7 +5,7 @@
 
 package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
-import javax.xml.rpc.*;
+import javax.xml.rpc.ServiceException;
 
 public interface LodgingPurchaseOrderService extends javax.xml.rpc.Service {
     public com.sun.j2ee.blueprints.opc.webservicebroker.requestor.LodgingPOIntf getLodgingPOIntfPort() throws ServiceException;

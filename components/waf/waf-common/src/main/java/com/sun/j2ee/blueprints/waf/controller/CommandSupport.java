@@ -4,6 +4,9 @@
 
 package com.sun.j2ee.blueprints.waf.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Abstract adapter/support class for the {@link Command} interface.
  * 
@@ -12,6 +15,8 @@ package com.sun.j2ee.blueprints.waf.controller;
  */
 public abstract class CommandSupport implements java.io.Serializable, Command {
 
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	/**
 	 * Empty implementation which can be overriden by subclasses
 	 */

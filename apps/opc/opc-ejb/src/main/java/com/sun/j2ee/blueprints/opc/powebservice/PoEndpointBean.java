@@ -4,20 +4,19 @@
 
 package com.sun.j2ee.blueprints.opc.powebservice;
 
-import java.util.*;
-import java.rmi.*;
+import java.rmi.RemoteException;
 
-import javax.ejb.*;
-import javax.jms.*;
+import javax.ejb.CreateException;
+import javax.ejb.SessionContext;
 
 import org.springframework.ejb.support.AbstractStatelessSessionBean;
 
-import com.sun.j2ee.blueprints.servicelocator.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
-import com.sun.j2ee.blueprints.opc.utils.*;
-import com.sun.j2ee.blueprints.opc.serviceexceptions.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
+import com.sun.j2ee.blueprints.opc.serviceexceptions.InvalidPOException;
+import com.sun.j2ee.blueprints.opc.serviceexceptions.ProcessingException;
+import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 
 /**
  *  This class is the entry point for purchase orders submitted 
@@ -26,8 +25,11 @@ import com.sun.j2ee.blueprints.opc.serviceexceptions.*;
  */
 public class PoEndpointBean extends AbstractStatelessSessionBean {
 
-    public PoEndpointBean(){}
-    
+	public void setSessionContext(SessionContext sessionContext) {
+		super.setSessionContext(sessionContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
+	}
+	
     /**
      * Accept a purchase order, place the order in a JMS queue and return the 
      * order id so that the caller can have a correlation id for the order

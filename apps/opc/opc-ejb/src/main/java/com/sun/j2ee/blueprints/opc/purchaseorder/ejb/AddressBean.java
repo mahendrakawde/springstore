@@ -1,8 +1,11 @@
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.EntityBean;
+import javax.ejb.EntityContext;
+import javax.ejb.RemoveException;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Address;
 
 /**
  * Implementation class for the  AddressBean .

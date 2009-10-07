@@ -5,24 +5,26 @@
 package com.sun.j2ee.blueprints.customer.dao;
 
 /**
- * AccountDAODupKeyException is thrown by the DAOs of the account
- * component when a row is already found with a given primary key.
+ * AccountDAODupKeyException is thrown by the DAOs of the account component when
+ * a row is already found with a given primary key.
  */
 public class AccountDAODupKeyException extends AccountDAOException {
 
-    /**
-     * Constructor
-     * @param str    a string that explains what the exception condition is
-     */
-    public AccountDAODupKeyException (String str) {
-        super(str);
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param str
+	 *            a string that explains what the exception condition is
+	 */
+	public AccountDAODupKeyException(String str) {
+		super(str);
+	}
 
-    /**
-     * Default constructor. Takes no arguments
-     */
-    public AccountDAODupKeyException () {
-        super();
-    }
+	/**
+	 * Default constructor. Takes no arguments
+	 */
+	public AccountDAODupKeyException() {
+		super();
+	}
 
 }

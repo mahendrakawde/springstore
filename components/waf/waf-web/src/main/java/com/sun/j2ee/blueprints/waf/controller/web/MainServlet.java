@@ -4,30 +4,37 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import java.io.*;
-import java.util.*;
+import org.slf4j.*;
 
-// J2EE Imports
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.ServletConfig;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
-// WAF imports
-import com.sun.j2ee.blueprints.waf.util.I18nUtil;
-import com.sun.j2ee.blueprints.waf.util.JNDINames;
-import com.sun.j2ee.blueprints.waf.controller.GeneralFailureException;
-import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
-import com.sun.j2ee.blueprints.util.tracer.Debug;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
+import com.sun.j2ee.blueprints.waf.controller.web.util.WebKeys;
+import com.sun.j2ee.blueprints.waf.util.I18nUtil;
 
 
 public class MainServlet extends HttpServlet {
     
-    private ServletContext context;
-    private HashMap urlMappings;
-    private HashMap eventMappings;
+	private final Logger logger = LoggerFactory.getLogger(MainServlet.class);
+	
+    private Map urlMappings;
     private Locale defaultLocale = null;
 
     private RequestProcessor requestProcessor;
@@ -36,10 +43,8 @@ public class MainServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         String defaultLocaleString = config.getInitParameter("default_locale");
         defaultLocale = I18nUtil.getLocaleFromString(defaultLocaleString);
-        this.context = config.getServletContext();
-        // these will have been initialized by the ApplicationComponentManager
-        eventMappings = (HashMap)context.getAttribute(WebKeys.EVENT_MAPPINGS);
-        urlMappings = (HashMap)context.getAttribute(WebKeys.URL_MAPPINGS);
+        ServletContext context = config.getServletContext();
+        urlMappings = (Map)context.getAttribute(WebKeys.URL_MAPPINGS);
         requestProcessor = (RequestProcessor)context.getAttribute(WebKeys.REQUEST_PROCESSOR);
         screenFlowManager = (ScreenFlowManager)context.getAttribute(WebKeys.SCREEN_FLOW_MANAGER);
     }
@@ -84,14 +89,14 @@ public class MainServlet extends HttpServlet {
                     tx_started = true;
                 } catch (NamingException ne) {
                     // it should not have happened, but it is a recoverable error. 
-                    // Just dont start the transaction. 
-                    ne.printStackTrace();
+                    // Just dont start the transaction.
+                	logger.warn(ne.getMessage(), ne);
                 } catch (NotSupportedException nse) {
                     // Again this is a recoverable error. 
-                    nse.printStackTrace();
+                	logger.warn(nse.getMessage(), nse);
                 } catch (SystemException se) {
                     // Again this is a recoverable error. 
-                    se.printStackTrace();
+                	logger.warn(se.getMessage(), se);
                 }
                 try {
                     requestProcessor.processRequest(urlMapping, request);
@@ -103,15 +108,15 @@ public class MainServlet extends HttpServlet {
                             ut.commit();
                         }
                     } catch (IllegalStateException re) {
-                        re.printStackTrace();
+                    	logger.warn(re.getMessage(), re);
                     } catch (RollbackException re) {
-                        re.printStackTrace();
+                    	logger.warn(re.getMessage(), re);
                     } catch (HeuristicMixedException hme) {
-                        hme.printStackTrace();
+                    	logger.warn(hme.getMessage(), hme);
                     } catch (HeuristicRollbackException hre) {
-                        hre.printStackTrace();
+                    	logger.warn(hre.getMessage(), hre);
                     } catch (SystemException se) {
-                        se.printStackTrace();
+                    	logger.warn(se.getMessage(), se);
                     }
                 }
             } else {
@@ -128,7 +133,7 @@ public class MainServlet extends HttpServlet {
                 ex.printStackTrace();
                 throw new ServletException("MainServlet: unknown exception: " + className);
             }
-            context.getRequestDispatcher(nextScreen).forward(request, response);
+            request.getRequestDispatcher(nextScreen).forward(request, response);
       }
     }
     

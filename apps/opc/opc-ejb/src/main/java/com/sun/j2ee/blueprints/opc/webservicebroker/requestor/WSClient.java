@@ -6,5 +6,6 @@ package com.sun.j2ee.blueprints.opc.webservicebroker.requestor;
 
 
 public interface WSClient {
-    public String sendRequest(String xmlDoc);
+    
+	String sendRequest(String xmlDoc);
 }

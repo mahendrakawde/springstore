@@ -27,31 +27,34 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 
 	private CatalogDAO dao;
 	private CatalogFacade facade;
-	
+
 	private static final Locale LOCALE = Locale.US;
 
 	@Before
 	public void onSetup() throws Exception {
 		dao = EasyMock.createMock(CatalogDAO.class);
-		MockHolder.setMock(CatalogDAO.class, dao);		
+		MockHolder.setMock(CatalogDAO.class, dao);
 		facade = new CatalogFacade();
 	}
-	
+
 	@JndiConfig
-	public void setupJndiContext(final SimpleNamingContextBuilder builder) throws Exception {
-		builder.bind(JNDINames.CATALOG_DAO_CLASS, MockDelegatingCatalogDao.class.getName());		
+	public void setupJndiContext(final SimpleNamingContextBuilder builder)
+			throws Exception {
+		builder.bind(JNDINames.CATALOG_DAO_CLASS,
+				MockDelegatingCatalogDao.class.getName());
 	}
-	
+
 	@After
 	public void after() {
-		
+
 		EasyMock.reset(dao);
 	}
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getLodgingsCatalogDAOException() throws Exception {
-		String location = "test";		
-		expect(dao.getLodgings(location, LOCALE)).andThrow(new CatalogDAOException());
+		String location = "test";
+		expect(dao.getLodgings(location, LOCALE)).andThrow(
+				new CatalogDAOException());
 		replay(dao);
 		facade.getLodgings(location, LOCALE);
 		verify(dao);
@@ -68,10 +71,10 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 		assertEquals(lodgings, facade.getLodgings(location, LOCALE));
 		verify(dao);
 	}
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getLodgingCatalogDAOException() throws Exception {
-		String id = "test";		
+		String id = "test";
 		expect(dao.getLodging(id, LOCALE)).andThrow(new CatalogDAOException());
 		replay(dao);
 		facade.getLodging(id, LOCALE);
@@ -80,19 +83,19 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 
 	@Test
 	public void getLodging() throws Exception {
-		String lodgingId = "test";		
+		String lodgingId = "test";
 		Lodging lodging = StubTestDataUtil.createLodging(lodgingId);
 		expect(dao.getLodging(lodgingId, LOCALE)).andReturn(lodging);
 		replay(dao);
 		assertEquals(lodging, facade.getLodging(lodgingId, LOCALE));
 		verify(dao);
 	}
-	
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getAdventurePackageCatalogDAOException() throws Exception {
-		String packageId = "test";		
-		expect(dao.getAdventurePackage(packageId, LOCALE)).andThrow(new CatalogDAOException());
+		String packageId = "test";
+		expect(dao.getAdventurePackage(packageId, LOCALE)).andThrow(
+				new CatalogDAOException());
 		replay(dao);
 		facade.getAdventurePackage(packageId, LOCALE);
 		verify(dao);
@@ -100,23 +103,26 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 
 	@Test
 	public void getAdventurePackage() throws Exception {
-		String packageId = "test";	
+		String packageId = "test";
 		String lodgingId = "tst-lodging";
 		ArrayList activities = new ArrayList();
 		activities.add(StubTestDataUtil.createActivity("ACT-1"));
-		AdventurePackage adventurePackage = StubTestDataUtil.createAdventurePackage(packageId, lodgingId, activities);
-		expect(dao.getAdventurePackage(packageId, LOCALE)).andReturn(adventurePackage);
+		AdventurePackage adventurePackage = StubTestDataUtil
+				.createAdventurePackage(packageId, lodgingId, activities);
+		expect(dao.getAdventurePackage(packageId, LOCALE)).andReturn(
+				adventurePackage);
 		replay(dao);
-		assertEquals(adventurePackage, facade.getAdventurePackage(packageId, LOCALE));
+		assertEquals(adventurePackage, facade.getAdventurePackage(packageId,
+				LOCALE));
 		verify(dao);
 	}
-	
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getTransportationsCatalogDAOException() throws Exception {
 		String origin = "test-origin";
 		String dest = "test-dest";
-		expect(dao.getTransportations(origin, dest, LOCALE)).andThrow(new CatalogDAOException());
+		expect(dao.getTransportations(origin, dest, LOCALE)).andThrow(
+				new CatalogDAOException());
 		replay(dao);
 		facade.getTransportations(origin, dest, LOCALE);
 		verify(dao);
@@ -130,17 +136,19 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 		transportations.add(StubTestDataUtil.createTransportation("TRANS-1"));
 		transportations.add(StubTestDataUtil.createTransportation("TRANS-2"));
 		transportations.add(StubTestDataUtil.createTransportation("TRANS-3"));
-		expect(dao.getTransportations(origin, dest, LOCALE)).andReturn(transportations);
+		expect(dao.getTransportations(origin, dest, LOCALE)).andReturn(
+				transportations);
 		replay(dao);
-		assertEquals(transportations, facade.getTransportations(origin, dest, LOCALE));
+		assertEquals(transportations, facade.getTransportations(origin, dest,
+				LOCALE));
 		verify(dao);
 	}
-	
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getTransportationCatalogDAOException() throws Exception {
 		String id = "transportId";
-		expect(dao.getTransportation(id, LOCALE)).andThrow(new CatalogDAOException());
+		expect(dao.getTransportation(id, LOCALE)).andThrow(
+				new CatalogDAOException());
 		replay(dao);
 		facade.getTransportation(id, LOCALE);
 		verify(dao);
@@ -149,18 +157,19 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 	@Test
 	public void getTransportation() throws Exception {
 		String id = "transportId";
-		Transportation transportation = StubTestDataUtil.createTransportation(id);
+		Transportation transportation = StubTestDataUtil
+				.createTransportation(id);
 		expect(dao.getTransportation(id, LOCALE)).andReturn(transportation);
 		replay(dao);
 		assertEquals(transportation, facade.getTransportation(id, LOCALE));
 		verify(dao);
 	}
-	
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getActivitiesCatalogDAOException() throws Exception {
 		String location = "test-location";
-		expect(dao.getActivities(location, LOCALE)).andThrow(new CatalogDAOException());
+		expect(dao.getActivities(location, LOCALE)).andThrow(
+				new CatalogDAOException());
 		replay(dao);
 		facade.getActivities(location, LOCALE);
 		verify(dao);
@@ -178,9 +187,8 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 		assertEquals(activities, facade.getActivities(location, LOCALE));
 		verify(dao);
 	}
-	
-	
-	@Test(expected=CatalogException.class)
+
+	@Test(expected = CatalogException.class)
 	public void getActivityCatalogDAOException() throws Exception {
 		String id = "activityId";
 		expect(dao.getActivity(id, LOCALE)).andThrow(new CatalogDAOException());
@@ -198,6 +206,5 @@ public class CatalogFacadeTest extends AbstractJndiContextTests {
 		assertEquals(activity, facade.getActivity(id, LOCALE));
 		verify(dao);
 	}
-	
-	
+
 }

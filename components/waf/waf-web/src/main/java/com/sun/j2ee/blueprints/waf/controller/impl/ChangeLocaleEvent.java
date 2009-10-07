@@ -4,7 +4,6 @@
 
 package com.sun.j2ee.blueprints.waf.controller.impl;
 
-import java.io.Serializable;
 import java.util.Locale;
 
 import com.sun.j2ee.blueprints.waf.controller.EventSupport;

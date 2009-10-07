@@ -8,12 +8,22 @@ import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException;
 
 /**
  * An application exception indicating something has gone wrong
- *
+ * 
  */
 public class SignOnException extends HTMLActionException {
 
-    public SignOnException() {}
-    public SignOnException(String s) { super(s); }
-    public SignOnException(Throwable cause) { super(cause); }
-    public SignOnException(String s, Throwable cause) { super(s, cause); }
+	public SignOnException() {
+	}
+
+	public SignOnException(String s) {
+		super(s);
+	}
+
+	public SignOnException(Throwable cause) {
+		super(cause);
+	}
+
+	public SignOnException(String s, Throwable cause) {
+		super(s, cause);
+	}
 }

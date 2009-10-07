@@ -5,14 +5,24 @@
 package com.sun.j2ee.blueprints.signon;
 
 /**
- * SignOnInvalidCharException is an exception that extends the
- * SignOnException. This is thrown by the the signon
- * component when user id or password specified is too long.
+ * SignOnInvalidCharException is an exception that extends the SignOnException.
+ * This is thrown by the the signon component when user id or password specified
+ * is too long.
  */
 public class SignOnInvalidCharException extends RuntimeException {
 
-    public SignOnInvalidCharException () { }
-    public SignOnInvalidCharException (String str) { super(str); }
-    public SignOnInvalidCharException (Throwable cause) { super(cause); }
-    public SignOnInvalidCharException (String str, Throwable cause) { super(str, cause); }
+	public SignOnInvalidCharException() {
+	}
+
+	public SignOnInvalidCharException(String str) {
+		super(str);
+	}
+
+	public SignOnInvalidCharException(Throwable cause) {
+		super(cause);
+	}
+
+	public SignOnInvalidCharException(String str, Throwable cause) {
+		super(str, cause);
+	}
 }

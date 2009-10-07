@@ -5,17 +5,15 @@
 
 package com.sun.j2ee.blueprints.consumerwebsite.actions;
 
-
 public class OrderNotFoundException extends java.lang.Exception {
-    private java.lang.String message;
-    
-    
-    public OrderNotFoundException(java.lang.String message) {
-        super(message);
-        this.message = message;
-    }
-    
-    public java.lang.String getMessage() {
-        return message;
-    }
+	private java.lang.String message;
+
+	public OrderNotFoundException(java.lang.String message) {
+		super(message);
+		this.message = message;
+	}
+
+	public java.lang.String getMessage() {
+		return message;
+	}
 }

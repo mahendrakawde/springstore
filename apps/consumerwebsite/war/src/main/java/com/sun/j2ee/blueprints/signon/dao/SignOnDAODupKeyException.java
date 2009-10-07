@@ -5,24 +5,26 @@
 package com.sun.j2ee.blueprints.signon.dao;
 
 /**
- * SignOnDAODupKeyException is thrown by the DAOs of the signon
- * component when a row is already found with a given primary key.
+ * SignOnDAODupKeyException is thrown by the DAOs of the signon component when a
+ * row is already found with a given primary key.
  */
 public class SignOnDAODupKeyException extends Exception {
 
-    /**
-     * Constructor
-     * @param str    a string that explains what the exception condition is
-     */
-    public SignOnDAODupKeyException (String str) {
-        super(str);
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param str
+	 *            a string that explains what the exception condition is
+	 */
+	public SignOnDAODupKeyException(String str) {
+		super(str);
+	}
 
-    /**
-     * Default constructor. Takes no arguments
-     */
-    public SignOnDAODupKeyException () {
-        super();
-    }
+	/**
+	 * Default constructor. Takes no arguments
+	 */
+	public SignOnDAODupKeyException() {
+		super();
+	}
 
 }

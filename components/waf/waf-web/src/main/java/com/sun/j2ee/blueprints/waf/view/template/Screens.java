@@ -5,11 +5,17 @@
 package com.sun.j2ee.blueprints.waf.view.template;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Screens implements java.io.Serializable {
 
-    private HashMap screenMap;
-    private HashMap templateMap;
+	private final Logger logger = LoggerFactory.getLogger(Screens.class);
+	
+    private Map screenMap;
+    private Map templateMap;
     private String defaultTemplate;
 
     public Screens (String defaultTemplate) {
@@ -41,7 +47,7 @@ public class Screens implements java.io.Serializable {
         if (screenMap.containsKey(screenName)) {
             return (Screen)screenMap.get(screenName);
         } else {
-            System.err.println("Screens Error: Screen " + screenName + " not defined.");
+            logger.warn("Screens Error: Screen {} not defined.", screenName);
            return null;
         }
     }
@@ -64,7 +70,7 @@ public class Screens implements java.io.Serializable {
                 return defaultTemplate;
             }
         } else {
-                System.err.println("Screens:getTemplate() error: Screen " + screenName + " not defined.");
+                logger.warn("Screens:getTemplate() error: Screen {} not defined.", screenName);
                 return null;
         }
     }

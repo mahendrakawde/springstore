@@ -4,12 +4,10 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 
-// WAF imports
 import com.sun.j2ee.blueprints.waf.controller.Event;
-import com.sun.j2ee.blueprints.waf.controller.EventException;
 import com.sun.j2ee.blueprints.waf.controller.EventResponse;
 
 /**

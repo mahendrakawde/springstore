@@ -4,20 +4,23 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import org.xml.sax.InputSource;
-import org.w3c.dom.*;
-
-import org.xml.sax.*;
-
-// jaxp 1.0.1 imports
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-
 import java.net.URL;
-import java.util.*;
-import com.sun.j2ee.blueprints.util.tracer.Debug;
-import com.sun.j2ee.blueprints.waf.controller.web.URLMapping;
-import com.sun.j2ee.blueprints.waf.controller.web.ScreenFlowData;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXParseException;
 
 /**
  * This class provides the data bindings for the screendefinitions.xml
@@ -27,6 +30,8 @@ import com.sun.j2ee.blueprints.waf.controller.web.ScreenFlowData;
 
 public class URLMappingsXmlDAO {
 
+	private static final Logger logger = LoggerFactory.getLogger(URLMappingsXmlDAO.class);
+	
     // constants
     public static final String URL_MAPPING = "url-mapping";
     public static final String EVENT_MAPPING = "event-mapping";
@@ -70,17 +75,10 @@ public class URLMappingsXmlDAO {
             root.normalize();
             return root;
         } catch (SAXParseException err) {
-            System.err.println ("URLMappingsXmlDAO ** Parsing error" + ", line " +
-                        err.getLineNumber () + ", uri " + err.getSystemId ());
-            System.err.println("URLMappingsXmlDAO error: " + err.getMessage ());
-        } catch (SAXException e) {
-            System.err.println("URLMappingsXmlDAO error: " + e);
-        } catch (java.net.MalformedURLException mfx) {
-            System.err.println("URLMappingsXmlDAO error: " + mfx);
-        } catch (java.io.IOException e) {
-            System.err.println("URLMappingsXmlDAO error: " + e);
+        	logger.error("URLMappingsXmlDAO ** Parsing error, line {}, uri {}.", Integer.valueOf(err.getLineNumber()), err.getSystemId());
+        	logger.error("URLMappingsXmlDAO error: ", err);
         } catch (Exception pce) {
-            System.err.println("URLMappingsXmlDAO error: " + pce);
+        	logger.error("URLMappingsXmlDAO error: ", pce);
         }
         return null;
     }
@@ -88,24 +86,24 @@ public class URLMappingsXmlDAO {
 
     public static ScreenFlowData loadScreenFlowData(String location) {
         Element root = loadDocument(location);
-        ArrayList exceptionMappings = getExceptionMappings(root);
+        List exceptionMappings = getExceptionMappings(root);
         String defaultScreen  = getTagValue(root, DEFAULT_SCREEN);
         return new ScreenFlowData(exceptionMappings, defaultScreen);
     }
 
 
-    public static HashMap loadRequestMappings(String location) {
+    public static Map loadRequestMappings(String location) {
         Element root = loadDocument(location);
         return getRequestMappings(root);
     }
 
     
-    public static ArrayList loadExceptionMappings(String location) {
+    public static List loadExceptionMappings(String location) {
         Element root = loadDocument(location);
         return getExceptionMappings(root);
     }
 
-    public static HashMap loadEventMappings(String location) {
+    public static Map loadEventMappings(String location) {
         Element root = loadDocument(location);
         return getEventMappings(root);
     }
@@ -130,8 +128,8 @@ public class URLMappingsXmlDAO {
         return returnString;
     }
 
-    public static ArrayList getExceptionMappings(Element root) {
-        ArrayList exceptionMappings = new ArrayList();
+    public static List getExceptionMappings(Element root) {
+        List exceptionMappings = new ArrayList();
         NodeList list = root.getElementsByTagName(EXCEPTION_MAPPING);
         for (int loop = 0; loop < list.getLength(); loop++) {
             Node node = list.item(loop);
@@ -152,8 +150,8 @@ public class URLMappingsXmlDAO {
         return exceptionMappings;
     }
 
-    public static HashMap getEventMappings(Element root) {
-        HashMap eventMappings = new HashMap();
+    public static Map getEventMappings(Element root) {
+        Map eventMappings = new HashMap();
         NodeList list = root.getElementsByTagName(EVENT_MAPPING);
         for (int loop = 0; loop < list.getLength(); loop++) {
             Node node = list.item(loop);
@@ -172,8 +170,8 @@ public class URLMappingsXmlDAO {
         }
         return eventMappings;
     }
-    public static HashMap getRequestMappings(Element root) {
-        HashMap urlMappings = new HashMap();
+    public static Map getRequestMappings(Element root) {
+        Map urlMappings = new HashMap();
         NodeList list = root.getElementsByTagName(URL_MAPPING);
         for (int loop = 0; loop < list.getLength(); loop++) {
             Node node = list.item(loop);
@@ -219,8 +217,7 @@ public class URLMappingsXmlDAO {
                             flowHandlerNode = children.item(0);
                         } 
                         if (children.getLength() > 1) {
-                                 System.err.println("Non fatal error: There can be only one <" + FLOW_HANDLER +
-                                               "> definition in a <" + URL_MAPPING + ">");
+                             logger.warn("Non fatal error: There can be only one <{}> definition in a <{}>", FLOW_HANDLER, URL_MAPPING);
                         }
                         // get the flow handler details
                         if (flowHandlerNode != null) {
@@ -240,8 +237,7 @@ public class URLMappingsXmlDAO {
                                         if (!resultMappings.containsKey(key)) {
                                             resultMappings.put(key,value);
                                         } else {
-                                            System.err.println("*** Non Fatal errror: Screen " + url + " <" + FLOW_HANDLER +
-                                                           "> key " + "\"" + key + "\" defined more than one time");
+                                           logger.warn("*** Non Fatal errror: Screen \"{}\" <{}> key \"{}\" defined more than one time", new Object[] {url, FLOW_HANDLER, key});
                                         }
                                     }
                                 } // end for
@@ -260,8 +256,7 @@ public class URLMappingsXmlDAO {
                 if (!urlMappings.containsKey(url)) {
                     urlMappings.put(url, mapping);
                 } else {
-                    System.err.println("*** Non Fatal errror: Screen " + url + 
-                                       " defined more than once in screen definitions file");
+                    logger.warn("*** Non Fatal errror: Screen {} defined more than once in screen definitions file", url);
                 }
             }
         }

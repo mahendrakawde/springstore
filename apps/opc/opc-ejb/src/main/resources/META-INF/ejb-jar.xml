@@ -73,13 +73,6 @@
        <transaction-type>Container</transaction-type>  
        <message-destination-type>javax.jms.Queue</message-destination-type>
 
-       <!-- set this to true to enable email notifications-->
-       <env-entry>
-           <env-entry-name>param/SendMail</env-entry-name>
-       <env-entry-type>java.lang.Boolean</env-entry-type>
-       <env-entry-value>false</env-entry-value>
-       </env-entry>  
-
        <!-- initial expiration and interval in minutes for the timer to update order status-->
        <env-entry>
            <env-entry-name>param/OrderStatusTimerInitialExpiration</env-entry-name>
@@ -547,12 +540,19 @@
         <messaging-type>javax.jms.MessageListener</messaging-type>
         <transaction-type>Container</transaction-type>  
         <message-destination-type>javax.jms.Queue</message-destination-type>
+               <!-- set this to true to enable email notifications-->
+       <env-entry>
+           	<env-entry-name>param/SendMail</env-entry-name>
+       		<env-entry-type>java.lang.Boolean</env-entry-type>
+       		<env-entry-value>false</env-entry-value>
+       </env-entry>  
         <resource-ref>
           <res-ref-name>mail/MailSession</res-ref-name>
           <res-type>javax.mail.Session</res-type>
           <res-auth>Container</res-auth>
           <res-sharing-scope>Shareable</res-sharing-scope>
         </resource-ref>
+        
     </message-driven>
    </enterprise-beans>
 

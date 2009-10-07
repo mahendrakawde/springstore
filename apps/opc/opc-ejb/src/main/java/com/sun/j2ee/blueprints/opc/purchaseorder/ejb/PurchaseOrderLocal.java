@@ -3,10 +3,11 @@
  $Id: PurchaseOrderLocal.java,v 1.4 2004/06/08 23:47:57 yutayoshida Exp $ */
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
-import java.util.*;
+import java.util.Collection;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import javax.ejb.EJBLocalObject;
+
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
 
 /**
  * Local Interface for the PurchaseOrderBean.

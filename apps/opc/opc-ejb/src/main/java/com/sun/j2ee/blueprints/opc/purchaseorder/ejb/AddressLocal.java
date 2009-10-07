@@ -1,8 +1,8 @@
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
+import javax.ejb.EJBLocalObject;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Address;
 
 /**
  * Local Interface for the AddressBean.

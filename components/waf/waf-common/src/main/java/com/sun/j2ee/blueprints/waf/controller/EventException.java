@@ -10,7 +10,9 @@ package com.sun.j2ee.blueprints.waf.controller;
 public class EventException extends Exception 
     implements java.io.Serializable {
     
-    public EventException() {}
+    public EventException() {
+    	super();
+    }
     
     public EventException(String str) {
   super(str);

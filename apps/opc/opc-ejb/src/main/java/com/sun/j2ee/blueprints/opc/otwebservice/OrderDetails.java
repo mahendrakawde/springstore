@@ -4,7 +4,7 @@
 
 package com.sun.j2ee.blueprints.opc.otwebservice;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
 
 /**
  * This object is returned on web service requests to get

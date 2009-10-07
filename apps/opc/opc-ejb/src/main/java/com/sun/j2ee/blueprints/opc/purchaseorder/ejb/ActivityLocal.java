@@ -3,9 +3,9 @@
  $Id: ActivityLocal.java,v 1.2 2004/05/26 00:06:55 inder Exp $ */
 package com.sun.j2ee.blueprints.opc.purchaseorder.ejb;
 
-import javax.ejb.*;
+import javax.ejb.EJBLocalObject;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
+import com.sun.j2ee.blueprints.opc.purchaseorder.Activity;
 
 /**
  * Local Interface for the ActivityBean.

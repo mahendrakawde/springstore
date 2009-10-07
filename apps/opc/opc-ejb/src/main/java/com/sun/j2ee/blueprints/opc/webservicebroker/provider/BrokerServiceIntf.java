@@ -6,7 +6,9 @@ package com.sun.j2ee.blueprints.opc.webservicebroker.provider;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import com.sun.j2ee.blueprints.opc.serviceexceptions.*;
+
+import com.sun.j2ee.blueprints.opc.serviceexceptions.InvalidDocumentException;
+import com.sun.j2ee.blueprints.opc.serviceexceptions.ProcessingException;
 
 public interface BrokerServiceIntf extends Remote {
     public String submitDocument(String xmlDoc) 

@@ -4,10 +4,10 @@
 
 package com.sun.j2ee.blueprints.processmanager.manager.ejb;
 
-import javax.ejb.*;
-import java.util.*;
-
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.EntityBean;
+import javax.ejb.EntityContext;
+import javax.ejb.RemoveException;
 
 public abstract class ManagerBean implements EntityBean {
     

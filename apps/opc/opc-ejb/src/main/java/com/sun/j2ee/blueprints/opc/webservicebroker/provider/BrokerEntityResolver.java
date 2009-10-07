@@ -1,11 +1,17 @@
 package com.sun.j2ee.blueprints.opc.webservicebroker.provider;
 
- import org.xml.sax.*;
- import java.io.*;
+ import java.io.InputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 
  public class BrokerEntityResolver implements EntityResolver {
      
+	 private static final Logger logger = LoggerFactory.getLogger(BrokerEntityResolver.class);
+	 
      private static String PACKAGE_LOCATION = "/com/sun/j2ee/blueprints/opc/webservicebroker/provider/";
      private static String BLUEPRINTS_NS = "http://java.sun.com/blueprints/schemas/";
      
@@ -25,13 +31,12 @@ package com.sun.j2ee.blueprints.opc.webservicebroker.provider;
    }
    
    private InputSource getClassPathSource(String name) {
-       InputStream is =  null;
        try {
-           is  = getClass().getResourceAsStream(PACKAGE_LOCATION + name);
+    	   InputStream is  = getClass().getResourceAsStream(PACKAGE_LOCATION + name);
            return new InputSource(is);
        } catch (Exception e) {
-           System.err.println("BrokerEntityResolver error resolving: " + name);
-           e.printStackTrace();
+    	   logger.error("BrokerEntityResolver error resolving: {}", name);
+    	   logger.error(e.getMessage(), e);
        }
        // default to the default entity resolver
        return null;

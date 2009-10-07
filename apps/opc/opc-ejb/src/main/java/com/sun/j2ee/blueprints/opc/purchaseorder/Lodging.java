@@ -4,15 +4,22 @@
 
 package com.sun.j2ee.blueprints.opc.purchaseorder;
 
-import java.util.*;
-import java.text.*;
-import java.io.*;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class Lodging implements Serializable{
 

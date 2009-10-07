@@ -28,11 +28,7 @@ public class MailHelper {
 	
 	public MailHelper() {
 		super();
-		try {
-			init();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		init();
 	}
 	
     /**
@@ -56,11 +52,15 @@ public class MailHelper {
         }
     }
     
-    private void init() throws Exception {
-        InitialContext ic = new InitialContext();
-        Session session = (Session) ic.lookup(JNDINames.MAIL_SESSION);
-        mailSender = new JavaMailSenderImpl();
-        mailSender.setSession(session);        
+    private void init() {
+    	try {
+	        final InitialContext ic = new InitialContext();
+	        final Session session = (Session) ic.lookup(JNDINames.MAIL_SESSION);
+	        mailSender = new JavaMailSenderImpl();
+	        mailSender.setSession(session);        
+    	} catch (Exception e) {
+    		throw new IllegalStateException("Error initializing MailHelper", e);
+    	}
     }
 }
 

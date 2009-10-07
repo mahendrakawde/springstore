@@ -4,9 +4,8 @@
 
 package com.sun.j2ee.blueprints.waf.controller.web;
 
-import javax.servlet.http.*;
-
-import com.sun.j2ee.blueprints.waf.controller.web.WebController;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionListener;
 
 /** 
  * This interface defines the services that need to be accessed from multiple

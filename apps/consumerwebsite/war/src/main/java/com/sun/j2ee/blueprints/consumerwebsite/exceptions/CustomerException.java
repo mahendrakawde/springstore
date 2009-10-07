@@ -11,8 +11,18 @@ import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException;
  */
 public class CustomerException extends HTMLActionException {
 
-    public CustomerException() {}
-    public CustomerException(String msg) { super(msg); }
-    public CustomerException(Throwable cause) { super(cause); }
-    public CustomerException(String msg, Throwable cause) { super(msg, cause); }
+	public CustomerException() {
+	}
+
+	public CustomerException(String msg) {
+		super(msg);
+	}
+
+	public CustomerException(Throwable cause) {
+		super(cause);
+	}
+
+	public CustomerException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 }

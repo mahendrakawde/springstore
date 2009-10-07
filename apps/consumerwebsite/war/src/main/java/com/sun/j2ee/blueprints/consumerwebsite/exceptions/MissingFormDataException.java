@@ -8,34 +8,34 @@ import java.util.Collection;
 import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException;
 
 /**
- * This exception is thrown by an Action
- * when a user fails to provide enough form information. This
- * excption contains list of form fields needed. This exception
- * is used by a JSP page to generate an error page.
+ * This exception is thrown by an Action when a user fails to provide enough
+ * form information. This excption contains list of form fields needed. This
+ * exception is used by a JSP page to generate an error page.
  */
-public class MissingFormDataException extends HTMLActionException implements java.io.Serializable {
+public class MissingFormDataException extends HTMLActionException implements
+		java.io.Serializable {
 
-    private Collection missingFields;
-    private String message;
+	private Collection missingFields;
+	private String message;
 
-    public MissingFormDataException(String message, Collection missingFields) {
-        this.message = message;
-        this.missingFields = missingFields;
-    }
-    
-    public MissingFormDataException(String message, Throwable cause, Collection missingFields) {
-        super(cause);
-        this.message = message;
-        this.missingFields = missingFields;
-    }
+	public MissingFormDataException(String message, Collection missingFields) {
+		this.message = message;
+		this.missingFields = missingFields;
+	}
 
-    public Collection getMissingFields() {
-        return missingFields;
-    }
+	public MissingFormDataException(String message, Throwable cause,
+			Collection missingFields) {
+		super(cause);
+		this.message = message;
+		this.missingFields = missingFields;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public Collection getMissingFields() {
+		return missingFields;
+	}
+
+	public String getMessage() {
+		return message;
+	}
 
 }
-

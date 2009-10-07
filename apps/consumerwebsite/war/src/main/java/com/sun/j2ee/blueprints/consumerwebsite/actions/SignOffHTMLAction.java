@@ -18,28 +18,27 @@ import com.sun.j2ee.blueprints.waf.controller.web.html.HTMLActionException;
 
 // adventure imports
 import com.sun.j2ee.blueprints.consumerwebsite.AdventureKeys;
+
 /**
- * Handles responsibilities related to getting HTTP request 
- * info and making the calls to the signon component 
- * to access the database.
+ * Handles responsibilities related to getting HTTP request info and making the
+ * calls to the signon component to access the database.
  */
 public class SignOffHTMLAction extends HTMLActionSupport {
 
-    /**
-     * Handles the http request to create an signon, and provides an
-     * appropriate response.
-     *
-     * Post-condition: Set the bean with info to populate response.
-     */
-    public Event perform(HttpServletRequest request)
-  throws HTMLActionException {
-        // destroy the session will understand.
-        try {
-            request.getSession().invalidate();
-        } catch (Exception e) {
-              // swallow the invalid state exception
-        }
-        // there is no need for an event because all processing was done here
-        return null;
-    }
+	/**
+	 * Handles the http request to create an signon, and provides an appropriate
+	 * response.
+	 * 
+	 * Post-condition: Set the bean with info to populate response.
+	 */
+	public Event perform(HttpServletRequest request) throws HTMLActionException {
+		// destroy the session will understand.
+		try {
+			request.getSession().invalidate();
+		} catch (Exception e) {
+			// swallow the invalid state exception
+		}
+		// there is no need for an event because all processing was done here
+		return null;
+	}
 }

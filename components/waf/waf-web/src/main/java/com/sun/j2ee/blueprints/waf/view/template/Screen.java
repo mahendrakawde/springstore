@@ -4,24 +4,24 @@
 
 package com.sun.j2ee.blueprints.waf.view.template;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class Screen implements java.io.Serializable {
 
     private String name = null;
     private String templateName = null;
-    private HashMap parameters;
+    private Map parameters;
 
 
     public Screen(String name,
-                  HashMap parameters) {
+                  Map parameters) {
         this.name = name;
         this.parameters = parameters;
     }
 
     public Screen(String name,
                   String templateName,
-                  HashMap parameters) {
+                  Map parameters) {
         this.name = name;
         this.templateName = templateName;
         this.parameters = parameters;
@@ -31,12 +31,12 @@ public class Screen implements java.io.Serializable {
         return templateName;
     }
 
-    public HashMap getParameters() {
+    public Map getParameters() {
         return parameters;
     }
 
     public Parameter getParameter(String key) {
-        return (Parameter)parameters.get(key);
+        return (Parameter) parameters.get(key);
     }
 
     public String toString() {

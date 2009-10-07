@@ -4,19 +4,22 @@
 
 package com.sun.j2ee.blueprints.opc.workflowmanager.handlers;
 
-import java.rmi.*;
+import java.rmi.RemoteException;
 
-import javax.jms.*;
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.FinderException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
 
-import com.sun.j2ee.blueprints.opc.purchaseorder.*;
-import com.sun.j2ee.blueprints.opc.orderreceiver.*;
 import com.sun.j2ee.blueprints.opc.JNDINames;
-import com.sun.j2ee.blueprints.processmanager.ejb.*;
-import com.sun.j2ee.blueprints.servicelocator.ejb.*;
-import com.sun.j2ee.blueprints.opc.financial.*;
-import com.sun.j2ee.blueprints.opc.utils.*;
-import com.sun.j2ee.blueprints.opc.mailer.*;
+import com.sun.j2ee.blueprints.opc.financial.CreditCardVerifier;
+import com.sun.j2ee.blueprints.opc.mailer.Mail;
+import com.sun.j2ee.blueprints.opc.orderreceiver.POReceiver;
+import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
+import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
+import com.sun.j2ee.blueprints.processmanager.ejb.OrderStatusNames;
+import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocal;
+import com.sun.j2ee.blueprints.processmanager.ejb.ProcessManagerLocalHome;
 
 /**
  * This is the PO handler that gets called by the

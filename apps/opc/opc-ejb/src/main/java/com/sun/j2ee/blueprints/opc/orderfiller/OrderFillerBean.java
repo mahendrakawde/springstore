@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.ejb.EJBException;
+import javax.ejb.MessageDrivenContext;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.xml.parsers.DocumentBuilder;
@@ -31,6 +32,7 @@ import com.sun.j2ee.blueprints.opc.purchaseorder.PurchaseOrder;
 import com.sun.j2ee.blueprints.opc.purchaseorder.Transportation;
 import com.sun.j2ee.blueprints.opc.purchaseorder.XMLException;
 import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
+import com.sun.j2ee.blueprints.servicelocator.ejb.NullBeanFactoryLocator;
 
 /**
  * This component splits a PO and sends string POs to the Web service broker
@@ -39,6 +41,11 @@ import com.sun.j2ee.blueprints.opc.utils.JMSUtils;
 public class OrderFillerBean extends AbstractJmsMessageDrivenBean {
 
 	private PurchaseOrder po;
+
+	public void setMessageDrivenContext(MessageDrivenContext messageDrivenContext) {
+		super.setMessageDrivenContext(messageDrivenContext);
+		setBeanFactoryLocator(new NullBeanFactoryLocator());
+	}
 
 	public void onMessage(Message message) {
 		try {
@@ -52,7 +59,7 @@ public class OrderFillerBean extends AbstractJmsMessageDrivenBean {
 			}
 
 		} catch (Exception exe) {
-			System.err.println(exe);
+			logger.error(exe.getMessage(), exe);
 			throw new EJBException(exe);
 		}
 	}

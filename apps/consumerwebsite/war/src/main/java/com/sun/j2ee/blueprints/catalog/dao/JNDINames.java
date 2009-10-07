@@ -5,18 +5,17 @@
 package com.sun.j2ee.blueprints.catalog.dao;
 
 /**
- * This class is the central location to store the internal
- * names of various entities, and these internal names are later 
- * mapped to the JNDI names in the deployment environment. Any change 
- * here should also be reflected in the deployment descriptors.
+ * This class is the central location to store the internal names of various
+ * entities, and these internal names are later mapped to the JNDI names in the
+ * deployment environment. Any change here should also be reflected in the
+ * deployment descriptors.
  */
-public class JNDINames {
+public final class JNDINames {
 
-    private JNDINames() { } //Prevents instantiation
-      
-    public static final String CATALOG_DATASOURCE =
-         "java:comp/env/adventure/CatalogDataSource";
+	private JNDINames() {
+	} // Prevents instantiation
 
-    public static final String CATALOG_DAO_CLASS =
-         "java:comp/env/dao/adventure/CatalogDAOClass";
+	public static final String CATALOG_DATASOURCE = "java:comp/env/adventure/CatalogDataSource";
+
+	public static final String CATALOG_DAO_CLASS = "java:comp/env/dao/adventure/CatalogDAOClass";
 }

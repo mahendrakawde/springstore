@@ -164,6 +164,15 @@
   </env-entry>
 
   <env-entry>
+    <description>The PurchaseOrderService Implementation Class</description>
+    <env-entry-name>service/OrderServiceClass</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>com.sun.j2ee.blueprints.order.service.JaxRpcOrderService</env-entry-value>
+  </env-entry>
+
+
+
+  <env-entry>
     <description>The AccountDAO datasource name</description>
     <env-entry-name>customer/CustomerDataSource</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>

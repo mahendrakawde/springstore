@@ -1,19 +1,29 @@
 package com.sun.j2ee.blueprints.opc.otwebservice;
 
-import java.util.*;
-import javax.xml.rpc.handler.*;
-import javax.xml.rpc.handler.soap.*;
-import javax.xml.soap.*;
-import  javax.xml.namespace.QName;
+import java.util.Iterator;
+
+import javax.xml.namespace.QName;
+import javax.xml.rpc.handler.MessageContext;
+import javax.xml.rpc.handler.soap.SOAPMessageContext;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPHeader;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OtMessageHandler extends javax.xml.rpc.handler.GenericHandler {
     
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
     public OtMessageHandler() {
-         System.out.println("Initializaing OtMessageHandler");
+         logger.trace("Initializaing OtMessageHandler");
     }
     
     public boolean handleRequest(MessageContext context) {
-        System.out.println("Initializaing OtMessageHandler");
+        logger.trace("Initializaing OtMessageHandler");
         try {
             SOAPMessageContext smc = (SOAPMessageContext)context;
             SOAPMessage msg = smc.getMessage();
@@ -23,19 +33,19 @@ public class OtMessageHandler extends javax.xml.rpc.handler.GenericHandler {
             SOAPBody body = se.getBody();
             Iterator it = body.getChildElements();
             while ((it != null) && it.hasNext()) {
-                System.out.println("OtMessageHandler:" + it.next());
+                logger.info("OtMessageHandler: {}", it.next());
             }
             // Process one or more header blocks
             // Next step based on the processing model for this
             // handler
         } catch(Exception ex) {
-            // throw exception
+            logger.error(ex.getMessage(), ex);
         }
         return true;
     }
     
     public boolean handleResponse(MessageContext context) {
-        System.out.println("OtMessageHandler: handleResponse");
+        logger.trace("OtMessageHandler: handleResponse");
         return true;
     }
     // Other methods: handleResponse, handleFault init, destroy

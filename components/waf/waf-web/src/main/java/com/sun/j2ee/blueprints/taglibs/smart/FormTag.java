@@ -5,10 +5,13 @@
 package com.sun.j2ee.blueprints.taglibs.smart;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * This tag provides the web page developer with the ability to

@@ -16,75 +16,74 @@ import com.sun.j2ee.blueprints.util.dao.DAOFactory;
  * This class is used by clients wanting to access the catalog data
  **/
 public class CatalogFacade {
-    
-    private CatalogDAO catalogDao = null;
-    
-    public CatalogFacade() {
-        catalogDao = (CatalogDAO) DAOFactory.getDAO(JNDINames.CATALOG_DAO_CLASS);
-    }
-    
-    public List getLodgings(String location, Locale locale)
-            throws CatalogException {
-        try {
-            return catalogDao.getLodgings(location,locale);
-        } catch (CatalogDAOException cdos) {
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
-     public Lodging getLodging(String id, Locale locale)
-            throws CatalogException {
-        try {
-            return catalogDao.getLodging(id,locale);
-        } catch (CatalogDAOException cdos) {
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
-    
-    public AdventurePackage getAdventurePackage(String packageId,  Locale locale)
-            throws CatalogException {
-        try {             
-            return catalogDao.getAdventurePackage(packageId,locale);
-        } catch (CatalogDAOException cdos) {            
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
-    public List getTransportations(String origin, String destination,  Locale locale)
-            throws CatalogException {
-        try {             
-            return catalogDao.getTransportations(origin, destination, locale);
-        } catch (CatalogDAOException cdos) {            
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
-    public Transportation getTransportation(String id,  Locale locale)
-            throws CatalogException {
-        try {             
-            return catalogDao.getTransportation(id,locale);
-        } catch (CatalogDAOException cdos) {            
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
-    public List getActivities(String location, Locale locale)
-            throws CatalogException {
-        try {
-            return catalogDao.getActivities(location,locale);
-        } catch (CatalogDAOException cdos) {
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
-    public Activity getActivity(String id, Locale locale)
-            throws CatalogException {
-        try {
-            return catalogDao.getActivity(id,locale);
-        } catch (CatalogDAOException cdos) {
-            throw new CatalogException("Catalog Exception", cdos);
-        }
-    }
-    
+
+	private CatalogDAO catalogDao = null;
+
+	public CatalogFacade() {
+		catalogDao = (CatalogDAO) DAOFactory
+				.getDAO(JNDINames.CATALOG_DAO_CLASS);
+	}
+
+	public List getLodgings(String location, Locale locale)
+			throws CatalogException {
+		try {
+			return catalogDao.getLodgings(location, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
+	public Lodging getLodging(String id, Locale locale) throws CatalogException {
+		try {
+			return catalogDao.getLodging(id, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
+	public AdventurePackage getAdventurePackage(String packageId, Locale locale)
+			throws CatalogException {
+		try {
+			return catalogDao.getAdventurePackage(packageId, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
+	public List getTransportations(String origin, String destination,
+			Locale locale) throws CatalogException {
+		try {
+			return catalogDao.getTransportations(origin, destination, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
+	public Transportation getTransportation(String id, Locale locale)
+			throws CatalogException {
+		try {
+			return catalogDao.getTransportation(id, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
+	public List getActivities(String location, Locale locale)
+			throws CatalogException {
+		try {
+			return catalogDao.getActivities(location, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
+	public Activity getActivity(String id, Locale locale)
+			throws CatalogException {
+		try {
+			return catalogDao.getActivity(id, locale);
+		} catch (CatalogDAOException cdos) {
+			throw new CatalogException("Catalog Exception", cdos);
+		}
+	}
+
 }

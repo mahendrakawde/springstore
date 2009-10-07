@@ -5,13 +5,23 @@
 package com.sun.j2ee.blueprints.signon;
 
 /**
- * SignOnLongIdException is thrown by the the signon
- * component when user id or password specified is too long.
+ * SignOnLongIdException is thrown by the the signon component when user id or
+ * password specified is too long.
  */
 public class SignOnLongIdException extends RuntimeException {
 
-    public SignOnLongIdException () { }
-    public SignOnLongIdException (String str) { super(str); }
-    public SignOnLongIdException (Throwable cause) { super(cause); }
-    public SignOnLongIdException (String str, Throwable cause) { super(str, cause); }
+	public SignOnLongIdException() {
+	}
+
+	public SignOnLongIdException(String str) {
+		super(str);
+	}
+
+	public SignOnLongIdException(Throwable cause) {
+		super(cause);
+	}
+
+	public SignOnLongIdException(String str, Throwable cause) {
+		super(str, cause);
+	}
 }
