@@ -33,7 +33,13 @@
 			<type>ejb-client</type>
 			<version>${pom.version}</version>
 		</dependency>
-				<!--  Testing -->
+		<!--  Testing -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>com.springsource.javax.mail</artifactId>
+			<version>1.4.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>nl.conspect</groupId>
 			<artifactId>tracer</artifactId>
@@ -64,7 +70,22 @@
 			<version>${pom.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>dumbster</groupId>
+			<artifactId>dumbster</artifactId>
+			<version>1.6</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>
